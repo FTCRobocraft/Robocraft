@@ -180,6 +180,15 @@ public class RobotHardware extends OpMode
             DbgLog.msg(p_exception.getLocalizedMessage());
 
             scooperMotor = null;
+    }
+
+        try {
+            shooterMotor = hardwareMap.dcMotor.get("shooterMotor");
+        } catch (Exception p_exception) {
+            m_warning_message("shooterMotor");
+            DbgLog.msg(p_exception.getLocalizedMessage());
+
+            shooterMotor = null;
         }
 
         try {
@@ -702,6 +711,7 @@ public class RobotHardware extends OpMode
     private DcMotor rightWheelMotor;
     public Servo beaconServo;
     public DcMotor scooperMotor;
+    public DcMotor shooterMotor;
 
     public ColorSensor leftColorSensor;
     public ColorSensor rightColorSensor;
