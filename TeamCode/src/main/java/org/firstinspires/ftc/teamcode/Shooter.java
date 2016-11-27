@@ -25,15 +25,20 @@ public class Shooter extends RobotHardware {
     double spinnerPower = 0.75;
 
 
+    public void waitfor(int time) {
+        try{
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override public void init() {
         super.init();
 
         shooterMotor.setPower(shooterSpeed);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        waitfor(100);
         shooterMotor.setPower(0);
 
     }
@@ -45,11 +50,7 @@ public class Shooter extends RobotHardware {
         if(gamepad1.x) {
 
             shooterMotor.setPower(shooterSpeed);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            waitfor(100);
             shooterMotor.setPower(0);
         }
 
@@ -72,8 +73,6 @@ public class Shooter extends RobotHardware {
 
         //////////////////////////////
 
-        //   /*
-
         if (gamepad1.a) {
             if (!bPress){
                 bPress = true;
@@ -88,10 +87,6 @@ public class Shooter extends RobotHardware {
         } else {
             shooterServo.setPosition(0.50);
         }
-
-
-        //   */
-
 
     }
 
