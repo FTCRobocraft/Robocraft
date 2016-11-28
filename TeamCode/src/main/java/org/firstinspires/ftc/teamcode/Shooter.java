@@ -21,7 +21,7 @@ public class Shooter extends RobotHardware {
 
     double shooterSpeed = 1;
     double scooperSpeed = 1;
-    double shooterServoStart = 0.80;
+    double shooterServoStart = 0.20;
     double spinnerPower = 0.75;
 
 
@@ -50,7 +50,7 @@ public class Shooter extends RobotHardware {
         if(gamepad1.x) {
 
             shooterMotor.setPower(shooterSpeed);
-            waitfor(100);
+            waitfor(600);
             shooterMotor.setPower(0);
         }
 
