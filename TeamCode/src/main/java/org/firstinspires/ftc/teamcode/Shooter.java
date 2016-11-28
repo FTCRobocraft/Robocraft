@@ -21,7 +21,7 @@ public class Shooter extends RobotHardware {
 
     double shooterSpeed = 1;
     double scooperSpeed = 1;
-    double shooterServoStart = 0.20;
+    double shooterServoStart = 0.30;
     double spinnerPower = 0.75;
 
 
@@ -40,6 +40,8 @@ public class Shooter extends RobotHardware {
         shooterMotor.setPower(shooterSpeed);
         waitfor(100);
         shooterMotor.setPower(0);
+
+        shooterServo.setPosition(shooterServoStart);
 
     }
 
@@ -85,7 +87,7 @@ public class Shooter extends RobotHardware {
         if (toggle){
             shooterServo.setPosition(shooterServoStart);
         } else {
-            shooterServo.setPosition(0.50);
+            shooterServo.setPosition(0.60);
         }
 
     }
