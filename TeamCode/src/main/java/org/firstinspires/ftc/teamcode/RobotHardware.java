@@ -139,6 +139,7 @@ public class RobotHardware extends OpMode
 
         try {
             gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
+            gyroSensor.calibrate();
         } catch (Exception e) {
             DbgLog.msg(e.getLocalizedMessage());
             telemetry.addData("error", "gyro sensor");
@@ -685,6 +686,7 @@ public class RobotHardware extends OpMode
     enum VV_BEACON_COLOR {RED, BLUE, NONE}
     enum VV_LINE_COLOR {RED, BLUE, WHITE}
     enum ROBOT_LINE_FOLLOW_STATE {LEFT, RIGHT, BOTH, NONE}
+    enum TEAM {RED, BLUE}
 
     private DcMotor leftWheelMotor;
     private DcMotor rightWheelMotor;

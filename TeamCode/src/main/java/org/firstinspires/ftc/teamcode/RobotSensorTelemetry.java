@@ -17,7 +17,9 @@ public class RobotSensorTelemetry extends RobotTelemetry {
         telemetry.addData("Beacon Color Sensor", String.format("R: %s, G: %s, B: %s", beaconColorSensor.red(), beaconColorSensor.green(), beaconColorSensor.blue()));
 
         telemetry.addData("Gyro Sensor", String.format("HEAD: %s, X: %s, Y: %s, Z: %s", gyroSensor.getHeading(), gyroSensor.rawX(), gyroSensor.rawY(), gyroSensor.rawZ()));
-        telemetry.addData("Compass Sensor", String.format("Direction: %s", compassSensor.getDirection()));
+        telemetry.addData("Compass Sensor", String.format("DIR: %s, ACCEL: %s", compassSensor.getDirection(), compassSensor.getAcceleration()));
+
+
         telemetry.addData("Range Sensor", String.format("US: %s, OPT: %s", rangeSensor.cmUltrasonic(), rangeSensor.cmOptical()));
 
         telemetry.addData("GetBeaconColor", getBeaconColor().toString());

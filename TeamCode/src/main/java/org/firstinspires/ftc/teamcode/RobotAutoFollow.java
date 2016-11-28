@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.robot.Robot;
 
 /**
  * Created by djfigs1 on 10/14/16.
  */
 
 @Autonomous(name="Beacon Follow")
-public class RobotAutoFollow extends RobotAutoBeacons {
+public class RobotAutoFollow extends RobotHardware {
 
     enum AUTO_STATE {
         FIND_BLUE_LINE,
@@ -20,22 +21,28 @@ public class RobotAutoFollow extends RobotAutoBeacons {
         END
     }
 
-    boolean firstLaunch = true; //A variable used for initializing variables in different areas of the OpMode.
+    boolean firstLaunch = true; //A variable used for initializing variables in different areas of the crApMode.
     boolean pressed;
     long startTime;
     long endTime;
-    int startPos;
-    int endPos;
-    int WAIT_TIME = 1;
+    int prevPos;
+    int turnedPos;
+    int WAIT_TIME = 3;
     long PUSH_TIME = 750;
-    long BACKUP_TIME = 1000;
+    long BACKUP_TIME = 5500;
     double SNAIL_SPEED = 0.03;
-    double APPROACH_SPEED = 0.07;
+    double APPROACH_SPEED = 0.12;
     double FOLLOW_SPEED = 0.06;
-    double QUICK_SPEED = 0.14;
+    double QUICK_SPEED = 0.12;
+    double TURN_SPEED = 0.10;
+    double VEER_SPEED = 0.05;
     int COLOR_THRESHOLD = 5;
     double OPT_DISTANCE = 3;
     int SONIC_DISTANCE = 7;
+    int HEADING_TURN = -50;
+    int HEADING_RANGE = 2;
+    int HEADING_DIRECTION;
+    VV_LINE_COLOR LINE_COLOR = VV_LINE_COLOR.WHITE;
     boolean second_time = false;
 
     AUTO_STATE current_state;
@@ -47,7 +54,6 @@ public class RobotAutoFollow extends RobotAutoBeacons {
     @Override
     public void init() {
         super.init();
-        beaconPosition(0.5);
         beaconPosition(1);
         current_state = AUTO_STATE.FIND_BLUE_LINE;
     }
@@ -55,14 +61,31 @@ public class RobotAutoFollow extends RobotAutoBeacons {
     public void loop() {
 
         telemetry.addData("State", current_state.toString());
+        telemetry.addData("Servo Pos", getBeaconPosition());
+        telemetry.addData("Heading", gyroSensor.getHeading());
+        telemetry.addData("TurnedPos", turnedPos);
 
         switch (current_state) {
             case FIND_BLUE_LINE:
                 beaconPosition(1);
-                set_drive_power(APPROACH_SPEED, APPROACH_SPEED);
+                if (firstLaunch) {
+                    HEADING_DIRECTION = gyroSensor.getHeading();
+                    firstLaunch = false;
+                }
+
+                if (gyroSensor.getHeading() >= HEADING_DIRECTION + HEADING_RANGE){
+                    //Veering Right
+                    set_drive_power(APPROACH_SPEED - VEER_SPEED, APPROACH_SPEED);
+                }else if (gyroSensor.getHeading() <= HEADING_DIRECTION - HEADING_RANGE){
+                    //Veering Left
+                    set_drive_power(APPROACH_SPEED, APPROACH_SPEED - VEER_SPEED);
+                }else{
+                    set_drive_power(APPROACH_SPEED, APPROACH_SPEED);
+                }
 
                 if (getLineFollowState(VV_LINE_COLOR.BLUE, COLOR_THRESHOLD) != ROBOT_LINE_FOLLOW_STATE.NONE){
                     current_state = AUTO_STATE.FOLLOW_BLUE_LINE;
+                    firstLaunch = true;
                 }
                 break;
 
@@ -111,14 +134,15 @@ public class RobotAutoFollow extends RobotAutoBeacons {
                 break;
 
             case WAIT_FOR_SERVO:
-                stopdrive();
                 if (firstLaunch){
+                    stopdrive();
                     //Set times.
                     startTime = System.currentTimeMillis();
                     endTime = startTime + (WAIT_TIME * 1000);
                     firstLaunch = false;
                 }
 
+                prepareForBeacon(true);
                 if (System.currentTimeMillis() >= endTime){
                     current_state = AUTO_STATE.PUSH_BEACON;
                     firstLaunch = true;
@@ -139,7 +163,7 @@ public class RobotAutoFollow extends RobotAutoBeacons {
                         stopdrive();
                         pressed = false;
                         firstLaunch = true;
-                        current_state = AUTO_STATE.END;
+                        current_state = AUTO_STATE.BACK_UP;
                     }else{
                         set_drive_power(-APPROACH_SPEED, -APPROACH_SPEED);
                     }
@@ -156,16 +180,32 @@ public class RobotAutoFollow extends RobotAutoBeacons {
                 break;
 
             case BACK_UP:
-                if (firstLaunch){
-                    //Set times.
-                    startTime = System.currentTimeMillis();
-                    endTime = startTime + BACKUP_TIME;
-                    firstLaunch = false;
-                }
+                if (second_time){
+                    current_state = AUTO_STATE.END;
+                }else{
+                    if (firstLaunch){
+                        //Set times.
+                        startTime = System.currentTimeMillis();
+                        endTime = startTime + BACKUP_TIME;
+                        firstLaunch = false;
+                        HEADING_DIRECTION = gyroSensor.getHeading();
+                    }
 
-                if (System.currentTimeMillis() >= endTime){
-                    current_state = AUTO_STATE.TURN_RIGHT;
-                    firstLaunch = true;
+                    if (System.currentTimeMillis() >= endTime){
+                        current_state = AUTO_STATE.TURN_RIGHT;
+                        HEADING_DIRECTION = 0;
+                        firstLaunch = true;
+                    }else{
+                        if (gyroSensor.getHeading() >= HEADING_DIRECTION + HEADING_RANGE){
+                            //Veering Right
+                            set_drive_power(-APPROACH_SPEED, -APPROACH_SPEED + VEER_SPEED);
+                        }else if (gyroSensor.getHeading() <= HEADING_DIRECTION - HEADING_RANGE){
+                            //Veering Left
+                            set_drive_power(-APPROACH_SPEED + VEER_SPEED, -APPROACH_SPEED);
+                        }else{
+                            set_drive_power(-APPROACH_SPEED, -APPROACH_SPEED);
+                        }
+                    }
                 }
                 break;
 
@@ -173,15 +213,25 @@ public class RobotAutoFollow extends RobotAutoBeacons {
                 if (second_time){
                     current_state = AUTO_STATE.END;
                 }else{
+                    int heading = gyroSensor.getHeading();
                     if (firstLaunch){
-                        startPos = gyroSensor.getHeading();
-                        endPos = startPos + 90;
+                        firstLaunch = false;
+                        prevPos = heading;
+                    }else{
+                        if (prevPos + heading >= 359 && heading < prevPos){
+                            prevPos -= 359;
+                        }
                     }
-                    if (gyroSensor.getHeading() >= endPos){
+                    turnedPos += Math.abs(prevPos - heading);
+                    prevPos = heading;
+
+                    if (turnedPos >= HEADING_TURN){
+                        HEADING_DIRECTION = heading;
                         second_time = true;
                         current_state = AUTO_STATE.FIND_BLUE_LINE;
+                        firstLaunch = true;
                     }else{
-                        set_drive_power(APPROACH_SPEED, -APPROACH_SPEED);
+                        set_drive_power(TURN_SPEED, -TURN_SPEED);
                     }
 
                 }

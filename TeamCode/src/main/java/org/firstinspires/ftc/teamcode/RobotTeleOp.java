@@ -33,6 +33,7 @@ public class RobotTeleOp extends RobotTelemetry {
     int COLOR_THRESHOLD = 5;
     int BEACON_DISTANCE = 5;
     double OPT_DISTANCE = 2.8;
+    VV_LINE_COLOR lineColor = VV_LINE_COLOR.BLUE;
 
     float SPEED_SCALE = 2.5F;
 
@@ -132,14 +133,14 @@ public class RobotTeleOp extends RobotTelemetry {
                 case FIND_BLUE_LINE:
                     set_drive_power(SLOW_SPEED, SLOW_SPEED);
 
-                    if (getLineFollowState(RobotAutoBeacons.VV_LINE_COLOR.BLUE, COLOR_THRESHOLD) != RobotAutoBeacons.ROBOT_LINE_FOLLOW_STATE.NONE){
+                    if (getLineFollowState(lineColor, COLOR_THRESHOLD) != ROBOT_LINE_FOLLOW_STATE.NONE){
                         current_state = AUTO_STATE.FOLLOW_BLUE_LINE;
                     }
                     break;
 
                 case FOLLOW_BLUE_LINE:
                     if (rangeSensor.cmUltrasonic() >= BEACON_DISTANCE || rangeSensor.cmOptical() >= OPT_DISTANCE || rangeSensor.cmOptical() == 0){
-                        switch (getLineFollowState(RobotAutoBeacons.VV_LINE_COLOR.BLUE, COLOR_THRESHOLD)){
+                        switch (getLineFollowState(lineColor, COLOR_THRESHOLD)){
                             case LEFT:
                                 set_drive_power(QUICK_SPEED, 0);
                                 break;
@@ -156,7 +157,7 @@ public class RobotTeleOp extends RobotTelemetry {
                     break;
 
                 case PREP_BEACON:
-                    if (getBeaconColor() == RobotAutoBeacons.VV_BEACON_COLOR.BLUE) {
+                    if (getBeaconColor() == VV_BEACON_COLOR.BLUE) {
                         prepareForBeacon(true);
                     }
 

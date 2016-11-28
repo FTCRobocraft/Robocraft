@@ -1,13 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.robot.Robot;
 
 /**
  * Created by djfigs1 on 9/23/16.
  */
 
 @Autonomous(name="Auto Blue-Inner", group="Blue")
-public class RobotAutoBeacons_BlueInner extends RobotAutoBeacons {
+public class RobotAutoBeacons_BlueInner extends RobotHardware {
 
     //OpMode stuff.
     enum auto_state {
@@ -387,7 +388,7 @@ public class RobotAutoBeacons_BlueInner extends RobotAutoBeacons {
     }
 
     public void beaconAction() {
-        RobotAutoBeacons.VV_BEACON_COLOR beacon_color = getBeaconColor();
+        VV_BEACON_COLOR beacon_color = getBeaconColor();
         switch (getBeaconColor()) {
             case RED:
                 //TODO idk something
