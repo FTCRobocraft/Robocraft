@@ -130,6 +130,7 @@ public class RobotAutoFollow extends RobotHardware {
                 }
                 break;
 
+            //region PushBeactionAuction
             case PREP_BEACON:
                 if (getBeaconColor() == VV_BEACON_COLOR.BLUE) {
                     if (!BLUE_TEAM){
@@ -202,6 +203,9 @@ public class RobotAutoFollow extends RobotHardware {
                     }
                 }
                 break;
+
+            //endregion
+
 
             case BACK_UP:
                 if (second_time){
