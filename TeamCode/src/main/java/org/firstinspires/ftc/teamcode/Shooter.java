@@ -1,9 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.location.LocationListener;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 //Created by Michael on 10/14/2016.
 
@@ -14,15 +11,12 @@ public class Shooter extends RobotHardware {
     boolean bPress;
     boolean toggle2;
     boolean bPress2;
-    boolean toggle3;
-    boolean bPress3;
 
-    int shooterTime = 500;
+    int shooterTime = 400;
 
     double shooterSpeed = 1;
-    double scooperSpeed = 1;
-    double shooterServoStart = 0.30;
-    double spinnerPower = 0.75;
+    double shooterServoStart = 0.16;
+    double spinnerSpeed = 1;
 
 
     public void waitfor(int time) {
@@ -52,23 +46,23 @@ public class Shooter extends RobotHardware {
         if(gamepad1.x) {
 
             shooterMotor.setPower(shooterSpeed);
-            waitfor(600);
+            waitfor(shooterTime);
             shooterMotor.setPower(0);
         }
 
         //////////////////////////////
 
         if (gamepad1.y) {
-            if (!bPress3){
-                bPress3 = true;
-                toggle3 = !toggle3;
+            if (!bPress2){
+                bPress2 = true;
+                toggle2 = !toggle2;
             }
         } else {
-            bPress3 = false;
+            bPress2 = false;
         }
 
-        if (toggle3) {
-            spinnerMotor.setPower(spinnerPower);
+        if (toggle2) {
+            spinnerMotor.setPower(spinnerSpeed);
         } else {
             spinnerMotor.setPower(0);
         }
@@ -85,9 +79,9 @@ public class Shooter extends RobotHardware {
         }
 
         if (toggle){
-            shooterServo.setPosition(shooterServoStart);
+            shooterServo.setPosition(0.55);
         } else {
-            shooterServo.setPosition(0.60);
+            shooterServo.setPosition(shooterServoStart);
         }
 
     }
