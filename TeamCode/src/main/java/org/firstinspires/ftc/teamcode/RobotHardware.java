@@ -538,10 +538,6 @@ public class RobotHardware extends OpMode
 
     }
 
-    void fireBallShooter(){
-        //TODO Throw Balls (͡°͜ʖ͡°)
-    }
-
     void stopdrive() {
         set_drive_power(0, 0);
     }

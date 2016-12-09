@@ -25,10 +25,10 @@ public class FollowLineUntilDistance implements Action {
         if (hardware.rangeSensor.cmUltrasonic() >= this.distance && hardware.rangeSensor.cmUltrasonic() != 4){
             switch (hardware.getLineFollowState(RobotHardware.VV_LINE_COLOR.BLUE, colorThreshold)){
                 case LEFT:
-                    hardware.set_drive_power(this.speed, 0);
+                    hardware.set_drive_power(this.speed * 2, 0);
                     break;
                 case RIGHT:
-                    hardware.set_drive_power(0, this.speed);
+                    hardware.set_drive_power(0, this.speed * 2);
                     break;
                 case BOTH:
                     hardware.set_drive_power(this.speed, this.speed);
