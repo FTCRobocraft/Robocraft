@@ -18,6 +18,7 @@ public class RobotAutoFollow extends RobotHardware {
         PUSH_BEACON,
         BACK_UP,
         TURN_RIGHT,
+        TURN_LEFT,
         END
     }
 
@@ -31,7 +32,7 @@ public class RobotAutoFollow extends RobotHardware {
     long PUSH_TIME = 750;
     long BACKUP_TIME = 5500;
     double SNAIL_SPEED = 0.03;
-    double APPROACH_SPEED = 0.12;
+    double APPROACH_SPEED = 0.08;
     double FOLLOW_SPEED = 0.06;
     double QUICK_SPEED = 0.12;
     double TURN_SPEED = 0.10;
@@ -55,7 +56,21 @@ public class RobotAutoFollow extends RobotHardware {
     public void init() {
         super.init();
         beaconPosition(1);
+        beaconPosition(1);
+        beaconPosition(1);
+        beaconPosition(1);
+        beaconPosition(1);
+        beaconPosition(1);
+        beaconPosition(1);
+        beaconPosition(1);
+        beaconPosition(1);
+        beaconPosition(1);
         current_state = AUTO_STATE.FIND_BLUE_LINE;
+    }
+
+    @Override
+    public void init_loop() {
+        beaconPosition(1);
     }
     @Override
     public void loop() {
@@ -83,15 +98,19 @@ public class RobotAutoFollow extends RobotHardware {
                     set_drive_power(APPROACH_SPEED, APPROACH_SPEED);
                 }
 
-                if (getLineFollowState(VV_LINE_COLOR.BLUE, COLOR_THRESHOLD) != ROBOT_LINE_FOLLOW_STATE.NONE){
-                    current_state = AUTO_STATE.FOLLOW_BLUE_LINE;
+                if (getLineFollowState(LINE_COLOR, COLOR_THRESHOLD) != ROBOT_LINE_FOLLOW_STATE.NONE){
+                    if (second_time){
+                        current_state = AUTO_STATE.TURN_LEFT;
+                    }else{
+                        current_state = AUTO_STATE.FOLLOW_BLUE_LINE;
+                    }
                     firstLaunch = true;
                 }
                 break;
 
             case FOLLOW_BLUE_LINE:
                 if (rangeSensor.cmUltrasonic() >= SONIC_DISTANCE){
-                    switch (getLineFollowState(VV_LINE_COLOR.BLUE, COLOR_THRESHOLD)){
+                    switch (getLineFollowState(LINE_COLOR, COLOR_THRESHOLD)){
                         case LEFT:
                             set_drive_power(QUICK_SPEED, 0);
                             break;
@@ -157,13 +176,18 @@ public class RobotAutoFollow extends RobotHardware {
                     firstLaunch = false;
                 }
 
+                if (second_time) {
+                    current_state = AUTO_STATE.END;
+                }
+
                 if (pressed){
                     //Back up for roughly 1/4 a second.
                     if (System.currentTimeMillis() >= endTime){
                         stopdrive();
                         pressed = false;
                         firstLaunch = true;
-                        current_state = AUTO_STATE.BACK_UP;
+                        current_state = AUTO_STATE.TURN_RIGHT;
+                        second_time = true;
                     }else{
                         set_drive_power(-APPROACH_SPEED, -APPROACH_SPEED);
                     }
@@ -209,33 +233,53 @@ public class RobotAutoFollow extends RobotHardware {
                 }
                 break;
 
-            case TURN_RIGHT:
-                if (second_time){
-                    current_state = AUTO_STATE.END;
+            case TURN_LEFT:
+                int heading2 = gyroSensor.getHeading();
+                if (firstLaunch){
+                    firstLaunch = false;
+                    turnedPos = 0;
+                    prevPos = heading2;
+                }
+                turnedPos += Math.abs(prevPos - heading2);
+                if (heading2 > prevPos){
+                    turnedPos += 359;
+                }
+
+                prevPos = heading2;
+
+                if (turnedPos >= 80){
+                    HEADING_DIRECTION = heading2;
+                    current_state = AUTO_STATE.FOLLOW_BLUE_LINE;
+                    firstLaunch = true;
                 }else{
-                    int heading = gyroSensor.getHeading();
-                    if (firstLaunch){
-                        firstLaunch = false;
-                        prevPos = heading;
-                    }else{
-                        if (prevPos + heading >= 359 && heading < prevPos){
-                            prevPos -= 359;
-                        }
-                    }
-                    turnedPos += Math.abs(prevPos - heading);
-                    prevPos = heading;
-
-                    if (turnedPos >= HEADING_TURN){
-                        HEADING_DIRECTION = heading;
-                        second_time = true;
-                        current_state = AUTO_STATE.FIND_BLUE_LINE;
-                        firstLaunch = true;
-                    }else{
-                        set_drive_power(TURN_SPEED, -TURN_SPEED);
-                    }
-
+                    set_drive_power(-TURN_SPEED, TURN_SPEED);
                 }
                 break;
+
+            case TURN_RIGHT:
+                int heading = gyroSensor.getHeading();
+                if (firstLaunch){
+                    firstLaunch = false;
+                    turnedPos = 0;
+                    prevPos = heading;
+                }
+                if (prevPos + heading >= 359 && heading < prevPos){
+                    prevPos -= 359;
+                }
+
+                turnedPos += Math.abs(prevPos - heading);
+                prevPos = heading;
+
+                if (turnedPos >= 80){
+                    HEADING_DIRECTION = heading;
+                    second_time = true;
+                    current_state = AUTO_STATE.FIND_BLUE_LINE;
+                    firstLaunch = true;
+                }else{
+                    set_drive_power(TURN_SPEED, -TURN_SPEED);
+                }
+
+            break;
 
             case END:
                 requestOpModeStop();

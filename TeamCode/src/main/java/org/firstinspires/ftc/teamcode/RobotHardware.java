@@ -676,10 +676,24 @@ public class RobotHardware extends OpMode
                 break;
 
             case WHITE:
+                if (leftColorSensor != null || rightColorSensor != null) {
+                    if (leftColorSensor.red() > threshold && leftColorSensor.blue() >= threshold && leftColorSensor.green() >= threshold && rightColorSensor.red() < threshold && rightColorSensor.blue() < threshold && rightColorSensor.green() < threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.LEFT;
+                    }
+                    if (leftColorSensor.red() < threshold && leftColorSensor.blue() < threshold && leftColorSensor.green() < threshold && rightColorSensor.red() >= threshold && rightColorSensor.blue() >= threshold && rightColorSensor.green() >= threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.RIGHT;
+                    }
+                    if (leftColorSensor.red() >= threshold && leftColorSensor.blue() >= threshold && leftColorSensor.green() >= threshold && rightColorSensor.red() >= threshold && rightColorSensor.blue() >= threshold && rightColorSensor.green() >= threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.BOTH;
+                    }
+                    if (leftColorSensor.red() < threshold && leftColorSensor.blue() < threshold && leftColorSensor.green() < threshold && rightColorSensor.red() < threshold && rightColorSensor.blue() < threshold && rightColorSensor.green() < threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.NONE;
+                    }
+                }
                 break;
         }
 
-        return null;
+        return ROBOT_LINE_FOLLOW_STATE.NONE;
     }
     //endregion
 
