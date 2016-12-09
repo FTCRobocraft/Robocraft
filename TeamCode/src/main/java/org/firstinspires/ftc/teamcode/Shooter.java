@@ -17,6 +17,7 @@ public class Shooter extends RobotHardware {
     double shooterSpeed = 1;
     double shooterServoStart = 0.16;
     double spinnerSpeed = 1;
+    int count = 0;
 
 
     public void waitfor(int time) {
@@ -82,6 +83,18 @@ public class Shooter extends RobotHardware {
             shooterServo.setPosition(0.55);
         } else {
             shooterServo.setPosition(shooterServoStart);
+        }
+
+        //////////////////////////////
+
+        if (gamepad1.dpad_up) {
+            count++;
+            shooterServo.setPosition(count);
+        }
+
+        if (gamepad1.dpad_down) {
+            count--;
+            shooterServo.setPosition(count);
         }
 
     }
