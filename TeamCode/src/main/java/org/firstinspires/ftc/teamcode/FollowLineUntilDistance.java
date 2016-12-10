@@ -11,6 +11,7 @@ public class FollowLineUntilDistance implements Action {
     private RobotHardware.VV_LINE_COLOR lineColor;
     private double distance;
     private double speed;
+    final private double steerMultiplier = 2.5;
     private static final int colorThreshold = 5;
 
     public FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR color, double distance, double speed){
@@ -22,24 +23,27 @@ public class FollowLineUntilDistance implements Action {
     @Override
     public boolean doAction(RobotHardware hardware) {
         boolean finished = false;
-        if (hardware.rangeSensor.cmUltrasonic() >= this.distance && hardware.rangeSensor.cmUltrasonic() != 4){
+        if (hardware.rangeSensor.cmUltrasonic() >= this.distance){
             switch (hardware.getLineFollowState(RobotHardware.VV_LINE_COLOR.BLUE, colorThreshold)){
                 case LEFT:
-                    hardware.set_drive_power(this.speed * 2, 0);
+                    hardware.set_drive_power(this.speed * steerMultiplier, 0);
                     break;
                 case RIGHT:
-                    hardware.set_drive_power(0, this.speed * 2);
+                    hardware.set_drive_power(0, this.speed * steerMultiplier);
                     break;
                 case BOTH:
                     hardware.set_drive_power(this.speed, this.speed);
                     break;
             }
         }else{
+            finished = true;
+            /*
             if (hardware.rangeSensor.cmOptical() >= this.distance){
                 hardware.set_drive_power(this.speed / 2, this.speed / 2);
             }else {
                 finished = true;
             }
+            */
         }
         return finished;
     }

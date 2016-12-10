@@ -5,18 +5,22 @@ package org.firstinspires.ftc.teamcode;
  */
 public class TimeDriveAction implements Action {
 
-    double time;
-    double speed;
-    double endTime;
+    private boolean init = true;
+    private double time;
+    private double speed;
+    private double endTime;
 
     public TimeDriveAction(double time, double speed){
         this.time = time;
         this.speed = speed;
-        endTime = System.currentTimeMillis() + this.time;
     }
 
     public boolean doAction(RobotHardware hardware) {
         boolean finished = false;
+        if (init){
+            endTime = System.currentTimeMillis() + this.time;
+            init = false;
+        }
         if (!(System.currentTimeMillis() >= endTime)){
             hardware.set_drive_power(this.speed, this.speed);
         }else{

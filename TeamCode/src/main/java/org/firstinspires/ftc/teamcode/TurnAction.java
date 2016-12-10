@@ -29,7 +29,7 @@ public class TurnAction implements Action {
     public boolean doAction(RobotHardware hardware) {
         boolean finished = false;
         if (targetDegrees == -1) {
-            double directionDegrees = hardware.compassSensor.getDirection();
+            double directionDegrees = hardware.gyroSensor.getHeading();
             targetDegrees = directionDegrees + (degrees * (direction.equals(Direction.LEFT) ? -1 : 1));
         }
 

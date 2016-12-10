@@ -19,6 +19,11 @@ public class BeaconAutoExecutor_Blue extends RobotHardware {
     }
 
     @Override
+    public void init_loop(){
+        beaconPosition(1);
+    }
+
+    @Override
     public void loop() {
         action = actionSequence.getCurrentAction();
         if (action != null) {
