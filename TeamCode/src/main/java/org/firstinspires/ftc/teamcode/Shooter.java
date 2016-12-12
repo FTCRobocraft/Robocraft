@@ -7,10 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name="Shooter")
 public class Shooter extends RobotHardware {
 
-    boolean toggle;
-    boolean bPress;
-    boolean toggle2;
-    boolean bPress2;
+    boolean shooterToggle;
+    boolean shooterBpress;
+    boolean spinnerToggle;
+    boolean spinnerBpress;
 
 
     int shooterTime = 500;
@@ -46,7 +46,7 @@ public class Shooter extends RobotHardware {
 
         if(gamepad1.x) {
             shooterServo.setPosition(shooterServoStart);
-            toggle = false;
+            shooterToggle = false;
             shooterMotor.setPower(shooterSpeed);
             waitfor(shooterTime);
             shooterMotor.setPower(0);
@@ -55,18 +55,18 @@ public class Shooter extends RobotHardware {
         //////////////////////////////
 
         if (gamepad1.y) {
-            if (!bPress2){
-                bPress2 = true;
-                toggle2 = !toggle2;
+            if (!spinnerBpress){
+                spinnerBpress = true;
+                spinnerToggle = !spinnerToggle;
             }
         } else {
-            bPress2 = false;
+            spinnerBpress = false;
         }
 
 
-        if (toggle2) {
+        if (spinnerToggle) {
             check = false;
-            toggle = true;
+            shooterToggle = true;
             shooterServo.setPosition(shooterServoStart);
             spinnerMotor.setPower(spinnerSpeed);
         } else {
@@ -77,16 +77,16 @@ public class Shooter extends RobotHardware {
         //////////////////////////////
 
         if (gamepad1.a) {
-            if (!bPress){
-                bPress = true;
-                toggle = !toggle;
+            if (!shooterBpress){
+                shooterBpress = true;
+                shooterToggle = !shooterToggle;
             }
         } else {
-            bPress = false;
+            shooterBpress = false;
         }
 
         if (check) {
-            if (toggle) {
+            if (shooterToggle) {
                 shooterServo.setPosition(0.55);
             } else {
                 shooterServo.setPosition(shooterServoStart);
