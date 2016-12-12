@@ -17,7 +17,7 @@ public class Shooter extends RobotHardware {
     boolean check = true;
 
     double shooterSpeed = 1;
-    double shooterServoStart = 0.18;
+    double shooterServoStart = 0.1;
     double spinnerSpeed = 1;
     double count = 0.0;
 
@@ -93,6 +93,15 @@ public class Shooter extends RobotHardware {
             }
         }
 
+
+        //////////////////////////////
+
+        if (gamepad1.left_bumper || gamepad1.right_bumper) {
+            check = false;
+            shooterServo.setPosition(0.15);
+            shooterServo.setPosition(0.55);
+            check = true;
+        }
 
         //////////////////////////////
 
