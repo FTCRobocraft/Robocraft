@@ -3,13 +3,9 @@ package org.firstinspires.ftc.teamcode;
 /**
  * Created by djfigs1 on 11/27/16.
  */
-public class TurnAction3 implements Action {
+public class AccumulatedHeadingTurn implements Action {
 
-    enum Direction {
-        LEFT, RIGHT
-    }
-
-    Direction direction;
+    RobotHardware.DIRECTION direction;
     double degrees;
 
     double previousHeading = 0;
@@ -17,7 +13,7 @@ public class TurnAction3 implements Action {
 
     private static final double speed = 0.1;
 
-    public TurnAction3(Direction direction, double degrees) {
+    public AccumulatedHeadingTurn(RobotHardware.DIRECTION direction, double degrees) {
         this.direction = direction;
         this.degrees = degrees;
         this.previousHeading = 0;

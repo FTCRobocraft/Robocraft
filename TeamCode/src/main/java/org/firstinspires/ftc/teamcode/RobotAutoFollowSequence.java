@@ -13,11 +13,11 @@ public class RobotAutoFollowSequence extends ActionSequence {
         addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.WHITE, 8, 0.06));
         addAction(new PushBeaconAction(team, 0.08));
         addAction(new TimeDriveAction(1000, -0.08));
-        addAction(new TurnAction3(TurnAction3.Direction.LEFT, 80));
+        addAction(new AccumulatedHeadingTurn(RobotHardware.DIRECTION.LEFT, 80));
 
         //2nd Beacon
         addAction(new FindLineAction(RobotHardware.VV_LINE_COLOR.WHITE, 0.10, true));
-        addAction(new TurnAction3(TurnAction3.Direction.RIGHT, 80));
+        addAction(new AccumulatedHeadingTurn(RobotHardware.DIRECTION.RIGHT, 80));
         addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.WHITE, 8, 0.06));
         addAction(new PushBeaconAction(team, 0.08));
         addAction(new TimeDriveAction(1000, -0.08));

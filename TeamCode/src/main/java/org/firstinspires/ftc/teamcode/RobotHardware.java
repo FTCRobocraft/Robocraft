@@ -24,81 +24,6 @@ public class RobotHardware extends OpMode
         v_warning_generated = false;
         v_warning_message = "Can't map; ";
 
-        //region Old Hardware
-        /*
-        try {
-            v_motor_left_drive_front = hardwareMap.dcMotor.get("left_drive_front");
-            v_motor_left_drive_front.setDirection(DcMotor.Direction.REVERSE);
-        } catch (Exception p_exeception) {
-            m_warning_message("left_drive_front");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            v_motor_left_drive_front = null;
-        }
-
-        try {
-            v_motor_left_drive_back = hardwareMap.dcMotor.get("left_drive_back");
-            v_motor_left_drive_back.setDirection(DcMotor.Direction.REVERSE);
-        } catch (Exception p_exeception) {
-            m_warning_message("left_drive_back");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            v_motor_left_drive_back = null;
-        }
-
-
-        try {
-            v_motor_right_drive_front = hardwareMap.dcMotor.get("right_drive_front");
-        } catch (Exception p_exeception) {
-            m_warning_message("right_drive_front");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            v_motor_right_drive_front = null;
-        }
-
-        try {
-            v_motor_right_drive_back = hardwareMap.dcMotor.get("right_drive_back");
-        } catch (Exception p_exeception) {
-            m_warning_message("right_drive_back");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            v_motor_right_drive_back = null;
-        }
-
-        try {
-            arm_servo_1 = hardwareMap.servo.get("arm_1");
-        } catch (Exception p_exeception){
-            m_warning_message("arm_1");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-            //this comment was made during an awkward situation.
-            //1-3-16
-            //3:09 PM
-            arm_servo_1 = null;
-
-        }
-
-        try {
-            arm_servo_2 = hardwareMap.servo.get("arm_2");
-        } catch (Exception p_exeception){
-            m_warning_message("arm_2");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            arm_servo_2 = null;
-
-        }
-
-        try {
-            arm_servo_3 = hardwareMap.servo.get("arm_3");
-        } catch (Exception p_exeception){
-            m_warning_message("arm_3");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-            arm_servo_3 = null;
-
-        }
-
-        */
-        //#endregion
-
         //Sensors
         //Color Sensors
         try {
@@ -220,162 +145,6 @@ public class RobotHardware extends OpMode
 
     }
 
-
-
-    //
-    // Connect the servo motors.
-    //
-    // Indicate the initial position of both the left and right servos.  The
-    // hand should be halfway opened/closed.
-    //
-    // ini
-    /*
-    private Servo arm_servo_1;
-    private Servo arm_servo_2;
-    private Servo arm_servo_3;
-    */
-
-
-
-    //-------------------------------------------------
-    //Get Servo Postitions
-
-    /*
-    double get_arm_1_position ()
-    {
-        double l_return = 0.0;
-
-        if (arm_servo_1 != null)
-        {
-            l_return = arm_servo_1.getPosition ();
-        }
-
-        return l_return;
-
-    }
-
-    double get_arm_2_position ()
-    {
-        double l_return = 0.0;
-
-        if (arm_servo_2 != null)
-        {
-            l_return = arm_servo_2.getPosition ();
-        }
-
-        return l_return;
-
-    }
-
-    double get_arm_3_position ()
-    {
-        double l_return = 0.0;
-
-        if (arm_servo_3 != null)
-        {
-            l_return = arm_servo_3.getPosition ();
-        }
-
-        return l_return;
-
-    }
-
-    //-------------------------------------------------
-    //Set servo positions
-    void arm_1_position (double p_position)
-    {
-        //
-        // Ensure the specific value is legal.
-        //
-        double l_position = Range.clip
-                ( p_position
-                        , 0.25D //0.25D
-                        , 0.8D
-                );
-
-        //
-        // Set the value.  The right hand value must be opposite of the left
-        // value.
-        //
-        if (arm_servo_1 != null)
-        {
-            arm_servo_1.setPosition (l_position);
-        }
-
-    }
-
-    void arm_2_position (double p_position)
-    {
-        //
-        // Ensure the specific value is legal.
-        //
-        double l_position = Range.clip
-                ( p_position
-                        , 0.45D, //0.15D
-                        0.85D //0.6D
-                );
-
-        if (arm_servo_2 != null)
-        {
-            arm_servo_2.setPosition(l_position);
-        }
-
-    }
-
-    void arm_3_position (double p_position)
-        {
-        //
-        // Ensure the specific value is legal.
-        //
-        double l_position = Range.clip
-                ( p_position
-                        , 0.0D,
-                        0.1D
-                );
-
-        if (arm_servo_3 != null)
-        {
-            arm_servo_3.setPosition (l_position);
-        }
-
-    }
-
-    void arm_home_position(){
-        arm_1_position(0.0D);
-        arm_2_position(0.0D);
-    }
-
-    */
-
-
-    //--------------------------------------------------------------------------
-    //
-    // a_warning_generated
-    //
-    /**
-     * Access whether a warning has been generated.
-     */
-    boolean a_warning_generated ()
-
-    {
-        return v_warning_generated;
-
-    } // a_warning_generated
-
-    //--------------------------------------------------------------------------
-    //
-    // a_warning_message
-    //
-    /**
-     * Access the warning message.
-     */
-    String a_warning_message ()
-
-    {
-        return v_warning_message;
-
-    } // a_warning_message
-
     //--------------------------------------------------------------------------
     //
     // m_warning_message
@@ -399,57 +168,9 @@ public class RobotHardware extends OpMode
 
     } // m_warning_message
 
-    //--------------------------------------------------------------------------
-    //
-    // start
-    //
-    /**
-     * Perform any actions that are necessary when the OpMode is enabled.
-     *
-     * The system calls this member once when the OpMode is enabled.
-     */
-    @Override public void start ()
+    @Override public void start () {}
 
-    {
-        //
-        // Only actions that are common to all Op-Modes (i.e. both automatic and
-        // manual) should be implemented here.
-        //
-        // This method is designed to be overridden.
-        //
-
-    } // start
-
-    //--------------------------------------------------------------------------
-    //
-    // loop
-    //
-    /**
-     * Perform any actions that are necessary while the OpMode is running.
-     *
-     * The system calls this member repeatedly while the OpMode is running.
-     */
-    @Override public void loop ()
-
-    {
-        //
-        // Only actions that are common to all OpModes (i.e. both auto and\
-        // manual) should be implemented here.
-        //
-        // This method is designed to be overridden.
-        //
-
-    } // loop
-
-    //--------------------------------------------------------------------------
-    //
-    // stop
-    //
-    /**
-     * Perform any actions that are necessary when the OpMode is disabled.
-     *
-     * The system calls this member once when the OpMode is disabled.
-     */
+    @Override public void loop () {}
 
     //--------------------------------------------------------------------------
     //
@@ -501,51 +222,7 @@ public class RobotHardware extends OpMode
 
         return l_scale;
 
-    } // scale_motor_power
-
-    //--------------------------------------------------------------------------
-    //
-    // a_left_drive_power
-    //
-    /**
-     * Access the left drive motor's power level.
-     */
-    /*
-    double a_left_drive_power ()
-    {
-        double l_return = 0.0;
-
-        if (v_motor_left_drive_front != null)
-        {
-            l_return = v_motor_left_drive_front.getPower ();
-        }
-
-        return l_return;
-
-    }*/
-    // a_left_drive_power
-
-    //--------------------------------------------------------------------------
-    //
-    // a_right_drive_power
-    //
-    /**
-     * Access the right drive motor's power level.
-     */
-
-    /*
-    double a_right_drive_power ()
-    {
-        double l_return = 0.0;
-
-        if (v_motor_right_drive_front != null)
-        {
-            l_return = v_motor_right_drive_front.getPower();
-        }
-
-        return l_return;
-
-    } // a_right_drive_power
+    }
 
     //--------------------------------------------------------------------------
     //
@@ -572,30 +249,6 @@ public class RobotHardware extends OpMode
 
     private boolean v_warning_generated = false;
 
-    //--------------------------------------------------------------------------
-    //
-    // v_warning_message
-    //
-    /**
-     * Store a message to the user if one has been generated.
-     */
-    private String v_warning_message;
-
-    //--------------------------------------------------------------------------
-    //
-    // v_motor_left_drive
-    //
-    /**
-     * Manage the aspects of the left drive motor.
-     */
-
-    /*
-    private DcMotor v_motor_left_drive_front;
-    private DcMotor v_motor_left_drive_back;
-    private DcMotor v_motor_right_drive_front;
-    private DcMotor v_motor_right_drive_back;
-    */
-
     void beaconPosition (double p_position)
     {
         //
@@ -603,10 +256,6 @@ public class RobotHardware extends OpMode
         //
         double l_position = Range.clip(p_position, 0.2, 1);
 
-        //
-        // Set the value.  The right hand value must be opposite of the left
-        // value.
-        //
         if (beaconServo != null)
         {
             beaconServo.setPosition(l_position);
@@ -642,24 +291,6 @@ public class RobotHardware extends OpMode
         }
 
         return VV_BEACON_COLOR.NONE;
-    }
-
-    public void pushBeaconButton(boolean direction) {
-        prepareForBeacon(direction);
-        //TODO Push Beacon Button
-    }
-
-    public void prepareForBeacon(boolean direction) {
-        //Direction Variable
-        //
-        //TRUE - Right
-        //FALSE - Left
-
-        if (direction) {
-            beaconPosition(0);
-        }else {
-            beaconPosition(1);
-        }
     }
 
     public ROBOT_LINE_FOLLOW_STATE getLineFollowState(VV_LINE_COLOR color, int threshold) {
@@ -724,6 +355,7 @@ public class RobotHardware extends OpMode
     enum VV_LINE_COLOR {RED, BLUE, WHITE}
     enum ROBOT_LINE_FOLLOW_STATE {LEFT, RIGHT, BOTH, NONE}
     enum TEAM {RED, BLUE}
+    enum DIRECTION {LEFT, RIGHT}
 
     private DcMotor leftWheelMotor;
     private DcMotor rightWheelMotor;

@@ -8,7 +8,7 @@ public class TestActionSequence extends ActionSequence {
     public TestActionSequence() {
         //addAction(new MoveAction(MoveAction.Direction.FORWARD, 12, 0.25));
         //addAction(new TurnAction(TurnAction.Direction.RIGHT, 90));
-        addAction(new TurnAction3(TurnAction3.Direction.RIGHT, 85));
+        addAction(new AccumulatedHeadingTurn(AccumulatedHeadingTurn.Direction.RIGHT, 85));
         //addAction(new TurnAction2(TurnAction2.Direction.LEFT, 85));
         //addAction(new MoveAction(MoveAction.Direction.FORWARD, 6, 0.25));
         //addAction(new MoveAction(MoveAction.Direction.BACKWARD, 6, 0.25));
