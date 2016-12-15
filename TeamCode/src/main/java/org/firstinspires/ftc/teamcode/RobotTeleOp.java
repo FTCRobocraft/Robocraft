@@ -113,21 +113,21 @@ public class RobotTeleOp extends RobotTelemetry {
         }
 
 
-        if (gamepad1.y){
+        if (gamepad1.a){
             //Automatically follows the line.
-            if (!yPress){
+            if (!aPress){
                 beaconPosition(1);
                 current_state = AUTO_STATE.FIND_LINE;
                 manual = !manual;
-                yPress = true;
+                aPress = true;
             }
         } else {
-            yPress = false;
+            aPress = false;
         }
 
-        if (gamepad1.a){
+        if (gamepad1.y){
             //Switches the servo sides.
-            if (!aPress){
+            if (!yPress){
                 if (manual){
                     if (servoStartPosition) {
                         beaconPosition(0);
@@ -137,10 +137,10 @@ public class RobotTeleOp extends RobotTelemetry {
                     }
                     servoStartPosition = !servoStartPosition;
                 }
-                aPress = true;
+                yPress = true;
             }
         } else {
-            aPress = false;
+            yPress = false;
         }
 
         if (manual){
@@ -207,7 +207,7 @@ public class RobotTeleOp extends RobotTelemetry {
                     if (firstLaunch){
                         //Set times.
                         startTime = System.currentTimeMillis();
-                        endTime = startTime + 2500;
+                        endTime = startTime + 1000;
                         firstLaunch = false;
                     }
 

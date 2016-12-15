@@ -20,10 +20,6 @@ public class RobotHardware extends OpMode
     @Override public void init ()
 
     {
-
-        v_warning_generated = false;
-        v_warning_message = "Can't map; ";
-
         //Sensors
         //Color Sensors
         try {
@@ -82,7 +78,6 @@ public class RobotHardware extends OpMode
         try {
             leftWheelMotor = hardwareMap.dcMotor.get("leftMotor");
         } catch (Exception p_exeception) {
-            m_warning_message("leftMotor");
             DbgLog.msg(p_exeception.getLocalizedMessage());
 
             leftWheelMotor = null;
@@ -92,7 +87,6 @@ public class RobotHardware extends OpMode
             rightWheelMotor = hardwareMap.dcMotor.get("rightMotor");
             leftWheelMotor.setDirection(DcMotor.Direction.REVERSE);
         } catch (Exception p_exeception) {
-            m_warning_message("rightMotor");
             DbgLog.msg(p_exeception.getLocalizedMessage());
 
             rightWheelMotor = null;
@@ -101,7 +95,6 @@ public class RobotHardware extends OpMode
         try {
             scooperMotor = hardwareMap.dcMotor.get("scooperMotor");
         } catch (Exception p_exception) {
-            m_warning_message("scooperMotor");
             DbgLog.msg(p_exception.getLocalizedMessage());
 
             scooperMotor = null;
@@ -110,7 +103,6 @@ public class RobotHardware extends OpMode
         try {
             shooterMotor = hardwareMap.dcMotor.get("shooterMotor");
         } catch (Exception p_exception) {
-            m_warning_message("shooterMotor");
             DbgLog.msg(p_exception.getLocalizedMessage());
 
             shooterMotor = null;
@@ -119,7 +111,6 @@ public class RobotHardware extends OpMode
         try {
             beaconServo = hardwareMap.servo.get("beaconServo");
         } catch (Exception p_exception) {
-            m_warning_message("beaconServo");
             DbgLog.msg(p_exception.getLocalizedMessage());
 
             beaconServo = null;
@@ -128,7 +119,6 @@ public class RobotHardware extends OpMode
         try {
             shooterServo = hardwareMap.servo.get("shooterServo");
         } catch (Exception p_exception) {
-            m_warning_message("shooterServo");
             DbgLog.msg(p_exception.getLocalizedMessage());
 
             shooterServo = null;
@@ -137,7 +127,6 @@ public class RobotHardware extends OpMode
         try {
             spinnerMotor = hardwareMap.dcMotor.get("spinnerMotor");
         } catch (Exception p_exception) {
-            m_warning_message("spinnerMotor");
             DbgLog.msg(p_exception.getLocalizedMessage());
 
             spinnerMotor = null;
@@ -156,17 +145,6 @@ public class RobotHardware extends OpMode
      * A comma will be added before the specified message if the message isn't
      * empty.
      */
-    void m_warning_message (String p_exception_message)
-
-    {
-        if (v_warning_generated)
-        {
-            v_warning_message += ", ";
-        }
-        v_warning_generated = true;
-        v_warning_message += p_exception_message;
-
-    } // m_warning_message
 
     @Override public void start () {}
 
@@ -369,6 +347,7 @@ public class RobotHardware extends OpMode
     public ColorSensor rightColorSensor;
     public ColorSensor beaconColorSensor;
     public ModernRoboticsI2cRangeSensor rangeSensor;
+    public ModernRoboticsI2cCompassSensor rightRangeSensor;
     public GyroSensor gyroSensor;
     public ModernRoboticsI2cCompassSensor compassSensor;
 

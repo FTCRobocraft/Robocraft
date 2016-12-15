@@ -28,12 +28,12 @@ public class BeaconAction implements Action {
                 if (this.team == RobotHardware.TEAM.RED) {
                     //Push
                 } else {
-                    hardware.prepareForBeacon(true);
+                    hardware.beaconPosition(1);
                 }
                 break;
             case BLUE:
                 if (this.team == RobotHardware.TEAM.RED) {
-                    hardware.prepareForBeacon(true);
+                    hardware.beaconPosition(1);
                 } else {
                     //push
                 }

@@ -254,11 +254,11 @@ public class RobotAutoBeacons_BlueInner extends RobotHardware {
 
             case PREP_BEACON:
                 if (firstLaunch){
-                    prepareForBeacon(false);
+                    beaconPosition(0);
                     beacon_color = getBeaconColor();
                 }else{
                     if (beacon_color == VV_BEACON_COLOR.RED) {
-                        prepareForBeacon(true);
+                        beaconPosition(1);
                     }
                 }
 
@@ -394,7 +394,7 @@ public class RobotAutoBeacons_BlueInner extends RobotHardware {
                 //TODO idk something
                 break;
             case BLUE:
-                pushBeaconButton(false);
+                beaconPosition(0);
                 break;
             case NONE:
                 //Crossing my fingers that this method does NOT get called during competition...

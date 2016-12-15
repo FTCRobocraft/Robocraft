@@ -135,7 +135,7 @@ public class RobotAutoFollow extends RobotHardware {
                 if (getBeaconColor() == VV_BEACON_COLOR.BLUE) {
                     if (!BLUE_TEAM){
                         //red team
-                        prepareForBeacon(true);
+                        beaconPosition(1);
                         current_state = AUTO_STATE.WAIT_FOR_SERVO;
                     }else{
                         //blue team
@@ -147,7 +147,7 @@ public class RobotAutoFollow extends RobotHardware {
                         current_state = AUTO_STATE.PUSH_BEACON;
                     }else{
                         //blue team
-                        prepareForBeacon(true);
+                        beaconPosition(1);
                         current_state = AUTO_STATE.WAIT_FOR_SERVO;
                     }
                 }
@@ -162,7 +162,7 @@ public class RobotAutoFollow extends RobotHardware {
                     firstLaunch = false;
                 }
 
-                prepareForBeacon(true);
+                beaconPosition(1);
                 if (System.currentTimeMillis() >= endTime){
                     current_state = AUTO_STATE.PUSH_BEACON;
                     firstLaunch = true;
