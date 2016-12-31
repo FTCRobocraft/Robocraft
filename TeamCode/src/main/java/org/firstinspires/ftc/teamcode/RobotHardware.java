@@ -134,17 +134,6 @@ public class RobotHardware extends OpMode
 
     }
 
-    //--------------------------------------------------------------------------
-    //
-    // m_warning_message
-    //
-    /**
-     * Mutate the warning message by ADDING the specified message to the current
-     * message; set the warning indicator to true.
-     *
-     * A comma will be added before the specified message if the message isn't
-     * empty.
-     */
 
     @Override public void start () {}
 
@@ -232,7 +221,7 @@ public class RobotHardware extends OpMode
         //
         // Ensure the specific value is legal.
         //
-        double l_position = Range.clip(p_position, 0.2, 1);
+        double l_position = Range.clip(p_position, 0.2, 0.96);
 
         if (beaconServo != null)
         {

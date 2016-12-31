@@ -16,6 +16,7 @@ public class FindLineAction implements Action {
     private double startingHeading;
     final private double veerRange = 2;
     final private double fixSpeed = 0.05;
+    private HeadingNormalizer normalizer = new HeadingNormalizer();
 
 
     public FindLineAction (RobotHardware.VV_LINE_COLOR color, double speed, boolean veerControl){
@@ -32,9 +33,20 @@ public class FindLineAction implements Action {
             startingHeading = heading;
             init = false;
         }
-        hardware.telemetry.addData("startHeading", startingHeading);
-        hardware.telemetry.addData("heading", heading);
 
+        double h = normalizer.normalizeHeaing(heading);
+        if (Math.abs(h) > veerRange) {
+            if (h > 0) {
+                hardware.set_drive_power(speed - fixSpeed, speed);
+            }else if(h < 0) {
+                hardware.set_drive_power(speed, speed - fixSpeed);
+            }
+        }else{
+            hardware.set_drive_power(speed, speed);
+        }
+
+
+        /*
         if (heading > startingHeading + veerRange || heading < startingHeading - veerRange && veerControl){
             if (heading > startingHeading){
                 hardware.set_drive_power(speed - fixSpeed, speed);
@@ -44,6 +56,7 @@ public class FindLineAction implements Action {
         }else{
             hardware.set_drive_power(speed, speed);
         }
+        */
 
         if (hardware.getLineFollowState(this.lineColor, this.colorThreshold) != RobotHardware.ROBOT_LINE_FOLLOW_STATE.NONE){
             finished = true;

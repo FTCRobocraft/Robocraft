@@ -29,15 +29,16 @@ public class RobotTeleOp extends RobotTelemetry {
     long startTime;
     long endTime;
     double SLOW_SPEED = 0.07;
-    double QUICK_SPEED = 0.10;
+    double QUICK_SPEED = 0.14;
     int COLOR_THRESHOLD = 5;
-    int BEACON_DISTANCE = 8;
+    int BEACON_DISTANCE = 9;
     VV_LINE_COLOR lineColor = VV_LINE_COLOR.BLUE;
 
-    float SPEED_SCALE = 5F;
+    float SPEED_SCALE = 3F;
 
 
-    @Override public void init() {
+    @Override
+    public void init() {
         super.init();
         beaconPosition(1);
         servoStartPosition = true;
@@ -83,9 +84,9 @@ public class RobotTeleOp extends RobotTelemetry {
 
 
         //ABXY Buttons
-        if (gamepad1.x){
+        if (gamepad1.x) {
             //Pushes the blue side of a beacon
-            if (!xPress){
+            if (!xPress) {
 
                 xPress = true;
                 team = TEAM.BLUE;
@@ -98,9 +99,9 @@ public class RobotTeleOp extends RobotTelemetry {
             xPress = false;
         }
 
-        if (gamepad1.b){
+        if (gamepad1.b) {
             //Pushes the red side of the button.
-            if (!bPress){
+            if (!bPress) {
                 team = TEAM.RED;
                 pressed = false;
                 firstLaunch = true;
@@ -108,14 +109,14 @@ public class RobotTeleOp extends RobotTelemetry {
                 manual = !manual;
                 bPress = true;
             }
-        }else{
+        } else {
             bPress = false;
         }
 
 
-        if (gamepad1.a){
+        if (gamepad1.a) {
             //Automatically follows the line.
-            if (!aPress){
+            if (!aPress) {
                 beaconPosition(1);
                 current_state = AUTO_STATE.FIND_LINE;
                 manual = !manual;
@@ -125,14 +126,13 @@ public class RobotTeleOp extends RobotTelemetry {
             aPress = false;
         }
 
-        if (gamepad1.y){
+        if (gamepad1.y) {
             //Switches the servo sides.
-            if (!yPress){
-                if (manual){
+            if (!yPress) {
+                if (manual) {
                     if (servoStartPosition) {
                         beaconPosition(0);
-                    }
-                    else {
+                    } else {
                         beaconPosition(1);
                     }
                     servoStartPosition = !servoStartPosition;
@@ -143,40 +143,38 @@ public class RobotTeleOp extends RobotTelemetry {
             yPress = false;
         }
 
-        if (manual){
+        if (manual) {
             float l_left_drive_power = scale_motor_power(-gamepad1.left_stick_y) / SPEED_SCALE;
             float l_right_drive_power = scale_motor_power(-gamepad1.right_stick_y) / SPEED_SCALE;
 
-            if (gamepad1.dpad_up || gamepad1.dpad_left || gamepad1.dpad_right || gamepad1.dpad_down){
+            if (gamepad1.dpad_up || gamepad1.dpad_left || gamepad1.dpad_right || gamepad1.dpad_down) {
                 DPADPower();
-            }else{
+            } else {
                 set_drive_power(l_left_drive_power, l_right_drive_power);
             }
 
-            if (gamepad2.left_bumper){
+            if (gamepad2.left_bumper) {
                 beaconPosition(1);
             }
-            if (gamepad2.right_bumper){
+            if (gamepad2.right_bumper) {
                 beaconPosition(0);
             }
 
-        }
-        else
-        {
+        } else {
             switch (current_state) {
                 case FIND_LINE:
                     //Move until we find a white line
                     set_drive_power(SLOW_SPEED, SLOW_SPEED);
 
-                    if (getLineFollowState(lineColor, COLOR_THRESHOLD) != ROBOT_LINE_FOLLOW_STATE.NONE){
+                    if (getLineFollowState(lineColor, COLOR_THRESHOLD) != ROBOT_LINE_FOLLOW_STATE.NONE) {
                         current_state = AUTO_STATE.FOLLOW_LINE;
                     }
                     break;
 
                 case FOLLOW_LINE:
                     //Follow the line and stay center on it until we get within the distance we need to press the beacon.
-                    if (rangeSensor.cmUltrasonic() >= BEACON_DISTANCE){
-                        switch (getLineFollowState(lineColor, COLOR_THRESHOLD)){
+                    if (rangeSensor.cmUltrasonic() >= BEACON_DISTANCE) {
+                        switch (getLineFollowState(lineColor, COLOR_THRESHOLD)) {
                             case LEFT:
                                 set_drive_power(QUICK_SPEED, 0);
                                 break;
@@ -187,7 +185,7 @@ public class RobotTeleOp extends RobotTelemetry {
                                 set_drive_power(SLOW_SPEED, SLOW_SPEED);
                                 break;
                         }
-                    }else{
+                    } else {
                         current_state = AUTO_STATE.END;
                     }
                     break;
@@ -198,50 +196,50 @@ public class RobotTeleOp extends RobotTelemetry {
                     if ((getBeaconColor() == VV_BEACON_COLOR.BLUE && team == TEAM.RED) || (getBeaconColor() == VV_BEACON_COLOR.RED && team == TEAM.BLUE)) {
                         beaconPosition(0);
                         current_state = AUTO_STATE.WAIT_FOR_SERVO;
-                    }else{
+                    } else {
                         current_state = AUTO_STATE.PUSH_BEACON;
                     }
                     break;
 
                 case WAIT_FOR_SERVO:
-                    if (firstLaunch){
+                    if (firstLaunch) {
                         //Set times.
                         startTime = System.currentTimeMillis();
                         endTime = startTime + 1000;
                         firstLaunch = false;
                     }
 
-                    if (System.currentTimeMillis() >= endTime){
+                    if (System.currentTimeMillis() >= endTime) {
                         current_state = AUTO_STATE.PUSH_BEACON;
                         firstLaunch = true;
                     }
                     break;
 
                 case PUSH_BEACON:
-                    if (firstLaunch){
+                    if (firstLaunch) {
                         //Set times.
                         startTime = System.currentTimeMillis();
                         endTime = startTime + 750;
                         firstLaunch = false;
                     }
 
-                    if (pressed){
+                    if (pressed) {
                         //Back up for roughly 1/4 a second.
-                        if (System.currentTimeMillis() >= endTime){
+                        if (System.currentTimeMillis() >= endTime) {
                             stopdrive();
                             pressed = false;
                             firstLaunch = true;
                             current_state = AUTO_STATE.END;
-                        }else{
+                        } else {
                             set_drive_power(-SLOW_SPEED, -SLOW_SPEED);
                         }
-                    }else{
+                    } else {
                         //Go forward for roughly 1/4 a second.
-                        if (System.currentTimeMillis() >= endTime){
+                        if (System.currentTimeMillis() >= endTime) {
                             stopdrive();
                             pressed = true;
                             firstLaunch = true;
-                        }else{
+                        } else {
                             set_drive_power(SLOW_SPEED, SLOW_SPEED);
                         }
                     }
@@ -255,16 +253,16 @@ public class RobotTeleOp extends RobotTelemetry {
     }
 
     void DPADPower() {
-        if (gamepad1.dpad_up){
+        if (gamepad1.dpad_up) {
             set_drive_power(0.1, 0.1);
         }
-        if (gamepad1.dpad_left){
+        if (gamepad1.dpad_left) {
             set_drive_power(-0.1, 0.1);
         }
-        if (gamepad1.dpad_right){
+        if (gamepad1.dpad_right) {
             set_drive_power(0.1, -0.1);
         }
-        if (gamepad1.dpad_down){
+        if (gamepad1.dpad_down) {
             set_drive_power(-0.1, -0.1);
         }
     }

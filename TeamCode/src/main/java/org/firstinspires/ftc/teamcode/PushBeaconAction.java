@@ -35,7 +35,7 @@ public class PushBeaconAction implements Action {
                 if (hardware.getBeaconColor() == RobotHardware.VV_BEACON_COLOR.BLUE) {
                     if (team == RobotHardware.TEAM.RED){
                         //red team
-                        hardware.beaconPosition(1);
+                        hardware.beaconPosition(0);
                         current_state = beaconStates.WAIT_FOR_SERVO;
                     }else{
                         //blue team
@@ -47,7 +47,7 @@ public class PushBeaconAction implements Action {
                         current_state = beaconStates.PUSH_BEACON;
                     }else{
                         //blue team
-                        hardware.beaconPosition(1);
+                        hardware.beaconPosition(0);
                         current_state = beaconStates.WAIT_FOR_SERVO;
                     }
                 }
@@ -62,7 +62,7 @@ public class PushBeaconAction implements Action {
                     firstLaunch = false;
                 }
 
-                hardware.beaconPosition(1);
+                hardware.beaconPosition(0);
                 if (System.currentTimeMillis() >= endTime){
                     current_state = beaconStates.PUSH_BEACON;
                     firstLaunch = true;
@@ -94,6 +94,8 @@ public class PushBeaconAction implements Action {
                         firstLaunch = true;
                     }else{
                         hardware.set_drive_power(this.speed, this.speed);
+                        //i like monkeys
+                        //Missing Hud
                     }
                 }
                 break;
