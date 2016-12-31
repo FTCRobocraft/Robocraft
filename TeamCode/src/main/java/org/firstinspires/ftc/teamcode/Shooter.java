@@ -17,17 +17,17 @@ public class Shooter extends RobotHardware {
     boolean check = true;
 
     double shooterSpeed = 1;
-    double shooterServoStart = 0.1;
+    double shooterServoStart = 0.7;
     double spinnerSpeed = 1;
-    double count = 0.0;
 
 
-    public void waitfor(int time) {
+    public void waitFor(int time) {
         try{
             Thread.sleep(time);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
     }
 
 
@@ -35,8 +35,10 @@ public class Shooter extends RobotHardware {
         super.init();
 
         shooterMotor.setPower(shooterSpeed);
-        waitfor(100);
+        waitFor(100);
         shooterMotor.setPower(0);
+
+        shooterServo.setPosition(shooterServoStart);
 
     }
 
@@ -48,7 +50,7 @@ public class Shooter extends RobotHardware {
             shooterServo.setPosition(shooterServoStart);
             shooterToggle = false;
             shooterMotor.setPower(shooterSpeed);
-            waitfor(shooterTime);
+            waitFor(shooterTime);
             shooterMotor.setPower(0);
         }
 
