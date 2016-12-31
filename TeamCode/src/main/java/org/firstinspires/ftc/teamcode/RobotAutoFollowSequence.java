@@ -13,7 +13,7 @@ public class RobotAutoFollowSequence extends ActionSequence {
         addAction(new ShimmeyTimeTurnAction(90, 1, 100, 0.20));
 
         addAction(new PushBeaconAction(team, 0.08));
-        addAction(new TimeDriveAction(500, -0.08));
+        addAction(new TimeDriveAction(500, -0.08, true));
     }
 }
 // you are having a bad time

@@ -17,7 +17,7 @@ public class Shooter extends RobotHardware {
     boolean check = true;
 
     double shooterSpeed = 1;
-    double shooterServoStart = 0.7;
+    double shooterServoStart = 0.3;
     double spinnerSpeed = 1;
 
 
