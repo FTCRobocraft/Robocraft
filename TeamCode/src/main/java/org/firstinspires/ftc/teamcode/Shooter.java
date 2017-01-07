@@ -16,10 +16,11 @@ public class Shooter extends RobotHardware {
     int shooterTime = 500;
     boolean check = true;
 
-    double shooterSpeed = 1;
-    double shooterServoStart = 0.3;
+    double servoDownPosition = 0.13;
+    double shooterUpPosition = 0.46;
     double spinnerSpeed = 1;
 
+    double shooterSpeed = 1;
 
     public void waitFor(int time) {
         try{
@@ -30,6 +31,16 @@ public class Shooter extends RobotHardware {
 
     }
 
+    public void shake() {
+        if(gamepad1.left_bumper || gamepad1.right_bumper) {
+            double currentPosition = shooterServo.getPosition();
+            check = false;
+            shooterServo.setPosition(currentPosition - 0.1);
+            shooterServo.setPosition(currentPosition + 0.1);
+            check = true;
+        }
+    }
+
 
     @Override public void init() {
         super.init();
@@ -38,7 +49,7 @@ public class Shooter extends RobotHardware {
         waitFor(100);
         shooterMotor.setPower(0);
 
-        shooterServo.setPosition(shooterServoStart);
+        shooterServo.setPosition(servoDownPosition);
 
     }
 
@@ -47,7 +58,7 @@ public class Shooter extends RobotHardware {
     @Override public void loop() {
 
         if(gamepad1.x) {
-            shooterServo.setPosition(shooterServoStart);
+            shooterServo.setPosition(servoDownPosition);
             shooterToggle = false;
             shooterMotor.setPower(shooterSpeed);
             waitFor(shooterTime);
@@ -69,7 +80,7 @@ public class Shooter extends RobotHardware {
         if (spinnerToggle) {
             check = false;
             shooterToggle = true;
-            shooterServo.setPosition(shooterServoStart);
+            shooterServo.setPosition(servoDownPosition);
             spinnerMotor.setPower(spinnerSpeed);
         } else {
             spinnerMotor.setPower(0);
@@ -89,37 +100,21 @@ public class Shooter extends RobotHardware {
 
         if (check) {
             if (shooterToggle) {
-                shooterServo.setPosition(0.55);
+                shooterServo.setPosition(shooterUpPosition);
             } else {
-                shooterServo.setPosition(shooterServoStart);
+                shooterServo.setPosition(servoDownPosition);
             }
         }
 
+        shake();
+
+
+
 
         //////////////////////////////
 
-        if (gamepad1.left_bumper || gamepad1.right_bumper) {
-            check = false;
-            shooterServo.setPosition(0.15);
-            shooterServo.setPosition(0.55);
-            check = true;
-        }
 
-        //////////////////////////////
 
-        /*
-
-        if (gamepad1.dpad_up) {
-            count = count + 0.1;
-            shooterServo.setPosition(count);
-        }
-
-        if (gamepad1.dpad_down) {
-            count = count - 0.1;
-            shooterServo.setPosition(count);
-        }
-
-        */
 
     }
 
