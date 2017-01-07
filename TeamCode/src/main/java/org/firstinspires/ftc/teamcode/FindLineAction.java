@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.Action;
-import org.firstinspires.ftc.teamcode.RobotHardware;
-
 /**
  * Created by djfigs1 on 11/19/16.
  */
@@ -16,7 +13,7 @@ public class FindLineAction implements Action {
     private double startingHeading;
     final private double veerRange = 2;
     final private double fixSpeed = 0.05;
-    private HeadingNormalizer normalizer = new HeadingNormalizer();
+    private HeadingNormalizer normalizer;
 
 
     public FindLineAction (RobotHardware.VV_LINE_COLOR color, double speed, boolean veerControl){
@@ -32,9 +29,10 @@ public class FindLineAction implements Action {
         if (init) {
             startingHeading = heading;
             init = false;
+            normalizer = new HeadingNormalizer(startingHeading);
         }
 
-        double h = normalizer.normalizeHeaing(heading);
+        double h = normalizer.normalizeHeading(heading);
         if (Math.abs(h) > veerRange) {
             if (h > 0) {
                 hardware.set_drive_power(speed - fixSpeed, speed);

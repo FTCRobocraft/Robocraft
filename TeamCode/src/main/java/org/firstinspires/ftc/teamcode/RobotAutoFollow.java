@@ -109,7 +109,7 @@ public class RobotAutoFollow extends RobotHardware {
                 break;
 
             case FOLLOW_BLUE_LINE:
-                if (rangeSensor.cmUltrasonic() >= SONIC_DISTANCE){
+                if (leftRangeSensor.cmUltrasonic() >= SONIC_DISTANCE){
                     switch (getLineFollowState(LINE_COLOR, COLOR_THRESHOLD)){
                         case LEFT:
                             set_drive_power(QUICK_SPEED, 0);
@@ -122,7 +122,7 @@ public class RobotAutoFollow extends RobotHardware {
                             break;
                     }
                 }else{
-                    if (rangeSensor.cmOptical() >= OPT_DISTANCE){
+                    if (leftRangeSensor.cmOptical() >= OPT_DISTANCE){
                         set_drive_power(SNAIL_SPEED, SNAIL_SPEED);
                     }else {
                         current_state = AUTO_STATE.PREP_BEACON;

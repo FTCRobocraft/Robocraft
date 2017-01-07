@@ -11,7 +11,7 @@ public class ResetBeaconAction implements Action {
 
     @Override
     public boolean doAction(RobotHardware hardware) {
-        hardware.beaconPosition(0);
+        hardware.beaconPosition(1);
         return true;
     }
 }

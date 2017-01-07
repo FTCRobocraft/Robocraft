@@ -15,12 +15,9 @@ public class RobotSensorTelemetry extends RobotTelemetry {
         telemetry.addData("Left Color Sensor", String.format("R: %s, G: %s, B: %s", leftColorSensor.red(), leftColorSensor.green(), leftColorSensor.blue()));
         telemetry.addData("Right Color Sensor", String.format("R: %s, G: %s, B: %s", rightColorSensor.red(), rightColorSensor.green(), rightColorSensor.blue()));
         telemetry.addData("Beacon Color Sensor", String.format("R: %s, G: %s, B: %s", beaconColorSensor.red(), beaconColorSensor.green(), beaconColorSensor.blue()));
-
         telemetry.addData("Gyro Sensor", String.format("HEAD: %s, X: %s, Y: %s, Z: %s", gyroSensor.getHeading(), gyroSensor.rawX(), gyroSensor.rawY(), gyroSensor.rawZ()));
-        telemetry.addData("Compass Sensor", String.format("DIR: %s, ACCEL: %s", compassSensor.getDirection(), compassSensor.getAcceleration()));
-
-
-        telemetry.addData("Range Sensor", String.format("US: %s, OPT: %s", rangeSensor.cmUltrasonic(), rangeSensor.cmOptical()));
+        telemetry.addData("Left Range Sensor", String.format("US: %s, OPT: %s, I2C: %s", leftRangeSensor.cmUltrasonic(), leftRangeSensor.cmOptical(), leftRangeSensor.getI2cAddress().get8Bit()));
+        telemetry.addData("Right Range Sensor", String.format("US: %s, OPT: %s, I2c: %s", rightRangeSensor.cmUltrasonic(), rightRangeSensor.cmOptical(), rightRangeSensor.getI2cAddress().get8Bit()));
 
         telemetry.addData("GetBeaconColor", getBeaconColor().toString());
     }

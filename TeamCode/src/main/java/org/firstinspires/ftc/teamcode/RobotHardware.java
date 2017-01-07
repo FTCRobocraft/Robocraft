@@ -51,11 +51,20 @@ public class RobotHardware extends OpMode
         }
 
         try {
-            rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
+            leftRangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "leftRangeSensor");
         } catch (Exception p_exeception) {
             DbgLog.msg(p_exeception.getLocalizedMessage());
-            telemetry.addData("error: ", "range sensor");
-            rangeSensor = null;
+            telemetry.addData("error: ", "left range sensor");
+            leftRangeSensor = null;
+        }
+
+        try {
+            rightRangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rightRangeSensor");
+            rightRangeSensor.setI2cAddress(I2cAddr.create8bit(100));
+        } catch (Exception p_exeception) {
+            DbgLog.msg(p_exeception.getLocalizedMessage());
+            telemetry.addData("error: ", "right range sensor");
+            rightRangeSensor = null;
         }
 
         try {
@@ -65,14 +74,6 @@ public class RobotHardware extends OpMode
             DbgLog.msg(e.getLocalizedMessage());
             telemetry.addData("error", "gyro sensor");
             gyroSensor = null;
-        }
-
-        try {
-            compassSensor = hardwareMap.get(ModernRoboticsI2cCompassSensor.class, "compassSensor");
-        } catch (Exception e) {
-            DbgLog.msg(e.getLocalizedMessage());
-            telemetry.addData("error", "compass sensor");
-            compassSensor = null;
         }
 
         try {
@@ -335,8 +336,8 @@ public class RobotHardware extends OpMode
     public ColorSensor leftColorSensor;
     public ColorSensor rightColorSensor;
     public ColorSensor beaconColorSensor;
-    public ModernRoboticsI2cRangeSensor rangeSensor;
-    public ModernRoboticsI2cCompassSensor rightRangeSensor;
+    public ModernRoboticsI2cRangeSensor leftRangeSensor;
+    public ModernRoboticsI2cRangeSensor rightRangeSensor;
     public GyroSensor gyroSensor;
     public ModernRoboticsI2cCompassSensor compassSensor;
 

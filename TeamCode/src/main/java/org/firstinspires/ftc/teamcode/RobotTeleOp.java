@@ -173,7 +173,7 @@ public class RobotTeleOp extends RobotTelemetry {
 
                 case FOLLOW_LINE:
                     //Follow the line and stay center on it until we get within the distance we need to press the beacon.
-                    if (rangeSensor.cmUltrasonic() >= BEACON_DISTANCE) {
+                    if (leftRangeSensor.cmUltrasonic() >= BEACON_DISTANCE) {
                         switch (getLineFollowState(lineColor, COLOR_THRESHOLD)) {
                             case LEFT:
                                 set_drive_power(QUICK_SPEED, 0);

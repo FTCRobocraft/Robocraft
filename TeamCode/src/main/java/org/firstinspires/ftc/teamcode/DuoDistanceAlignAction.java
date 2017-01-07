@@ -17,8 +17,8 @@ public class DuoDistanceAlignAction implements Action {
     @Override
     public boolean doAction(RobotHardware hardware) {
         boolean finished = false;
-        double leftCm = hardware.rangeSensor.cmUltrasonic();
-        double rightCm = hardware.rangeSensor.cmUltrasonic();
+        double leftCm = hardware.leftRangeSensor.cmUltrasonic();
+        double rightCm = hardware.rightRangeSensor.cmUltrasonic();
 
         if (leftCm < rightCm + alignRange && rightCm < leftCm + alignRange){
             finished = true;

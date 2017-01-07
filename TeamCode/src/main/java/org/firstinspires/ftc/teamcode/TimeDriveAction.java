@@ -13,7 +13,7 @@ public class TimeDriveAction implements Action {
     private double veerRange = 2;
     private double fixSpeed = 0.05;
     private double startingDegrees = 0;
-    private HeadingNormalizer normalizer = new HeadingNormalizer();
+    private HeadingNormalizer normalizer;
 
     public TimeDriveAction(double time, double speed, boolean veerControl){
         this.time = time;
@@ -27,10 +27,11 @@ public class TimeDriveAction implements Action {
         if (init){
             startingDegrees = heading;
             endTime = System.currentTimeMillis() + this.time;
+            normalizer = new HeadingNormalizer(startingDegrees);
             init = false;
         }
         if (!(System.currentTimeMillis() >= endTime)){
-            double h = normalizer.normalizeHeaing(heading);
+            double h = normalizer.normalizeHeading(heading);
             if (veerControl) {
                 if (heading > startingDegrees + veerRange) {
                     hardware.set_drive_power(this.speed - fixSpeed, this.speed);

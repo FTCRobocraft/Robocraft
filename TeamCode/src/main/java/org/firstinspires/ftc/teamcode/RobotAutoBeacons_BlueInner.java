@@ -178,7 +178,7 @@ public class RobotAutoBeacons_BlueInner extends RobotHardware {
 
             case GET_IN_BEACON_RANGE:
                 //Check if we're in range of the beacon
-                if (rangeSensor.cmUltrasonic() >= BEACON_DISTANCE){
+                if (leftRangeSensor.cmUltrasonic() >= BEACON_DISTANCE){
                     //If we are, stop moving.
                     stopdrive();
                 }else{

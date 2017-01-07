@@ -23,7 +23,7 @@ public class FollowLineUntilDistance implements Action {
     @Override
     public boolean doAction(RobotHardware hardware) {
         boolean finished = false;
-        if (hardware.rangeSensor.cmUltrasonic() >= this.distance){
+        if (hardware.leftRangeSensor.cmUltrasonic() >= this.distance){
             switch (hardware.getLineFollowState(lineColor, colorThreshold)){
                 case LEFT:
                     hardware.set_drive_power(this.speed * steerMultiplier, -this.speed);
