@@ -6,11 +6,7 @@ package org.firstinspires.ftc.teamcode;
 public class TestActionSequence extends ActionSequence {
 
     public TestActionSequence() {
-        /*
         addAction(new WaitForGyroCalibrationAction());
-        addAction(new NormalizedTurnAction(90, RobotHardware.DIRECTION.RIGHT, 0.1));
-        */
-
-        addAction(new DuoDistanceAlignAction(0.1, 0.1));
+        addAction(new TimeDriveAction(3000, -0.1, true));
     }
 }

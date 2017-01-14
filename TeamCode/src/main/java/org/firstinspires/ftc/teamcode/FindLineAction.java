@@ -11,7 +11,7 @@ public class FindLineAction implements Action {
     private boolean init = true;
     private boolean veerControl = true;
     private double startingHeading;
-    final private double veerRange = 2;
+    final private double veerRange = 0;
     final private double fixSpeed = 0.05;
     private HeadingNormalizer normalizer;
 

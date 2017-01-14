@@ -11,6 +11,9 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.I2cDeviceReader;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -59,12 +62,15 @@ public class RobotHardware extends OpMode
         }
 
         try {
-            rightRangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rightRangeSensor");
-            rightRangeSensor.setI2cAddress(I2cAddr.create8bit(100));
-        } catch (Exception p_exeception) {
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-            telemetry.addData("error: ", "right range sensor");
-            rightRangeSensor = null;
+            I2cDevice range;
+            range = hardwareMap.i2cDevice.get("rightRangeSensor");
+            rightRangeReader = new I2cDeviceSynchImpl(range, I2cAddr.create8bit(100), false);
+            rightRangeReader.engage();
+        } catch (Exception e){
+            DbgLog.msg(e.getLocalizedMessage());
+            telemetry.addData("error", "right range sensor");
+            telemetry.addData("dbgmsg", e.getLocalizedMessage());
+            rightRangeReader = null;
         }
 
         try {
@@ -132,6 +138,15 @@ public class RobotHardware extends OpMode
 
             spinnerMotor = null;
         }
+
+    }
+
+    public double getRightCm() {
+        byte[] rangeCache;
+
+        rangeCache = rightRangeReader.read(0x04, 2);
+        int ultrasonicCM = rangeCache[0] & 0xFF;
+        return (double)ultrasonicCM;
 
     }
 
@@ -248,7 +263,7 @@ public class RobotHardware extends OpMode
     VV_BEACON_COLOR getBeaconColor() {
         int red = beaconColorSensor.red();
         int blue = beaconColorSensor.blue();
-        int threshold = 3;
+        int threshold = 1;
 
         if (red >= threshold && red > blue){
             return VV_BEACON_COLOR.RED;
@@ -314,7 +329,6 @@ public class RobotHardware extends OpMode
                 }
                 break;
         }
-
         return ROBOT_LINE_FOLLOW_STATE.NONE;
     }
     //endregion
@@ -339,6 +353,7 @@ public class RobotHardware extends OpMode
     public ModernRoboticsI2cRangeSensor leftRangeSensor;
     public ModernRoboticsI2cRangeSensor rightRangeSensor;
     public GyroSensor gyroSensor;
+    public I2cDeviceSynchImpl rightRangeReader;
     public ModernRoboticsI2cCompassSensor compassSensor;
 
 

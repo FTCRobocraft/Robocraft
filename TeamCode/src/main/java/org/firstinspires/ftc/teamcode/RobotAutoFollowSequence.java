@@ -10,7 +10,7 @@ public class RobotAutoFollowSequence extends ActionSequence {
         addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.BLUE, 10, 0.06));
         //addAction(new TimeDriveAction(1000, -0.08));
         //addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.BLUE, 8, 0.07));
-        addAction(new ShimmeyTimeTurnAction(90, 1, 100, 0.20));
+        addAction(new DuoDistanceAlignAction(0, 0.07));
 
         addAction(new PushBeaconAction(team, 0.08));
         addAction(new TimeDriveAction(500, -0.08, true));

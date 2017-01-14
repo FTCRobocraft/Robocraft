@@ -11,22 +11,23 @@ public class RobotDoubleAutoFollowSequence extends ActionSequence {
 
         //1st Beacon
         addAction(new FindLineAction(RobotHardware.VV_LINE_COLOR.BLUE, 0.10, true));
-        addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.BLUE, 9, 0.06));
+        addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.BLUE, 18, 0.06));
+        addAction(new DuoDistanceAlignAction(1, 0.09));
         addAction(new PushBeaconAction(team, 0.08));
         addAction(new TimeDriveAction(1000, -0.10, true));
         //addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.BLUE, 8, 0.06));
         //addAction(new TimeDriveAction(1000, -0.08));
 
         addAction(new ResetBeaconAction());
-        addAction(new TimeTurnAction(RobotHardware.DIRECTION.LEFT, 800, 0.20));
+        addAction(new GyroTurnAction(RobotHardware.DIRECTION.LEFT, 100, 0.11));
         addAction(new TimeDriveAction(500, 0.18, false));
-        addAction(new TimeTurnAction(RobotHardware.DIRECTION.RIGHT, 650, 0.20));
+        addAction(new GyroTurnAction(RobotHardware.DIRECTION.RIGHT, 43, 0.11));
 
         //2nd Beacon
         addAction(new FindLineAction(RobotHardware.VV_LINE_COLOR.BLUE, 0.10, true));
-        addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.BLUE, 9, 0.06));
+        addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.BLUE, 18, 0.06));
+        addAction(new DuoDistanceAlignAction(1, 0.09));
         addAction(new PushBeaconAction(team, 0.08));
-        addAction(new TimeDriveAction(1000, -0.08, true));
         // You mother says hi
     }
 }

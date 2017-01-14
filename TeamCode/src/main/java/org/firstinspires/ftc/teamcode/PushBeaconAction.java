@@ -18,7 +18,7 @@ public class PushBeaconAction implements Action {
     double startTime;
     double endTime;
 
-    final double waitTime = 2500;
+    final double waitTime = 1500;
     final double pushTime = 750;
 
     beaconStates current_state = beaconStates.PREP_BEACON;

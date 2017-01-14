@@ -16,6 +16,8 @@ public class HeadingTurnAction implements Action {
     private Direction direction;
     private float degrees;
     private double targetDegrees = -1;
+    private HeadingNormalizer normalizer;
+    boolean init = false;
 
     private static final double targetError = 3;
     private static final double speed = 0.10;
@@ -28,6 +30,10 @@ public class HeadingTurnAction implements Action {
     @Override
     public boolean doAction(RobotHardware hardware) {
         boolean finished = false;
+        if (init) {
+            normalizer = new HeadingNormalizer(hardware.gyroSensor.getHeading());
+            init = false;
+        }
         if (!hardware.gyroSensor.isCalibrating()) {
             double currentDegrees = hardware.gyroSensor.getHeading();
             if (targetDegrees == -1) {
@@ -55,19 +61,4 @@ public class HeadingTurnAction implements Action {
         return finished;
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
-    public float getDegrees() {
-        return degrees;
-    }
-
-    public void setDegrees(float degrees) {
-        this.degrees = degrees;
-    }
 }
