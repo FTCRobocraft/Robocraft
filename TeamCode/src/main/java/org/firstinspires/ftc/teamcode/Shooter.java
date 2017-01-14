@@ -19,7 +19,6 @@ public class Shooter extends RobotHardware {
     double servoDownPosition = 0.13;
     double shooterUpPosition = 0.46;
     double spinnerSpeed = 1;
-
     double shooterSpeed = 1;
 
     public void waitFor(int time) {
