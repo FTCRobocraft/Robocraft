@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Created by djfigs1 on 11/18/16.
  */
 
-@Autonomous(name = "BLUE Auto")
-public class BeaconDoubleAutoExecutor_Blue extends RobotHardware {
+@Autonomous(name = "RED Auto")
+public class BeaconDoubleAutoExecutor_Red extends RobotHardware {
 
     private ActionSequence actionSequence;
     private Action action = null;
@@ -15,9 +15,9 @@ public class BeaconDoubleAutoExecutor_Blue extends RobotHardware {
     @Override
     public void init() {
         super.init();
-        actionSequence = new RobotDoubleAutoFollowSequence(TEAM.BLUE);
+        actionSequence = new RobotDoubleAutoFollowSequence(TEAM.RED);
     }
-//stop, hammer time
+
     @Override
     public void init_loop(){
         beaconPosition(1);
@@ -38,4 +38,4 @@ public class BeaconDoubleAutoExecutor_Blue extends RobotHardware {
         }
     }
 }
-//good job
+

@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode;
  */
 public class DuoDistanceAlignAction implements Action {
 
-    double alignRange = 0.05;
+    double alignRange;
     double fixSpeed;
 
 

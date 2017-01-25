@@ -5,12 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name="TeleOp", group="Manual")
 public class RobotTeleOp extends RobotTelemetry {
 
+    //region Variables
     private boolean manual = true;
     private boolean servoStartPosition = true;
 
     enum AUTO_STATE {
         FIND_LINE,
         FOLLOW_LINE,
+        ALIGN_BEACONS,
         PREP_BEACON,
         WAIT_FOR_SERVO,
         PUSH_BEACON,
@@ -31,11 +33,12 @@ public class RobotTeleOp extends RobotTelemetry {
     double SLOW_SPEED = 0.07;
     double QUICK_SPEED = 0.14;
     int COLOR_THRESHOLD = 5;
-    int BEACON_DISTANCE = 9;
+    int BEACON_DISTANCE = 18;
+    double alignRange = 0.05;
     VV_LINE_COLOR lineColor = VV_LINE_COLOR.BLUE;
 
-    float SPEED_SCALE = 3F;
-
+    float SPEED_SCALE = 4F;
+    //endregion
 
     @Override
     public void init() {
@@ -46,48 +49,15 @@ public class RobotTeleOp extends RobotTelemetry {
 
     @Override
     public void loop() {
-        //region Old
-        //
-        // GAMEPAD 1
-        // Manage the drive wheel motors.
-        //
-        //Manage the arm servos.
-        //GAMEPAD 2
-        //arm_1_position(get_arm_1_position() + gamepad2.left_stick_ y);
-        //arm_2_position(get_arm_2_position() + gamepad2.right_stick_y);
-
-
-        //if (gamepad2.x){ Nah.
-        //    ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-        //    toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-        //
-        //    arm_home_position();
-        //}
-
-        /*Raw Controls
-        double deadzone = .05;
-        if (Math.abs(gamepad2.left_stick_y - prev_left_y) > deadzone) {
-            arm_1_position(-gamepad2.left_stick_y);
-            prev_left_y = gamepad2.left_stick_y;
-        }
-        if (Math.abs(gamepad2.right_stick_y - prev_right_y) > deadzone) {
-            arm_2_position(-gamepad2.right_stick_y);
-            prev_right_y = gamepad2.right_stick_y;
-        }
-        */
-        //endregion
-
-        //Telemetry Updates
+        //region Telemetry Updates
         telemetry.addData("Manual", manual);
         telemetry.addData("State", current_state.toString());
-        telemetry.addData("BServo", getBeaconPosition());
+        //endregion
 
-
-        //ABXY Buttons
+        //region ABXY Buttons
         if (gamepad1.x) {
             //Pushes the blue side of a beacon
             if (!xPress) {
-
                 xPress = true;
                 team = TEAM.BLUE;
                 pressed = false;
@@ -143,7 +113,10 @@ public class RobotTeleOp extends RobotTelemetry {
             yPress = false;
         }
 
+        //endregion
+
         if (manual) {
+            //region Manual-Code
             float l_left_drive_power = scale_motor_power(-gamepad1.left_stick_y) / SPEED_SCALE;
             float l_right_drive_power = scale_motor_power(-gamepad1.right_stick_y) / SPEED_SCALE;
 
@@ -159,8 +132,10 @@ public class RobotTeleOp extends RobotTelemetry {
             if (gamepad2.right_bumper) {
                 beaconPosition(0);
             }
+            //endregion
 
         } else {
+            //region Auto-Code
             switch (current_state) {
                 case FIND_LINE:
                     //Move until we find a white line
@@ -191,6 +166,24 @@ public class RobotTeleOp extends RobotTelemetry {
                     break;
 
                 //---------------------------
+
+                case ALIGN_BEACONS:
+                    double leftCm = leftRangeSensor.cmUltrasonic();
+                    double rightCm = getRightCm();
+
+                    if (leftCm <= rightCm + alignRange && rightCm <= leftCm + alignRange){
+                        current_state = AUTO_STATE.PREP_BEACON;
+                    }
+                    else {
+                        if (leftCm >= rightCm + alignRange) {
+                            set_drive_power(0.09, -0.09);
+                        } else {
+                            if (rightCm >= leftCm + alignRange) {
+                                set_drive_power(-0.09, 0.09);
+                            }
+                        }
+                    }
+                    break;
 
                 case PREP_BEACON:
                     if ((getBeaconColor() == VV_BEACON_COLOR.BLUE && team == TEAM.RED) || (getBeaconColor() == VV_BEACON_COLOR.RED && team == TEAM.BLUE)) {
@@ -249,9 +242,11 @@ public class RobotTeleOp extends RobotTelemetry {
                     manual = true;
                     break;
             }
+            //endregion
         }
     }
 
+    //region Functions
     void DPADPower() {
         if (gamepad1.dpad_up) {
             set_drive_power(0.1, 0.1);
@@ -266,4 +261,5 @@ public class RobotTeleOp extends RobotTelemetry {
             set_drive_power(-0.1, -0.1);
         }
     }
+    //endregion
 }
