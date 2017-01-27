@@ -1,243 +1,286 @@
 package org.firstinspires.ftc.teamcode;
 
-//------------------------------------------------------------------------------
-//
-// PushBotManual
-//
-
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-/**
- * Provide a basic manual operational mode that uses the left and right
- * drive motors, left arm motor, servo motors and gamepad input from two
- * gamepads for the Push Bot.
- *
- * @author SSI Robotics
- * @version 2015-08-01-06-01
- */
 
 @TeleOp(name="TeleOp", group="Manual")
-
 public class RobotTeleOp extends RobotTelemetry {
-    //--------------------------------------------------------------------------
-    //
-    // PushBotManual
-    //
-    /**
-     * Construct the class.
-     *
-     * The system calls this member when the class is instantiated.
-     */
 
-    public RobotTeleOp()
+    //region Variables
+    private boolean manual = true;
+    private boolean servoStartPosition = true;
 
-    {
-        //
-        // Initialize base classes.
-        //
-        // All via self-construction.
+    enum AUTO_STATE {
+        FIND_LINE,
+        FOLLOW_LINE,
+        ALIGN_BEACONS,
+        PREP_BEACON,
+        WAIT_FOR_SERVO,
+        PUSH_BEACON,
+        END
+    }
 
-        //
-        // Initialize class members.
-        //
-        // All via self-destruction.
-    } // PushBotManual
+    AUTO_STATE current_state = AUTO_STATE.FIND_LINE;
 
-    //--------------------------------------------------------------------------
-    //
-    // loop
-    //
-    /**
-     * Implement a state machine that controls the robot during
-     * manual-operation.  The state machine uses gamepad input to transition
-     * between states.
-     *
-     * The system calls this member repeatedly while the OpMode is running.
-     */
+    TEAM team;
+    boolean firstLaunch = false; //A variable used for initializing variables in different areas of the OpMode.
+    boolean pressed;
+    boolean xPress;
+    boolean yPress;
+    boolean bPress;
+    boolean aPress;
+    boolean x2Press;
+    boolean shoot;
+    long shooterTime;
+    long startTime;
+    long endTime;
+    double SLOW_SPEED = 0.07;
+    double QUICK_SPEED = 0.14;
+    int COLOR_THRESHOLD = 5;
+    int BEACON_DISTANCE = 18;
+    double alignRange = 0.05;
+    VV_LINE_COLOR lineColor = VV_LINE_COLOR.BLUE;
 
-    @Override public void init() {
+    float SPEED_SCALE = 4F;
+    //endregion
+
+    @Override
+    public void init() {
         super.init();
-
+        beaconPosition(1);
+        servoStartPosition = true;
     }
 
-
-    private boolean toggle = true;
-    private boolean pressed;
-    private boolean dpad;
-    double x = 0.0;
-
-    private double prev_left_y = 0, prev_right_y = 0;
-
-
-    public void simulateLiftMovement() {
-        arm_1_position(0.3D);
-        arm_2_position(0.55D);
-    }
-
-    @Override
-    public void start(){
-        arm_3_position(0.4D);
-    }
-
-    @Override
-    public void stop() {
-        arm_1_position(0.26D);
-        arm_2_position(0.54D);
-    }
     @Override
     public void loop() {
-        //
-        // GAMEPAD 1
-        // Manage the drive wheel motors.
-        //
-        float l_left_drive_power = scale_motor_power(-gamepad1.left_stick_y);
-        float l_right_drive_power = scale_motor_power(-gamepad1.right_stick_y);
+        //region Telemetry Updates
+        telemetry.addData("Manual", manual);
+        telemetry.addData("State", current_state.toString());
+        //endregion
 
-
-        if(!gamepad1.y) {
-            pressed = false;
-        }
-
-        if(gamepad1.y) {
-            if (toggle && !pressed){
-                ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-                toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-                toggle = false;
-                pressed = true;
-            }else if (!pressed){
-                ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-                toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-                toggle = true;
-                pressed = true;
+        //region Gamepad 1
+        if (gamepad1.x) {
+            //Pushes the blue side of a beacon
+            if (!xPress) {
+                xPress = true;
+                team = TEAM.BLUE;
+                pressed = false;
+                firstLaunch = true;
+                current_state = AUTO_STATE.PREP_BEACON;
+                manual = !manual;
             }
+        } else {
+            xPress = false;
         }
 
-        if (gamepad1.dpad_up){
-            if (toggle){
-                set_drive_power(1f,1f);
+        if (gamepad1.b) {
+            //Pushes the red side of the button.
+            if (!bPress) {
+                team = TEAM.RED;
+                pressed = false;
+                firstLaunch = true;
+                current_state = AUTO_STATE.PREP_BEACON;
+                manual = !manual;
+                bPress = true;
+            }
+        } else {
+            bPress = false;
+        }
+
+
+        if (gamepad1.a) {
+            //Automatically follows the line.
+            if (!aPress) {
+                beaconPosition(1);
+                current_state = AUTO_STATE.FIND_LINE;
+                manual = !manual;
+                aPress = true;
+            }
+        } else {
+            aPress = false;
+        }
+
+        if (gamepad1.y) {
+            //Switches the servo sides.
+            if (!yPress) {
+                if (manual) {
+                    if (servoStartPosition) {
+                        beaconPosition(0);
+                    } else {
+                        beaconPosition(1);
+                    }
+                    servoStartPosition = !servoStartPosition;
+                }
+                yPress = true;
+            }
+        } else {
+            yPress = false;
+        }
+
+        //endregion
+
+        //region Gamepad 2
+            if (gamepad2.x){
+                if (!x2Press) {
+                    shooterTime = System.currentTimeMillis() + 500;
+                    shoot = true;
+                    x2Press = true;
+                }
             }else{
-                set_drive_power(0.25f,0.25f);
+                x2Press = false;
             }
-            dpad = true;
-        }
-        if (gamepad1.dpad_down){
-            if (toggle){
-                set_drive_power(-1f, -1f);
-            }else{
-                set_drive_power(-0.25f,-0.25f);
-            }
-            dpad = true;
-        }
-        if (gamepad1.dpad_left){
-            if (toggle){
-                set_drive_power(-1f,1f);
-            }else{
-                set_drive_power(-0.25f,0.25f);
+        //endregion
+
+        if (manual) {
+            //region Manual-Code
+            float l_left_drive_power = scale_motor_power(-gamepad1.left_stick_y) / SPEED_SCALE;
+            float l_right_drive_power = scale_motor_power(-gamepad1.right_stick_y) / SPEED_SCALE;
+
+            //If the DPAD is being pressed, activate the DPAD function to respond to the inputs.
+            //Else, set the drive power based on Gamepad 1's analog sticks.
+            if (gamepad1.dpad_up || gamepad1.dpad_left || gamepad1.dpad_right || gamepad1.dpad_down) {
+                DPADPower();
+            } else {
+                set_drive_power(l_left_drive_power, l_right_drive_power);
             }
 
-            dpad = true;
-        }
-        if (gamepad1.dpad_right){
-            if (toggle){
-                set_drive_power(1f, -1f);
-            }else{
-                set_drive_power(0.25f,-0.25f);
+            //Activated when Gamepad 2 presses x. It shoots a ball by activating
+            //the shooter motor for 500 milliseconds.
+            if (shoot) {
+                if (System.currentTimeMillis() >= shooterTime) {
+                    shooterMotor.setPower(0);
+                    shoot = false;
+                }else{
+                    shooterMotor.setPower(1);
+                }
             }
-            dpad = true;
-        }
+            //endregion
 
-        if (!gamepad1.dpad_up && !gamepad1.dpad_left && !gamepad1.dpad_right && !gamepad1.dpad_down){
-            dpad = false;
-        }
+        } else {
+            //region Auto-Code
+            switch (current_state) {
+                case FIND_LINE:
+                    //Move until we find a white line
+                    set_drive_power(SLOW_SPEED, SLOW_SPEED);
 
-        if (!dpad){
-            double speadscale = 4.0;
-            if (toggle){
-                set_drive_power((l_left_drive_power / speadscale), (l_right_drive_power / speadscale));
-            }else{
-                set_drive_power((l_left_drive_power), (l_right_drive_power));
+                    if (getLineFollowState(lineColor, COLOR_THRESHOLD) != ROBOT_LINE_FOLLOW_STATE.NONE) {
+                        current_state = AUTO_STATE.FOLLOW_LINE;
+                    }
+                    break;
+
+                case FOLLOW_LINE:
+                    //Follow the line and stay center on it until we get within the distance we need to press the beacon.
+                    if (leftRangeSensor.cmUltrasonic() >= BEACON_DISTANCE) {
+                        switch (getLineFollowState(lineColor, COLOR_THRESHOLD)) {
+                            case LEFT:
+                                set_drive_power(QUICK_SPEED, 0);
+                                break;
+                            case RIGHT:
+                                set_drive_power(0, QUICK_SPEED);
+                                break;
+                            case BOTH:
+                                set_drive_power(SLOW_SPEED, SLOW_SPEED);
+                                break;
+                        }
+                    } else {
+                        current_state = AUTO_STATE.END;
+                    }
+                    break;
+
+                //---------------------------
+
+                case ALIGN_BEACONS:
+                    double leftCm = leftRangeSensor.cmUltrasonic();
+                    double rightCm = getRightCm();
+
+                    if (leftCm <= rightCm + alignRange && rightCm <= leftCm + alignRange){
+                        current_state = AUTO_STATE.PREP_BEACON;
+                    }
+                    else {
+                        if (leftCm >= rightCm + alignRange) {
+                            set_drive_power(0.09, -0.09);
+                        } else {
+                            if (rightCm >= leftCm + alignRange) {
+                                set_drive_power(-0.09, 0.09);
+                            }
+                        }
+                    }
+                    break;
+
+                case PREP_BEACON:
+                    if ((getBeaconColor() == VV_BEACON_COLOR.BLUE && team == TEAM.RED) || (getBeaconColor() == VV_BEACON_COLOR.RED && team == TEAM.BLUE)) {
+                        beaconPosition(0);
+                        current_state = AUTO_STATE.WAIT_FOR_SERVO;
+                    } else {
+                        current_state = AUTO_STATE.PUSH_BEACON;
+                    }
+                    break;
+
+                case WAIT_FOR_SERVO:
+                    if (firstLaunch) {
+                        //Set times.
+                        startTime = System.currentTimeMillis();
+                        endTime = startTime + 1000;
+                        firstLaunch = false;
+                    }
+
+                    if (System.currentTimeMillis() >= endTime) {
+                        current_state = AUTO_STATE.PUSH_BEACON;
+                        firstLaunch = true;
+                    }
+                    break;
+
+                case PUSH_BEACON:
+                    if (firstLaunch) {
+                        //Set times.
+                        startTime = System.currentTimeMillis();
+                        endTime = startTime + 750;
+                        firstLaunch = false;
+                    }
+
+                    if (pressed) {
+                        //Back up for roughly 1/4 a second.
+                        if (System.currentTimeMillis() >= endTime) {
+                            stopdrive();
+                            pressed = false;
+                            firstLaunch = true;
+                            current_state = AUTO_STATE.END;
+                        } else {
+                            set_drive_power(-SLOW_SPEED, -SLOW_SPEED);
+                        }
+                    } else {
+                        //Go forward for roughly 1/4 a second.
+                        if (System.currentTimeMillis() >= endTime) {
+                            stopdrive();
+                            pressed = true;
+                            firstLaunch = true;
+                        } else {
+                            set_drive_power(SLOW_SPEED, SLOW_SPEED);
+                        }
+                    }
+                    break;
+
+                case END:
+                    manual = true;
+                    break;
             }
+            //endregion
         }
-
-
-        //Manage the arm servos.
-        //GAMEPAD 2
-        //arm_1_position(get_arm_1_position() + gamepad2.left_stick_ y);
-        //arm_2_position(get_arm_2_position() + gamepad2.right_stick_y);
-
-        //Linear Controls
-        double increment = 0.004;
-        int delay = 35;
-        if (gamepad2.left_stick_y > 0) {
-            arm_1_position(get_arm_1_position() - increment);
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }else if (gamepad2.left_stick_y < 0){
-            arm_1_position(get_arm_1_position() + increment);
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (gamepad2.right_stick_y > 0) {
-            arm_2_position(get_arm_2_position() - increment);
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }else if (gamepad2.right_stick_y < 0) {
-            arm_2_position(get_arm_2_position() + increment);
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-        //Gripper
-        if (gamepad2.left_bumper) {
-            arm_3_position(0.0D);
-        } else if (gamepad2.right_bumper) {
-            arm_3_position(1.0D);
-        }
-
-
-
-        //if (gamepad2.x){ Nah.
-        //    ToneGenerator toneG = new ToneGenerator(AudioManager.STREAM_ALARM, 100);
-        //    toneG.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 200);
-        //
-        //    arm_home_position();
-        //}
-
-        /*Raw Controls
-        double deadzone = .05;
-        if (Math.abs(gamepad2.left_stick_y - prev_left_y) > deadzone) {
-            arm_1_position(-gamepad2.left_stick_y);
-            prev_left_y = gamepad2.left_stick_y;
-        }
-        if (Math.abs(gamepad2.right_stick_y - prev_right_y) > deadzone) {
-            arm_2_position(-gamepad2.right_stick_y);
-            prev_right_y = gamepad2.right_stick_y;
-        }
-        */
-
-        //
-        // Send telemetry data to the driver station.
-        //
-        update_telemetry(); // Update common telemetry
-        update_gamepad_telemetry();
-
-        telemetry.addData("ARM 1", get_arm_1_position());
-        telemetry.addData("ARM 2", get_arm_2_position());
-        telemetry.addData("ARM 3", get_arm_3_position());
-        telemetry.addData("Sanic Mode", toggle);
     }
+
+    //region Functions
+    void DPADPower() {
+        if (gamepad1.dpad_up) {
+            set_drive_power(0.1, 0.1);
+        }
+        if (gamepad1.dpad_left) {
+            set_drive_power(-0.1, 0.1);
+        }
+        if (gamepad1.dpad_right) {
+            set_drive_power(0.1, -0.1);
+        }
+        if (gamepad1.dpad_down) {
+            set_drive_power(-0.1, -0.1);
+        }
+    }
+    //endregion
 }

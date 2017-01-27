@@ -1,12 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.ftccommon.DbgLog;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cCompassSensor;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.CompassSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.I2cAddr;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.I2cDeviceReader;
+import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -16,82 +23,7 @@ public class RobotHardware extends OpMode
     @Override public void init ()
 
     {
-
-        v_warning_generated = false;
-        v_warning_message = "Can't map; ";
-
-        //
-        try {
-            v_motor_left_drive_front = hardwareMap.dcMotor.get("left_drive_front");
-            v_motor_left_drive_front.setDirection(DcMotor.Direction.REVERSE);
-        } catch (Exception p_exeception) {
-            m_warning_message("left_drive_front");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            v_motor_left_drive_front = null;
-        }
-
-        try {
-            v_motor_left_drive_back = hardwareMap.dcMotor.get("left_drive_back");
-            v_motor_left_drive_back.setDirection(DcMotor.Direction.REVERSE);
-        } catch (Exception p_exeception) {
-            m_warning_message("left_drive_back");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            v_motor_left_drive_back = null;
-        }
-
-
-        try {
-            v_motor_right_drive_front = hardwareMap.dcMotor.get("right_drive_front");
-        } catch (Exception p_exeception) {
-            m_warning_message("right_drive_front");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            v_motor_right_drive_front = null;
-        }
-
-        try {
-            v_motor_right_drive_back = hardwareMap.dcMotor.get("right_drive_back");
-        } catch (Exception p_exeception) {
-            m_warning_message("right_drive_back");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            v_motor_right_drive_back = null;
-        }
-
-        try {
-            arm_servo_1 = hardwareMap.servo.get("arm_1");
-        } catch (Exception p_exeception){
-            m_warning_message("arm_1");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-            //this comment was made during an awkward situation.
-            //1-3-16
-            //3:09 PM
-            arm_servo_1 = null;
-
-        }
-
-        try {
-            arm_servo_2 = hardwareMap.servo.get("arm_2");
-        } catch (Exception p_exeception){
-            m_warning_message("arm_2");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-
-            arm_servo_2 = null;
-
-        }
-
-        try {
-            arm_servo_3 = hardwareMap.servo.get("arm_3");
-        } catch (Exception p_exeception){
-            m_warning_message("arm_3");
-            DbgLog.msg(p_exeception.getLocalizedMessage());
-            arm_servo_3 = null;
-
-        }
-
-        //Sensorz
+        //Sensors
         //Color Sensors
         try {
             leftColorSensor = hardwareMap.colorSensor.get("leftColorSensor");
@@ -112,245 +44,116 @@ public class RobotHardware extends OpMode
         }
 
         try {
-            rightColorSensor = hardwareMap.colorSensor.get("rightColorSensor");
-            rightColorSensor.setI2cAddress(I2cAddr.create8bit(62));
+            beaconColorSensor = hardwareMap.colorSensor.get("beaconColorSensor");
+            beaconColorSensor.setI2cAddress(I2cAddr.create8bit(58));
+            beaconColorSensor.enableLed(false);
         } catch (Exception p_exeception) {
             DbgLog.msg(p_exeception.getLocalizedMessage());
-            telemetry.addData("error: ", "right color");
-            rightColorSensor = null;
+            telemetry.addData("error: ", "beacon color");
+            beaconColorSensor = null;
         }
 
         try {
-            rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "rangeSensor");
+            leftRangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "leftRangeSensor");
         } catch (Exception p_exeception) {
             DbgLog.msg(p_exeception.getLocalizedMessage());
-            telemetry.addData("error: ", "range sensor");
-            rangeSensor = null;
-        }
-    }
-
-
-    //
-    // Connect the servo motors.
-    //
-    // Indicate the initial position of both the left and right servos.  The
-    // hand should be halfway opened/closed.
-    //
-    // ini
-    private Servo arm_servo_1;
-    private Servo arm_servo_2;
-    private Servo arm_servo_3;
-
-
-
-    //-------------------------------------------------
-    //Get Servo Postitions
-    double get_arm_1_position ()
-    {
-        double l_return = 0.0;
-
-        if (arm_servo_1 != null)
-        {
-            l_return = arm_servo_1.getPosition ();
+            telemetry.addData("error: ", "left range sensor");
+            leftRangeSensor = null;
         }
 
-        return l_return;
-
-    }
-
-    double get_arm_2_position ()
-    {
-        double l_return = 0.0;
-
-        if (arm_servo_2 != null)
-        {
-            l_return = arm_servo_2.getPosition ();
+        try {
+            I2cDevice range;
+            range = hardwareMap.i2cDevice.get("rightRangeSensor");
+            rightRangeReader = new I2cDeviceSynchImpl(range, I2cAddr.create8bit(100), false);
+            rightRangeReader.engage();
+        } catch (Exception e){
+            DbgLog.msg(e.getLocalizedMessage());
+            telemetry.addData("error", "right range sensor");
+            telemetry.addData("dbgmsg", e.getLocalizedMessage());
+            rightRangeReader = null;
         }
 
-        return l_return;
-
-    }
-
-    double get_arm_3_position ()
-    {
-        double l_return = 0.0;
-
-        if (arm_servo_3 != null)
-        {
-            l_return = arm_servo_3.getPosition ();
+        try {
+            gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
+            gyroSensor.calibrate();
+        } catch (Exception e) {
+            DbgLog.msg(e.getLocalizedMessage());
+            telemetry.addData("error", "gyro sensor");
+            gyroSensor = null;
         }
 
-        return l_return;
+        try {
+            leftWheelMotor = hardwareMap.dcMotor.get("leftMotor");
+        } catch (Exception p_exeception) {
+            DbgLog.msg(p_exeception.getLocalizedMessage());
 
-    }
-    //-------------------------------------------------
-    //Set servo positions
-    void arm_1_position (double p_position)
-    {
-        //
-        // Ensure the specific value is legal.
-        //
-        double l_position = Range.clip
-                ( p_position
-                        , 0.25D //0.25D
-                        , 0.8D
-                );
-
-        //
-        // Set the value.  The right hand value must be opposite of the left
-        // value.
-        //
-        if (arm_servo_1 != null)
-        {
-            arm_servo_1.setPosition (l_position);
+            leftWheelMotor = null;
         }
 
+        try {
+            rightWheelMotor = hardwareMap.dcMotor.get("rightMotor");
+            leftWheelMotor.setDirection(DcMotor.Direction.REVERSE);
+        } catch (Exception p_exeception) {
+            DbgLog.msg(p_exeception.getLocalizedMessage());
+
+            rightWheelMotor = null;
+        }
+
+        try {
+            scooperMotor = hardwareMap.dcMotor.get("scooperMotor");
+        } catch (Exception p_exception) {
+            DbgLog.msg(p_exception.getLocalizedMessage());
+
+            scooperMotor = null;
     }
 
-    void arm_2_position (double p_position)
-    {
-        //
-        // Ensure the specific value is legal.
-        //
-        double l_position = Range.clip
-                ( p_position
-                        , 0.45D, //0.15D
-                        0.85D //0.6D
-                );
+        try {
+            shooterMotor = hardwareMap.dcMotor.get("shooterMotor");
+        } catch (Exception p_exception) {
+            DbgLog.msg(p_exception.getLocalizedMessage());
 
-        if (arm_servo_2 != null)
-        {
-            arm_servo_2.setPosition(l_position);
+            shooterMotor = null;
+        }
+
+        try {
+            beaconServo = hardwareMap.servo.get("beaconServo");
+        } catch (Exception p_exception) {
+            DbgLog.msg(p_exception.getLocalizedMessage());
+
+            beaconServo = null;
+        }
+
+        try {
+            shooterServo = hardwareMap.servo.get("shooterServo");
+        } catch (Exception p_exception) {
+            DbgLog.msg(p_exception.getLocalizedMessage());
+
+            shooterServo = null;
+        }
+
+        try {
+            spinnerMotor = hardwareMap.dcMotor.get("spinnerMotor");
+        } catch (Exception p_exception) {
+            DbgLog.msg(p_exception.getLocalizedMessage());
+
+            spinnerMotor = null;
         }
 
     }
 
-    void arm_3_position (double p_position)
-        {
-        //
-        // Ensure the specific value is legal.
-        //
-        double l_position = Range.clip
-                ( p_position
-                        , 0.0D,
-                        0.1D
-                );
+    public double getRightCm() {
+        byte[] rangeCache;
 
-        if (arm_servo_3 != null)
-        {
-            arm_servo_3.setPosition (l_position);
-        }
+        rangeCache = rightRangeReader.read(0x04, 2);
+        int ultrasonicCM = rangeCache[0] & 0xFF;
+        return (double)ultrasonicCM;
 
     }
 
-    void arm_home_position(){
-        arm_1_position(0.0D);
-        arm_2_position(0.0D);
-    }
 
+    @Override public void start () {}
 
-    //--------------------------------------------------------------------------
-    //
-    // a_warning_generated
-    //
-    /**
-     * Access whether a warning has been generated.
-     */
-    boolean a_warning_generated ()
-
-    {
-        return v_warning_generated;
-
-    } // a_warning_generated
-
-    //--------------------------------------------------------------------------
-    //
-    // a_warning_message
-    //
-    /**
-     * Access the warning message.
-     */
-    String a_warning_message ()
-
-    {
-        return v_warning_message;
-
-    } // a_warning_message
-
-    //--------------------------------------------------------------------------
-    //
-    // m_warning_message
-    //
-    /**
-     * Mutate the warning message by ADDING the specified message to the current
-     * message; set the warning indicator to true.
-     *
-     * A comma will be added before the specified message if the message isn't
-     * empty.
-     */
-    void m_warning_message (String p_exception_message)
-
-    {
-        if (v_warning_generated)
-        {
-            v_warning_message += ", ";
-        }
-        v_warning_generated = true;
-        v_warning_message += p_exception_message;
-
-    } // m_warning_message
-
-    //--------------------------------------------------------------------------
-    //
-    // start
-    //
-    /**
-     * Perform any actions that are necessary when the OpMode is enabled.
-     *
-     * The system calls this member once when the OpMode is enabled.
-     */
-    @Override public void start ()
-
-    {
-        //
-        // Only actions that are common to all Op-Modes (i.e. both automatic and
-        // manual) should be implemented here.
-        //
-        // This method is designed to be overridden.
-        //
-
-    } // start
-
-    //--------------------------------------------------------------------------
-    //
-    // loop
-    //
-    /**
-     * Perform any actions that are necessary while the OpMode is running.
-     *
-     * The system calls this member repeatedly while the OpMode is running.
-     */
-    @Override public void loop ()
-
-    {
-        //
-        // Only actions that are common to all OpModes (i.e. both auto and\
-        // manual) should be implemented here.
-        //
-        // This method is designed to be overridden.
-        //
-
-    } // loop
-
-    //--------------------------------------------------------------------------
-    //
-    // stop
-    //
-    /**
-     * Perform any actions that are necessary when the OpMode is disabled.
-     *
-     * The system calls this member once when the OpMode is disabled.
-     */
+    @Override public void loop () {}
 
     //--------------------------------------------------------------------------
     //
@@ -402,47 +205,7 @@ public class RobotHardware extends OpMode
 
         return l_scale;
 
-    } // scale_motor_power
-
-    //--------------------------------------------------------------------------
-    //
-    // a_left_drive_power
-    //
-    /**
-     * Access the left drive motor's power level.
-     */
-    double a_left_drive_power ()
-    {
-        double l_return = 0.0;
-
-        if (v_motor_left_drive_front != null)
-        {
-            l_return = v_motor_left_drive_front.getPower ();
-        }
-
-        return l_return;
-
-    } // a_left_drive_power
-
-    //--------------------------------------------------------------------------
-    //
-    // a_right_drive_power
-    //
-    /**
-     * Access the right drive motor's power level.
-     */
-    double a_right_drive_power ()
-    {
-        double l_return = 0.0;
-
-        if (v_motor_right_drive_front != null)
-        {
-            l_return = v_motor_right_drive_front.getPower();
-        }
-
-        return l_return;
-
-    } // a_right_drive_power
+    }
 
     //--------------------------------------------------------------------------
     //
@@ -454,15 +217,10 @@ public class RobotHardware extends OpMode
     void set_drive_power (double p_left_power, double p_right_power)
 
     {
-        if (v_motor_left_drive_front != null && v_motor_left_drive_back != null)
+        if (leftWheelMotor != null && rightWheelMotor != null)
         {
-            v_motor_left_drive_front.setPower(p_left_power);
-            v_motor_left_drive_back.setPower(p_left_power);
-        }
-        if (v_motor_right_drive_front != null && v_motor_right_drive_back != null)
-        {
-            v_motor_right_drive_front.setPower (p_right_power);
-            v_motor_right_drive_back.setPower(p_right_power);
+            leftWheelMotor.setPower(p_left_power);
+            rightWheelMotor.setPower(p_right_power);
         }
 
     }
@@ -471,49 +229,133 @@ public class RobotHardware extends OpMode
         set_drive_power(0, 0);
     }
 
-    void set_rear_drive_power (double p_left_power, double p_right_power)
 
+    private boolean v_warning_generated = false;
+
+    void beaconPosition (double p_position)
     {
-        if (v_motor_left_drive_back != null)
+        //
+        // Ensure the specific value is legal.
+        //
+        double l_position = Range.clip(p_position, 0.2, 0.96);
+
+        if (beaconServo != null)
         {
-            v_motor_left_drive_front.setPower (0D);
-            v_motor_left_drive_back.setPower(p_left_power);
-        }
-        if (v_motor_right_drive_back != null)
-        {
-            v_motor_right_drive_front.setPower (0D);
-            v_motor_right_drive_back.setPower(p_right_power);
+            beaconServo.setPosition(l_position);
         }
 
     }
 
-    private boolean v_warning_generated = false;
+    double getBeaconPosition ()
+    {
+        double l_return = 0.0;
 
-    //--------------------------------------------------------------------------
-    //
-    // v_warning_message
-    //
-    /**
-     * Store a message to the user if one has been generated.
-     */
-    private String v_warning_message;
+        if (beaconServo != null)
+        {
+            l_return = beaconServo.getPosition();
+        }
 
-    //--------------------------------------------------------------------------
-    //
-    // v_motor_left_drive
-    //
-    /**
-     * Manage the aspects of the left drive motor.
-     */
-    private DcMotor v_motor_left_drive_front;
-    private DcMotor v_motor_left_drive_back;
-    private DcMotor v_motor_right_drive_front;
-    private DcMotor v_motor_right_drive_back;
+        return l_return;
+
+    }
+
+    //region Functions
+    VV_BEACON_COLOR getBeaconColor() {
+        int red = beaconColorSensor.red();
+        int blue = beaconColorSensor.blue();
+        int threshold = 1;
+
+        if (red >= threshold && red > blue){
+            return VV_BEACON_COLOR.RED;
+        }else{
+            if (blue >= threshold && blue > red) {
+                return VV_BEACON_COLOR.BLUE;
+            }
+        }
+
+        return VV_BEACON_COLOR.NONE;
+    }
+
+    public ROBOT_LINE_FOLLOW_STATE getLineFollowState(VV_LINE_COLOR color, int threshold) {
+        switch (color) {
+            case RED:
+                if (leftColorSensor != null || rightColorSensor != null) {
+                    if (leftColorSensor.red() >= threshold && rightColorSensor.red() < threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.LEFT;
+                    }
+                    if (leftColorSensor.red() < threshold && rightColorSensor.red() >= threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.RIGHT;
+                    }
+                    if (leftColorSensor.red() >= threshold && rightColorSensor.red() >= threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.BOTH;
+                    }
+                    if (leftColorSensor.red() < threshold && rightColorSensor.red() < threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.NONE;
+                    }
+                }
+                break;
+
+            case BLUE:
+                if (leftColorSensor != null || rightColorSensor != null) {
+                    if (leftColorSensor.blue() >= threshold && rightColorSensor.blue() < threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.LEFT;
+                    }
+                    if (leftColorSensor.blue() < threshold && rightColorSensor.blue() >= threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.RIGHT;
+                    }
+                    if (leftColorSensor.blue() >= threshold && rightColorSensor.blue() >= threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.BOTH;
+                    }
+                    if (leftColorSensor.blue() < threshold && rightColorSensor.blue() < threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.NONE;
+                    }
+                }
+                break;
+
+            case WHITE:
+                if (leftColorSensor != null || rightColorSensor != null) {
+                    if (leftColorSensor.red() > threshold && leftColorSensor.blue() >= threshold && leftColorSensor.green() >= threshold && rightColorSensor.red() < threshold && rightColorSensor.blue() < threshold && rightColorSensor.green() < threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.LEFT;
+                    }
+                    if (leftColorSensor.red() < threshold && leftColorSensor.blue() < threshold && leftColorSensor.green() < threshold && rightColorSensor.red() >= threshold && rightColorSensor.blue() >= threshold && rightColorSensor.green() >= threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.RIGHT;
+                    }
+                    if (leftColorSensor.red() >= threshold && leftColorSensor.blue() >= threshold && leftColorSensor.green() >= threshold && rightColorSensor.red() >= threshold && rightColorSensor.blue() >= threshold && rightColorSensor.green() >= threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.BOTH;
+                    }
+                    if (leftColorSensor.red() < threshold && leftColorSensor.blue() < threshold && leftColorSensor.green() < threshold && rightColorSensor.red() < threshold && rightColorSensor.blue() < threshold && rightColorSensor.green() < threshold) {
+                        return ROBOT_LINE_FOLLOW_STATE.NONE;
+                    }
+                }
+                break;
+        }
+        return ROBOT_LINE_FOLLOW_STATE.NONE;
+    }
+    //endregion
+
+    enum VV_BEACON_COLOR {RED, BLUE, NONE}
+    enum VV_LINE_COLOR {RED, BLUE, WHITE}
+    enum ROBOT_LINE_FOLLOW_STATE {LEFT, RIGHT, BOTH, NONE}
+    enum TEAM {RED, BLUE}
+    enum DIRECTION {LEFT, RIGHT}
+
+    private DcMotor leftWheelMotor;
+    private DcMotor rightWheelMotor;
+    public Servo beaconServo;
+    public DcMotor scooperMotor;
+    public DcMotor shooterMotor;
+    public Servo shooterServo;
+    public DcMotor spinnerMotor;
 
     public ColorSensor leftColorSensor;
     public ColorSensor rightColorSensor;
     public ColorSensor beaconColorSensor;
-    public ModernRoboticsI2cRangeSensor rangeSensor;
+    public ModernRoboticsI2cRangeSensor leftRangeSensor;
+    public ModernRoboticsI2cRangeSensor rightRangeSensor;
+    public GyroSensor gyroSensor;
+    public I2cDeviceSynchImpl rightRangeReader;
+    public ModernRoboticsI2cCompassSensor compassSensor;
+
 
 
 }
