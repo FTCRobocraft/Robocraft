@@ -15,8 +15,6 @@ public class RobotDoubleAutoFollowSequence extends ActionSequence {
         addAction(new DuoDistanceAlignAction(0, 0.09));
         addAction(new PushBeaconAction(team, 0.08));
         addAction(new TimeDriveAction(1000, -0.10, true));
-        //addAction(new FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR.BLUE, 8, 0.06));
-        //addAction(new TimeDriveAction(1000, -0.08));
 
         addAction(new ResetBeaconAction());
         addAction(new GyroTurnAction(RobotHardware.DIRECTION.LEFT, 100, 0.11));

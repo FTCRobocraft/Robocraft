@@ -17,7 +17,7 @@ public class BeaconDoubleAutoExecutor_Blue extends RobotHardware {
         super.init();
         actionSequence = new RobotDoubleAutoFollowSequence(TEAM.BLUE);
     }
-//stop, hammer time
+
     @Override
     public void init_loop(){
         beaconPosition(1);
@@ -38,4 +38,3 @@ public class BeaconDoubleAutoExecutor_Blue extends RobotHardware {
         }
     }
 }
-//good job

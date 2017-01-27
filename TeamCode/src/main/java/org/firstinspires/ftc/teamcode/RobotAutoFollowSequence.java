@@ -16,6 +16,3 @@ public class RobotAutoFollowSequence extends ActionSequence {
         addAction(new TimeDriveAction(500, -0.08, true));
     }
 }
-// you are having a bad time
-// you are lost
-// confoozeled
