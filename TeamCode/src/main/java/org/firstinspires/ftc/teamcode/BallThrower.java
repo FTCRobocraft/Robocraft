@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class BallThrower extends RobotHardware {
 
     public void waitFor(int time) {
-        try{
+        try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
             e.printStackTrace();
