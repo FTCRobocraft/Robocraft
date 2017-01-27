@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by lvern on 1/25/2017.
  */
 
-@TeleOp(name="BallThrower")
 public class BallThrower extends RobotHardware {
 
     public void waitFor(int time) {
@@ -20,12 +19,9 @@ public class BallThrower extends RobotHardware {
     @Override public void loop() {
 
         if(gamepad1.x) {
-
             shooterMotor.setPower(1);
             waitFor(500);
             shooterMotor.setPower(0);
         }
-
     }
-
 }

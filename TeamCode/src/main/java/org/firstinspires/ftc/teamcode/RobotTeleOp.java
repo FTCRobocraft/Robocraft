@@ -28,6 +28,9 @@ public class RobotTeleOp extends RobotTelemetry {
     boolean yPress;
     boolean bPress;
     boolean aPress;
+    boolean x2Press;
+    boolean shoot;
+    long shooterTime;
     long startTime;
     long endTime;
     double SLOW_SPEED = 0.07;
@@ -54,7 +57,7 @@ public class RobotTeleOp extends RobotTelemetry {
         telemetry.addData("State", current_state.toString());
         //endregion
 
-        //region ABXY Buttons
+        //region Gamepad 1
         if (gamepad1.x) {
             //Pushes the blue side of a beacon
             if (!xPress) {
@@ -115,22 +118,40 @@ public class RobotTeleOp extends RobotTelemetry {
 
         //endregion
 
+        //region Gamepad 2
+            if (gamepad2.x){
+                if (!x2Press) {
+                    shooterTime = System.currentTimeMillis() + 500;
+                    shoot = true;
+                    x2Press = true;
+                }
+            }else{
+                x2Press = false;
+            }
+        //endregion
+
         if (manual) {
             //region Manual-Code
             float l_left_drive_power = scale_motor_power(-gamepad1.left_stick_y) / SPEED_SCALE;
             float l_right_drive_power = scale_motor_power(-gamepad1.right_stick_y) / SPEED_SCALE;
 
+            //If the DPAD is being pressed, activate the DPAD function to respond to the inputs.
+            //Else, set the drive power based on Gamepad 1's analog sticks.
             if (gamepad1.dpad_up || gamepad1.dpad_left || gamepad1.dpad_right || gamepad1.dpad_down) {
                 DPADPower();
             } else {
                 set_drive_power(l_left_drive_power, l_right_drive_power);
             }
 
-            if (gamepad2.left_bumper) {
-                beaconPosition(1);
-            }
-            if (gamepad2.right_bumper) {
-                beaconPosition(0);
+            //Activated when Gamepad 2 presses x. It shoots a ball by activating
+            //the shooter motor for 500 milliseconds.
+            if (shoot) {
+                if (System.currentTimeMillis() >= shooterTime) {
+                    shooterMotor.setPower(0);
+                    shoot = false;
+                }else{
+                    shooterMotor.setPower(1);
+                }
             }
             //endregion
 
