@@ -119,7 +119,7 @@ public class RobotTeleOp extends RobotTelemetry {
         //endregion
 
         //region Gamepad 2
-            if (gamepad2.x){
+            if (gamepad1.right_bumper){
                 if (!x2Press) {
                     shooterTime = System.currentTimeMillis() + 500;
                     shoot = !shoot;
