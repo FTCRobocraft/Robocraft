@@ -1,3 +1,4 @@
+//region Code
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -116,18 +117,15 @@ public class RobotTeleOp extends RobotTelemetry {
             yPress = false;
         }
 
-        //endregion
-
-        //region Gamepad 2
-            if (gamepad1.right_bumper){
-                if (!x2Press) {
-                    shooterTime = System.currentTimeMillis() + 500;
-                    shoot = !shoot;
-                    x2Press = true;
-                }
-            }else{
-                x2Press = false;
+        if (gamepad1.right_bumper){
+            if (!x2Press) {
+                shooterTime = System.currentTimeMillis() + 500;
+                shoot = !shoot;
+                x2Press = true;
             }
+        }else{
+            x2Press = false;
+        }
         //endregion
 
         if (manual) {
@@ -284,3 +282,4 @@ public class RobotTeleOp extends RobotTelemetry {
     }
     //endregion
 }
+//endregion
