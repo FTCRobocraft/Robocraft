@@ -7,6 +7,11 @@ public class DuoDistanceAlignAction implements Action {
 
     double alignRange;
     double fixSpeed;
+    RobotHardware.DIRECTION direction = RobotHardware.DIRECTION.LEFT;
+    final double badReading = 20;
+    boolean init = true;
+    final double fixTime = 2500;
+    double endTime;
 
 
     public DuoDistanceAlignAction(double alignRange, double fixSpeed) {
@@ -19,19 +24,41 @@ public class DuoDistanceAlignAction implements Action {
         boolean finished = false;
         double leftCm = hardware.leftRangeSensor.cmUltrasonic();
         double rightCm = hardware.getRightCm();
-
-        if (leftCm <= rightCm + alignRange && rightCm <= leftCm + alignRange){
-            finished = true;
-        }else{
-            if (leftCm >= rightCm + alignRange){
-                hardware.set_drive_power(fixSpeed, -fixSpeed);
-            }else{
-                if (rightCm >= leftCm + alignRange){
-                    hardware.set_drive_power(-fixSpeed, fixSpeed);
+        if (init) {
+            endTime = System.currentTimeMillis() + fixTime;
+            init = false;
+        }
+        if (!(System.currentTimeMillis() >= endTime)) {
+            if ((leftCm <= badReading && rightCm <= badReading)){
+                if (leftCm == rightCm){
+                    finished = true;
+                    hardware.stopdrive();
+                }else {
+                    if (leftCm >= rightCm + alignRange) {
+                        hardware.set_drive_power(fixSpeed, -fixSpeed);
+                        direction = RobotHardware.DIRECTION.RIGHT;
+                    } else {
+                        if (rightCm >= leftCm + alignRange) {
+                            hardware.set_drive_power(-fixSpeed, fixSpeed);
+                            direction = RobotHardware.DIRECTION.LEFT;
+                        }
+                    }
+                }
+            } else {
+                //hardware.stopdrive();
+                switch (direction) {
+                    case LEFT:
+                        hardware.set_drive_power(fixSpeed, -fixSpeed);
+                        break;
+                    case RIGHT:
+                        hardware.set_drive_power(-fixSpeed, fixSpeed);
+                        break;
                 }
             }
-    }
+        }else{
+            finished = true;
+        }
 
-    return finished;
+        return finished;
     }
 }

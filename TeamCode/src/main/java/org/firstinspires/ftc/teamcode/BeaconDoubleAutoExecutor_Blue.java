@@ -11,6 +11,7 @@ public class BeaconDoubleAutoExecutor_Blue extends RobotHardware {
 
     private ActionSequence actionSequence;
     private Action action = null;
+    double time = 0;
 
     @Override
     public void init() {
@@ -28,6 +29,8 @@ public class BeaconDoubleAutoExecutor_Blue extends RobotHardware {
         action = actionSequence.getCurrentAction();
         if (action != null) {
             telemetry.addData("Heading", gyroSensor.getHeading());
+            telemetry.addData("deltaT", System.currentTimeMillis() - time);
+            time = System.currentTimeMillis();
             if (action.doAction(this)) {
                 actionSequence.currentActionComplete();
                 action = actionSequence.getCurrentAction();

@@ -11,7 +11,7 @@ public class FollowLineUntilDistance implements Action {
     private RobotHardware.VV_LINE_COLOR lineColor;
     private double distance;
     private double speed;
-    final private double steerMultiplier = 2.05;
+    final private double steerMultiplier = 2.1;
     private static final int colorThreshold = 5;
 
     public FollowLineUntilDistance(RobotHardware.VV_LINE_COLOR color, double distance, double speed){
