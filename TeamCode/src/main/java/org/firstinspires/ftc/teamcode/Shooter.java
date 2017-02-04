@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 //Created by Michael on 10/14/2016.
 
-@TeleOp(name="Shooter")
 public class Shooter extends RobotHardware {
 
     boolean shooterToggle;

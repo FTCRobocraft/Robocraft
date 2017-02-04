@@ -15,6 +15,10 @@ public class HeadingNormalizer {
         double result = heading;
         if (heading > 180) {
             result = heading - 360D;
+        }else {
+            if (heading < -180) {
+                result = heading + 360D;
+            }
         }
         return result;
     }

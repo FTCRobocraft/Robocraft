@@ -12,7 +12,7 @@ public class FindLineAction implements Action {
     private boolean veerControl = true;
     private double startingHeading;
     final private double veerRange = 0;
-    final private double fixSpeed = 0.05;
+    final private double fixSpeed = 0.09;
     private HeadingNormalizer normalizer;
 
 

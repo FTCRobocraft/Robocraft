@@ -9,8 +9,9 @@ public class DuoDistanceAlignAction implements Action {
     double fixSpeed;
     RobotHardware.DIRECTION direction = RobotHardware.DIRECTION.LEFT;
     final double badReading = 20;
+    int check = 0;
     boolean init = true;
-    final double fixTime = 2500;
+    final double fixTime = 1500;
     double endTime;
 
 
@@ -28,12 +29,18 @@ public class DuoDistanceAlignAction implements Action {
             endTime = System.currentTimeMillis() + fixTime;
             init = false;
         }
+        hardware.telemetry.addData("leftcm", leftCm);
+        hardware.telemetry.addData("rightcm", rightCm);
+        hardware.telemetry.addData("checks", check);
         if (!(System.currentTimeMillis() >= endTime)) {
-            if ((leftCm <= badReading && rightCm <= badReading)){
                 if (leftCm == rightCm){
-                    finished = true;
                     hardware.stopdrive();
+                    check++;
+                    if (check >= 5) {
+                        finished = true;
+                    }
                 }else {
+                    check = 0;
                     if (leftCm >= rightCm + alignRange) {
                         hardware.set_drive_power(fixSpeed, -fixSpeed);
                         direction = RobotHardware.DIRECTION.RIGHT;
@@ -44,17 +51,6 @@ public class DuoDistanceAlignAction implements Action {
                         }
                     }
                 }
-            } else {
-                //hardware.stopdrive();
-                switch (direction) {
-                    case LEFT:
-                        hardware.set_drive_power(fixSpeed, -fixSpeed);
-                        break;
-                    case RIGHT:
-                        hardware.set_drive_power(-fixSpeed, fixSpeed);
-                        break;
-                }
-            }
         }else{
             finished = true;
         }

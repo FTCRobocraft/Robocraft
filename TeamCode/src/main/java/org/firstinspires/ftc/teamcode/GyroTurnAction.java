@@ -18,7 +18,6 @@ public class GyroTurnAction implements Action {
         this.direction = direction;
         this.degrees = degrees;
         this.speed = speed;
-
     }
 
     @Override
@@ -32,14 +31,14 @@ public class GyroTurnAction implements Action {
         double h = normalizer.normalizeHeading(heading);
         switch (direction) {
             case LEFT:
-                if (Math.abs(h) > degrees) {
+                if (Math.abs(h) >= degrees) {
                     finished = true;
                 } else {
                     hardware.set_drive_power(-speed, speed);
                 }
                 break;
             case RIGHT:
-                if (Math.abs(h) > degrees) {
+                if (Math.abs(h) >= degrees) {
                     finished = true;
                 } else {
                     hardware.set_drive_power(speed, -speed);

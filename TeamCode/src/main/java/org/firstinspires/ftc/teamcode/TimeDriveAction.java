@@ -11,7 +11,7 @@ public class TimeDriveAction implements Action {
     private double endTime;
     private boolean veerControl;
     private double veerRange = 0;
-    private double fixSpeed = 0.07;
+    private double fixSpeed = 0.08;
     private double startingDegrees = 0;
     private HeadingNormalizer normalizer;
 
