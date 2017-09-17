@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode;
  */
 public class RobotDoubleAutoFollowSequence extends ActionSequence {
 
-    final double S_findLine = 0.135;
+    final double S_findLine = 0.12;
     final double S_followLine = 0.06;
     final double S_align = 0.09;
     final double S_turn = 0.14;
