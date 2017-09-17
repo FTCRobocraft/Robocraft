@@ -4,7 +4,6 @@ package org.firstinspires.ftc.teamcode;
  * Created by lvern on 9/17/2017.
  */
 
-
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
 public class Gyro extends RobotHardware {
@@ -17,6 +16,10 @@ public class Gyro extends RobotHardware {
             telemetry.addData("error", "gyro sensor");
             gyroSensor = null;
         }
+    }
+
+    @Override public void loop() {
+        telemetry.addData ("00", "Gyro:" +  gyroSensor);
     }
 
 }
