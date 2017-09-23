@@ -6,6 +6,10 @@
           android:versionName="3.4">
 
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.CAMERA"/>
+  <uses-permission android:name="android.permission.CAMERA_EXTENDED"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.hardware.camera.autofocus"/>
 
   <application
     android:allowBackup="true"

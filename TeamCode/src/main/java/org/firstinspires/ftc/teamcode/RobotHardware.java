@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.ftccommon.DbgLog;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cCompassSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
@@ -20,6 +19,9 @@ import com.qualcomm.robotcore.util.Range;
 public class RobotHardware extends OpMode
 
 {
+
+    public static final String vulforiaKey = "ATYXw6b/////AAAAGbsBoJKrv00tn+OIBZOySi93f157TAsX4H3f444TrvUXKWFiNjsiBUjhwGrShLYay8wFSrlf+nRtoS+xnZJ3IApbJe2W0NSLKz21/B3/IpstUZGH29ZD/ogg3ZixfNyUGyb+F5gy5LzvGTdRhGLwy0d4z2i6QauSDPYHU4bBnhmehHBFMPkA6aP94fqOfa4qJGKBCCrn1EcH+c5TXD2EP21vciteCYktsfBedAnveiDGR7yLbTPr5kdfLvem0iyH8ESxhOsr90wGnIGWOQJa83eilaVbmLHtWkQx/hT/CnNTglJXb6TGRuDEwv/Zs+zdswp9dvCHZL5Qq1pT4y+LNUZZfhtmLlYXNifiEn7HnM5f";
+
     @Override public void init ()
 
     {
@@ -28,7 +30,7 @@ public class RobotHardware extends OpMode
         try {
             leftColorSensor = hardwareMap.colorSensor.get("leftColorSensor");
         } catch (Exception p_exeception) {
-            DbgLog.msg(p_exeception.getLocalizedMessage());
+            //DbgLog.msg(p_exeception.getLocalizedMessage());
             telemetry.addData("error: ", "left color");
             leftColorSensor = null;
         }
@@ -38,7 +40,7 @@ public class RobotHardware extends OpMode
             rightColorSensor = hardwareMap.colorSensor.get("rightColorSensor");
             rightColorSensor.setI2cAddress(I2cAddr.create8bit(62));
         } catch (Exception p_exeception) {
-            DbgLog.msg(p_exeception.getLocalizedMessage());
+            //DbgLog.msg(p_exeception.getLocalizedMessage());
             telemetry.addData("error: ", "right color");
             rightColorSensor = null;
         }
@@ -48,7 +50,7 @@ public class RobotHardware extends OpMode
             beaconColorSensor.setI2cAddress(I2cAddr.create8bit(58));
             beaconColorSensor.enableLed(false);
         } catch (Exception p_exeception) {
-            DbgLog.msg(p_exeception.getLocalizedMessage());
+            //DbgLog.msg(p_exeception.getLocalizedMessage());
             telemetry.addData("error: ", "beacon color");
             beaconColorSensor = null;
         }
@@ -56,7 +58,7 @@ public class RobotHardware extends OpMode
         try {
             leftRangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "leftRangeSensor");
         } catch (Exception p_exeception) {
-            DbgLog.msg(p_exeception.getLocalizedMessage());
+            //DbgLog.msg(p_exeception.getLocalizedMessage());
             telemetry.addData("error: ", "left range sensor");
             leftRangeSensor = null;
         }
@@ -67,7 +69,7 @@ public class RobotHardware extends OpMode
             rightRangeReader = new I2cDeviceSynchImpl(range, I2cAddr.create8bit(100), false);
             rightRangeReader.engage();
         } catch (Exception e){
-            DbgLog.msg(e.getLocalizedMessage());
+            //DbgLog.msg(e.getLocalizedMessage());
             telemetry.addData("error", "right range sensor");
             telemetry.addData("dbgmsg", e.getLocalizedMessage());
             rightRangeReader = null;
@@ -77,7 +79,7 @@ public class RobotHardware extends OpMode
             gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
             gyroSensor.calibrate();
         } catch (Exception e) {
-            DbgLog.msg(e.getLocalizedMessage());
+            //DbgLog.msg(e.getLocalizedMessage());
             telemetry.addData("error", "gyro sensor");
             gyroSensor = null;
         }
@@ -85,7 +87,7 @@ public class RobotHardware extends OpMode
         try {
             leftWheelMotor = hardwareMap.dcMotor.get("leftMotor");
         } catch (Exception p_exeception) {
-            DbgLog.msg(p_exeception.getLocalizedMessage());
+            //DbgLog.msg(p_exeception.getLocalizedMessage());
 
             leftWheelMotor = null;
         }
@@ -94,7 +96,7 @@ public class RobotHardware extends OpMode
             rightWheelMotor = hardwareMap.dcMotor.get("rightMotor");
             leftWheelMotor.setDirection(DcMotor.Direction.REVERSE);
         } catch (Exception p_exeception) {
-            DbgLog.msg(p_exeception.getLocalizedMessage());
+            //DbgLog.msg(p_exeception.getLocalizedMessage());
 
             rightWheelMotor = null;
         }
@@ -102,7 +104,7 @@ public class RobotHardware extends OpMode
         try {
             scooperMotor = hardwareMap.dcMotor.get("scooperMotor");
         } catch (Exception p_exception) {
-            DbgLog.msg(p_exception.getLocalizedMessage());
+            //DbgLog.msg(p_exception.getLocalizedMessage());
 
             scooperMotor = null;
     }
@@ -110,7 +112,7 @@ public class RobotHardware extends OpMode
         try {
             shooterMotor = hardwareMap.dcMotor.get("shooterMotor");
         } catch (Exception p_exception) {
-            DbgLog.msg(p_exception.getLocalizedMessage());
+            //DbgLog.msg(p_exception.getLocalizedMessage());
 
             shooterMotor = null;
         }
@@ -118,7 +120,7 @@ public class RobotHardware extends OpMode
         try {
             beaconServo = hardwareMap.servo.get("beaconServo");
         } catch (Exception p_exception) {
-            DbgLog.msg(p_exception.getLocalizedMessage());
+            //DbgLog.msg(p_exception.getLocalizedMessage());
 
             beaconServo = null;
         }
@@ -126,7 +128,7 @@ public class RobotHardware extends OpMode
         try {
             shooterServo = hardwareMap.servo.get("shooterServo");
         } catch (Exception p_exception) {
-            DbgLog.msg(p_exception.getLocalizedMessage());
+            //DbgLog.msg(p_exception.getLocalizedMessage());
 
             shooterServo = null;
         }
@@ -134,7 +136,7 @@ public class RobotHardware extends OpMode
         try {
             spinnerMotor = hardwareMap.dcMotor.get("spinnerMotor");
         } catch (Exception p_exception) {
-            DbgLog.msg(p_exception.getLocalizedMessage());
+            //DbgLog.msg(p_exception.getLocalizedMessage());
 
             spinnerMotor = null;
         }
