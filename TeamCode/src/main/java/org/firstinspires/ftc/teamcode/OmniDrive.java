@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by djfigs1 on 9/23/17.
@@ -28,7 +29,6 @@ public class OmniDrive extends RobotTelemetry {
 
     @Override
     public void loop() {
-
         float aX = gamepad1.left_stick_x;
         float aY = gamepad1.left_stick_y;
         float bX = gamepad2.left_stick_x;
