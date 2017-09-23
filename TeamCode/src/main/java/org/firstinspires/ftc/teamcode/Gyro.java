@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 
 public class Gyro extends RobotHardware {
 
+    final static int threshold = 1;
+
     @Override public void init() {
         try {
             gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
@@ -26,6 +28,24 @@ public class Gyro extends RobotHardware {
         telemetry.addData("01", "Gyro: " + gyroSensor.rawY());
         telemetry.addData("02", "Gyro: " + gyroSensor.rawZ());
 
+        int gyroX = gyroSensor.rawX();
+        int gyroY = gyroSensor.rawY();
+
+        if (Math.abs(gyroX) > threshold) {
+            left.setPower(30);
+            right.setPower(30);
+        } else {
+            left.setPower(-30);
+            right.setPower(-30);
+        }
+
+        if (Math.abs(gyroY) > threshold) {
+            left.setPower(-30);
+            right.setPower(30);
+        } else {
+            left.setPower(30);
+            right.setPower(-30);
+        }
 
     }
 
