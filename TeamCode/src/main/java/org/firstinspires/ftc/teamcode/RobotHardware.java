@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.os.MessageQueue;
+
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cCompassSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
+import com.qualcomm.hardware.motors.RevRoboticsHdHexMotor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.CompassSensor;
@@ -22,10 +26,39 @@ public class RobotHardware extends OpMode
 
     public static final String vulforiaKey = "ATYXw6b/////AAAAGbsBoJKrv00tn+OIBZOySi93f157TAsX4H3f444TrvUXKWFiNjsiBUjhwGrShLYay8wFSrlf+nRtoS+xnZJ3IApbJe2W0NSLKz21/B3/IpstUZGH29ZD/ogg3ZixfNyUGyb+F5gy5LzvGTdRhGLwy0d4z2i6QauSDPYHU4bBnhmehHBFMPkA6aP94fqOfa4qJGKBCCrn1EcH+c5TXD2EP21vciteCYktsfBedAnveiDGR7yLbTPr5kdfLvem0iyH8ESxhOsr90wGnIGWOQJa83eilaVbmLHtWkQx/hT/CnNTglJXb6TGRuDEwv/Zs+zdswp9dvCHZL5Qq1pT4y+LNUZZfhtmLlYXNifiEn7HnM5f";
 
+    // Hardware
+    public DcMotor frontLeft;
+    public DcMotor frontRight;
+    public DcMotor backLeft;
+    public DcMotor backRight;
+
+    public GyroSensor gyroSensor;
+
     @Override public void init ()
-
     {
+        try {
+            frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
 
+        try {
+            frontRight = hardwareMap.get(DcMotor.class, "frontRight");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
+
+        try {
+            backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
+
+        try {
+            backRight = hardwareMap.get(DcMotor.class, "backRight");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
     }
 
     @Override public void start () {}
@@ -34,106 +67,12 @@ public class RobotHardware extends OpMode
 
     private boolean v_warning_generated = false;
 
-    void beaconPosition (double p_position)
-    {
-        //
-        // Ensure the specific value is legal.
-        //
-        double l_position = Range.clip(p_position, 0.2, 0.96);
-
-        if (beaconServo != null)
-        {
-            beaconServo.setPosition(l_position);
-        }
-
+    public void stopDrive() {
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
-
-    double getBeaconPosition ()
-    {
-        double l_return = 0.0;
-
-        if (beaconServo != null)
-        {
-            l_return = beaconServo.getPosition();
-        }
-
-        return l_return;
-
-    }
-
-    //region Functions
-    VV_BEACON_COLOR getBeaconColor() {
-        int red = beaconColorSensor.red();
-        int blue = beaconColorSensor.blue();
-        int threshold = 1;
-
-        if (red >= threshold && red > blue){
-            return VV_BEACON_COLOR.RED;
-        }else{
-            if (blue >= threshold && blue > red) {
-                return VV_BEACON_COLOR.BLUE;
-            }
-        }
-
-        return VV_BEACON_COLOR.NONE;
-    }
-
-    public ROBOT_LINE_FOLLOW_STATE getLineFollowState(VV_LINE_COLOR color, int threshold) {
-        switch (color) {
-            case RED:
-                if (leftColorSensor != null || rightColorSensor != null) {
-                    if (leftColorSensor.red() >= threshold && rightColorSensor.red() < threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.LEFT;
-                    }
-                    if (leftColorSensor.red() < threshold && rightColorSensor.red() >= threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.RIGHT;
-                    }
-                    if (leftColorSensor.red() >= threshold && rightColorSensor.red() >= threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.BOTH;
-                    }
-                    if (leftColorSensor.red() < threshold && rightColorSensor.red() < threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.NONE;
-                    }
-                }
-                break;
-
-            case BLUE:
-                if (leftColorSensor != null || rightColorSensor != null) {
-                    if (leftColorSensor.blue() >= threshold && rightColorSensor.blue() < threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.LEFT;
-                    }
-                    if (leftColorSensor.blue() < threshold && rightColorSensor.blue() >= threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.RIGHT;
-                    }
-                    if (leftColorSensor.blue() >= threshold && rightColorSensor.blue() >= threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.BOTH;
-                    }
-                    if (leftColorSensor.blue() < threshold && rightColorSensor.blue() < threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.NONE;
-                    }
-                }
-                break;
-
-            case WHITE:
-                if (leftColorSensor != null || rightColorSensor != null) {
-                    if (leftColorSensor.red() > threshold && leftColorSensor.blue() >= threshold && leftColorSensor.green() >= threshold && rightColorSensor.red() < threshold && rightColorSensor.blue() < threshold && rightColorSensor.green() < threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.LEFT;
-                    }
-                    if (leftColorSensor.red() < threshold && leftColorSensor.blue() < threshold && leftColorSensor.green() < threshold && rightColorSensor.red() >= threshold && rightColorSensor.blue() >= threshold && rightColorSensor.green() >= threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.RIGHT;
-                    }
-                    if (leftColorSensor.red() >= threshold && leftColorSensor.blue() >= threshold && leftColorSensor.green() >= threshold && rightColorSensor.red() >= threshold && rightColorSensor.blue() >= threshold && rightColorSensor.green() >= threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.BOTH;
-                    }
-                    if (leftColorSensor.red() < threshold && leftColorSensor.blue() < threshold && leftColorSensor.green() < threshold && rightColorSensor.red() < threshold && rightColorSensor.blue() < threshold && rightColorSensor.green() < threshold) {
-                        return ROBOT_LINE_FOLLOW_STATE.NONE;
-                    }
-                }
-                break;
-        }
-        return ROBOT_LINE_FOLLOW_STATE.NONE;
-    }
-    //endregion
 
     public void moveForward(float power) {
 

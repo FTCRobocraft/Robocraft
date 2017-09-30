@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -7,12 +8,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Created by djfigs1 on 9/23/17.
  */
 
+@TeleOp(name="RevMotorTest")
 public class OmniDrive extends RobotTelemetry {
-
-    DcMotor frontLeft;
-    DcMotor frontRight;
-    DcMotor backLeft;
-    DcMotor backRight;
 
     float xDeadband = 0.1f;
     float yDeadband = 0.1f;
@@ -33,6 +30,8 @@ public class OmniDrive extends RobotTelemetry {
         float aY = gamepad1.left_stick_y;
         float bX = gamepad2.left_stick_x;
         float bY = gamepad2.left_stick_y;
+
+        stopDrive();
 
         if (aY > 0 && Math.abs(aX) < xDeadband) {
             frontLeft.setPower(aY);
