@@ -13,6 +13,10 @@ public class Gyro extends RobotHardware {
 
     final static int threshold = 1;
 
+    int gyroX;
+    int gyroY;
+    int gyroZ;
+
     @Override public void init() {
         try {
             gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
@@ -21,6 +25,7 @@ public class Gyro extends RobotHardware {
             telemetry.addData("error", "gyro sensor");
             gyroSensor = null;
         }
+
     }
 
     @Override public void loop() {
@@ -28,29 +33,30 @@ public class Gyro extends RobotHardware {
         telemetry.addData("01", "Gyro: " + gyroSensor.rawY());
         telemetry.addData("02", "Gyro: " + gyroSensor.rawZ());
 
-        int gyroX = gyroSensor.rawX();
-        int gyroY = gyroSensor.rawY();
+        gyroX = gyroSensor.rawX();
+        gyroY = gyroSensor.rawY();
+        gyroZ = gyroSensor.rawZ();
 
         if (Math.abs(gyroX) > threshold) {
-            left.setPower(30);
-            right.setPower(30);
+            moveLeft(30);
+
         } else {
-            left.setPower(-30);
-            right.setPower(-30);
+            //?
         }
 
         if (Math.abs(gyroY) > threshold) {
-            left.setPower(-30);
-            right.setPower(30);
+            moveRight(30);
         } else {
-            left.setPower(30);
-            right.setPower(-30);
+            //?
+        }
+
+        if (Math.abs(gyroZ) > threshold) {
+            moveForward(30);
+        } else {
+            //?
         }
 
     }
-
-    public DcMotor left;
-    public DcMotor right;
 
 
 }
