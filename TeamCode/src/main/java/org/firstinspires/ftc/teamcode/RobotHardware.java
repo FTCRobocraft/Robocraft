@@ -115,4 +115,32 @@ public class RobotHardware extends OpMode
         backLeft.setPower(-power);
         backRight.setPower(power);
     }
+
+    public void moveDiagonalForwardLeft(float power) {
+        frontLeft.setPower(0);
+        frontRight.setPower(power);
+        backLeft.setPower(power);
+        backRight.setPower(0);
+    }
+
+    public void moveDiagonalForwardRight(float power) {
+        frontLeft.setPower(power);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(power);
+    }
+
+    public void moveDiagonalBackwardLeft(float power) {
+        frontLeft.setPower(0);
+        frontRight.setPower(-power);
+        backLeft.setPower(-power);
+        backRight.setPower(0);
+    }
+
+    public void moveDiagonalBackwardRight(float power) {
+        frontLeft.setPower(-power);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(-power);
+    }
 }
