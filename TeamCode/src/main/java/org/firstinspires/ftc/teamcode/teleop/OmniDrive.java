@@ -1,17 +1,19 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.util.RobotHardware;
+
 /**
  * Created by djfigs1 on 9/23/17.
  */
 
 @TeleOp(name="RevMotorTest")
-public class OmniDrive extends RobotTelemetry {
-    
+public class OmniDrive extends RobotHardware {
+
     final float dpad_speed = 0.5f;
 
     @Override

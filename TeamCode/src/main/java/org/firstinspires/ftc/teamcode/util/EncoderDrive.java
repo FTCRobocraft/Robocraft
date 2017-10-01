@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.util;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.robot.Robot;
 
 /**
  * Created by djfigs1 on 9/30/17. not really
@@ -143,7 +142,4 @@ public class EncoderDrive {
 
         }
     }
-
-
-
 }

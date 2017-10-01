@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.util;
 
 import android.os.MessageQueue;
 
@@ -161,33 +161,5 @@ public class RobotHardware extends OpMode
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(-power);
-    }
-
-    public void encoderMoveForward(double distance, float power) {
-        DcMotor.RunMode previousRunMode = frontLeft.getMode();
-
-        ElapsedTime runTime = new ElapsedTime();
-
-        int newFrontLeftPosition = frontLeft.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
-        int newFrontRightPosition = frontRight.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
-        int newBackLeftPosition = backLeft.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
-        int newBackRightPosition = backRight.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
-
-        frontLeft.setTargetPosition(newFrontLeftPosition);
-        frontRight.setTargetPosition(newFrontRightPosition);
-        backLeft.setTargetPosition(newBackLeftPosition);
-        backRight.setTargetPosition(newBackRightPosition);
-
-        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        boolean driveBusy = frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy();
-
-        while (driveBusy) {
-
-        }
-
     }
 }

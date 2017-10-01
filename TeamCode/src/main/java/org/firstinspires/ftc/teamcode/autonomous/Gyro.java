@@ -1,13 +1,10 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 /**
  * Created by lvern on 9/17/2017.
  */
 
-import android.os.DropBoxManager;
-
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.GyroSensor;
+import org.firstinspires.ftc.teamcode.util.RobotHardware;
 
 public class Gyro extends RobotHardware {
 

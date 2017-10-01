@@ -1,21 +1,21 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.util;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.teamcode.action.Action;
 
 /**
  * Created by djfigs1 on 11/18/16.
  */
 
-@Autonomous(name = "Action Tester")
 public class ActionExecutor extends RobotHardware {
 
-    private ActionSequence actionSequence;
+    public ActionSequence actionSequence;
     private Action action = null;
 
     @Override
     public void init() {
         super.init();
-        actionSequence = new TestActionSequence();
     }
 
     @Override

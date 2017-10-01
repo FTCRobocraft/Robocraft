@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
@@ -7,13 +7,13 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
+import org.firstinspires.ftc.teamcode.util.RobotHardware;
 /**
  * Created by djfigs1 on 9/17/17.
  */
 
 @Autonomous(name = "IRT")
-public class ImageRecognitionTest extends RobotTelemetry {
+public class ImageRecognitionTest extends RobotHardware {
 
     VuforiaLocalizer vuforia;
     VuforiaTrackables relicTrackables;
