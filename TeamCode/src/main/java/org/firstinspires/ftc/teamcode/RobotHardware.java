@@ -18,19 +18,38 @@ import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cDeviceReader;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.configuration.MotorConfigurationType;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 public class RobotHardware extends OpMode
-
 {
 
     public static final String vulforiaKey = "ATYXw6b/////AAAAGbsBoJKrv00tn+OIBZOySi93f157TAsX4H3f444TrvUXKWFiNjsiBUjhwGrShLYay8wFSrlf+nRtoS+xnZJ3IApbJe2W0NSLKz21/B3/IpstUZGH29ZD/ogg3ZixfNyUGyb+F5gy5LzvGTdRhGLwy0d4z2i6QauSDPYHU4bBnhmehHBFMPkA6aP94fqOfa4qJGKBCCrn1EcH+c5TXD2EP21vciteCYktsfBedAnveiDGR7yLbTPr5kdfLvem0iyH8ESxhOsr90wGnIGWOQJa83eilaVbmLHtWkQx/hT/CnNTglJXb6TGRuDEwv/Zs+zdswp9dvCHZL5Qq1pT4y+LNUZZfhtmLlYXNifiEn7HnM5f";
+
+    // Encoder Setup
+    static final double     COUNTS_PER_MOTOR_REV    = 28 ;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 72.0 ;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
+            (WHEEL_DIAMETER_INCHES * 3.1415);
 
     // Hardware
     public DcMotor frontLeft;
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+
+    public enum RobotMoveDirection {
+        FORWARD,
+        LEFT,
+        RIGHT,
+        BACKWARD,
+        FORWARD_LEFT,
+        FORWARD_RIGHT,
+        BACKWARD_LEFT,
+        BACKWARD_RIGHT
+    }
 
     public GyroSensor gyroSensor;
 
@@ -116,31 +135,59 @@ public class RobotHardware extends OpMode
         backRight.setPower(power);
     }
 
-    public void moveDiagonalForwardLeft(float power) {
+    public void moveForwardLeft(float power) {
         frontLeft.setPower(0);
         frontRight.setPower(power);
         backLeft.setPower(power);
         backRight.setPower(0);
     }
 
-    public void moveDiagonalForwardRight(float power) {
+    public void moveForwardRight(float power) {
         frontLeft.setPower(power);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(power);
     }
 
-    public void moveDiagonalBackwardLeft(float power) {
+    public void moveBackwardLeft(float power) {
         frontLeft.setPower(0);
         frontRight.setPower(-power);
         backLeft.setPower(-power);
         backRight.setPower(0);
     }
 
-    public void moveDiagonalBackwardRight(float power) {
+    public void moveBackwardRight(float power) {
         frontLeft.setPower(-power);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(-power);
+    }
+
+    public void encoderMoveForward(double distance, float power) {
+        DcMotor.RunMode previousRunMode = frontLeft.getMode();
+
+        ElapsedTime runTime = new ElapsedTime();
+
+        int newFrontLeftPosition = frontLeft.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        int newFrontRightPosition = frontRight.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        int newBackLeftPosition = backLeft.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+        int newBackRightPosition = backRight.getCurrentPosition() + (int)(distance * COUNTS_PER_INCH);
+
+        frontLeft.setTargetPosition(newFrontLeftPosition);
+        frontRight.setTargetPosition(newFrontRightPosition);
+        backLeft.setTargetPosition(newBackLeftPosition);
+        backRight.setTargetPosition(newBackRightPosition);
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        boolean driveBusy = frontLeft.isBusy() || frontRight.isBusy() || backLeft.isBusy() || backRight.isBusy();
+
+        while (driveBusy) {
+
+        }
+
     }
 }

@@ -8,6 +8,6 @@ public class TestActionSequence extends ActionSequence {
     private final double speed = 0.12;
 
     public TestActionSequence() {
-
+        addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.RIGHT, 60, 0.5f));
     }
 }
