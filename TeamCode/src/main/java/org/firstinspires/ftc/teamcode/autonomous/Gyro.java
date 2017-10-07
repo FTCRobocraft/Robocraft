@@ -34,6 +34,11 @@ public class Gyro extends RobotHardware {
         telemetry.addData("Y", "Gyro: " + gyroY);
         telemetry.addData("Z", "Gyro: " + gyroZ);
 
+        if (-gyroY > threshold) {moveForward(0.3f);}
+        if (gyroY > threshold) {moveBackward(0.3f);}
+        if (gyroZ > threshold) {moveLeft(0.3f);}
+        if (-gyroZ > threshold) {moveRight(0.3f);}
+
 
 
 
