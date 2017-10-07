@@ -14,26 +14,27 @@ public class Gyro extends RobotHardware {
 
     final static int threshold = 1;
 
-    int gyroX;
-    int gyroY;
-    int gyroZ;
+    double gyroX;
+    double gyroY;
+    double gyroZ;
 
     @Override public void init() {
-        gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
-        gyroSensor.calibrate();
-
+        super.init();
     }
 
 
     @Override public void loop() {
-        telemetry.addData("00", "Gyro: " + gyroSensor.rawX());
-        telemetry.addData("01", "Gyro: " + gyroSensor.rawY());
-        telemetry.addData("02", "Gyro: " + gyroSensor.rawZ());
-        telemetry.update();
 
-        gyroX = gyroSensor.rawX();
-        gyroY = gyroSensor.rawY();
-        gyroZ = gyroSensor.rawZ();
+
+        gyroX = (int) Math.floor(revIMU.getAngularOrientation().firstAngle);
+        gyroY = (int) Math.floor(revIMU.getAngularOrientation().secondAngle);
+        gyroZ = (int) Math.floor(revIMU.getAngularOrientation().thirdAngle);
+
+        telemetry.addData("X", "Gyro: " + gyroX);
+        telemetry.addData("Y", "Gyro: " + gyroY);
+        telemetry.addData("Z", "Gyro: " + gyroZ);
+
+
 
 
         /*
