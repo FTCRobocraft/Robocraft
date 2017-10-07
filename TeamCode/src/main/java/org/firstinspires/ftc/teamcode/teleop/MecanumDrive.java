@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
  */
 
 @TeleOp(name="RevMotorTest")
-public class OmniDrive extends RobotHardware {
+public class MecanumDrive extends RobotHardware {
 
     final float dpad_speed = 0.5f;
 
@@ -48,7 +48,7 @@ public class OmniDrive extends RobotHardware {
             moveRight(dpad_speed);
         }
 
-        if (gamepad1.right_stick_x > 0 || gamepad1.right_stick_x < 0) {
+        if (Math.abs(gamepad1.right_stick_x) > 0) {
             rotateRight(gamepad1.right_stick_x);
         }
 

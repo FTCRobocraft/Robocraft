@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.util;
 
 import android.os.MessageQueue;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cCompassSensor;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
@@ -39,6 +40,7 @@ public class RobotHardware extends OpMode
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    public BNO055IMU revIMU;
 
     public enum RobotMoveDirection {
         FORWARD,
@@ -75,6 +77,12 @@ public class RobotHardware extends OpMode
 
         try {
             backRight = hardwareMap.get(DcMotor.class, "backRight");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
+        
+        try {
+            revIMU = hardwareMap.get(BNO055IMU.class, "imu");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
