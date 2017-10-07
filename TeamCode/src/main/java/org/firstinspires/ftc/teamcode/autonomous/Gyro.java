@@ -35,22 +35,22 @@ public class Gyro extends RobotHardware {
         gyroZ = gyroSensor.rawZ();
 
         if (Math.abs(gyroX) > threshold) {
-            moveLeft(30);
+            moveLeft(0.3f);
 
         } else {
-            //?
+            moveRight(0.3f);
         }
 
         if (Math.abs(gyroY) > threshold) {
-            moveRight(30);
+            moveRight(0.3f);
         } else {
-            //?
+            moveLeft(0.3f);
         }
 
         if (Math.abs(gyroZ) > threshold) {
-            moveForward(30);
+            rotateRight(0.3f);
         } else {
-            //?
+            rotateLeft(0.3f);
         }
 
     }
