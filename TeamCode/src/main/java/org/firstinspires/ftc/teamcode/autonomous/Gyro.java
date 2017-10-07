@@ -4,8 +4,12 @@ package org.firstinspires.ftc.teamcode.autonomous;
  * Created by lvern on 9/17/2017.
  */
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import com.*;
+import org.*;
 
+@Autonomous(name = "Gyro")
 public class Gyro extends RobotHardware {
 
     final static int threshold = 1;
@@ -15,25 +19,24 @@ public class Gyro extends RobotHardware {
     int gyroZ;
 
     @Override public void init() {
-        try {
-            gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
-            gyroSensor.calibrate();
-        } catch (Exception e) {
-            telemetry.addData("error", "gyro sensor");
-            gyroSensor = null;
-        }
+        gyroSensor = hardwareMap.gyroSensor.get("gyroSensor");
+        gyroSensor.calibrate();
 
     }
+
 
     @Override public void loop() {
         telemetry.addData("00", "Gyro: " + gyroSensor.rawX());
         telemetry.addData("01", "Gyro: " + gyroSensor.rawY());
         telemetry.addData("02", "Gyro: " + gyroSensor.rawZ());
+        telemetry.update();
 
         gyroX = gyroSensor.rawX();
         gyroY = gyroSensor.rawY();
         gyroZ = gyroSensor.rawZ();
 
+
+        /*
         if (Math.abs(gyroX) > threshold) {
             moveLeft(0.3f);
 
@@ -52,6 +55,9 @@ public class Gyro extends RobotHardware {
         } else {
             rotateLeft(0.3f);
         }
+        */
+
+
 
     }
 
