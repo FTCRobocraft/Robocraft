@@ -18,6 +18,8 @@ public class ActionExecutor extends RobotHardware {
         super.init();
     }
 
+    int actionNumber = 1;
+
     @Override
     public void loop() {
         action = actionSequence.getCurrentAction();
@@ -25,11 +27,18 @@ public class ActionExecutor extends RobotHardware {
             if (action.doAction(this)) {
                 actionSequence.currentActionComplete();
                 action = actionSequence.getCurrentAction();
+                actionNumber++;
+            } else {
+                telemetry.addData("Progress", "%d/%d, %d%%", actionNumber, actionSequence.numberOfActions(),
+                        (int)((double) actionNumber / (double) actionSequence.numberOfActions() * 100.0));
+                telemetry.addData("Current Action", action.getClass().getSimpleName());
             }
         }
         else {
             requestOpModeStop();
         }
+
+
     }
 }
 

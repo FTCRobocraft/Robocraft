@@ -17,12 +17,16 @@ public class ActionSequence {
         actions.add(action);
     }
 
-    public Action getCurrentAction(){
+    public Action getCurrentAction() {
         Action action = null;
-        if (currentPosition < actions.size()){
+        if (currentPosition < actions.size()) {
             action = actions.get(currentPosition);
         }
         return action;
+    }
+
+    public int numberOfActions() {
+        return actions.size();
     }
 
     public void currentActionComplete() {

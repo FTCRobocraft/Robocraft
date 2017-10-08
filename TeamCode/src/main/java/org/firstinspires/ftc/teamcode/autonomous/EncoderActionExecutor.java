@@ -16,17 +16,18 @@ public class EncoderActionExecutor extends ActionExecutor {
     class EncoderMecanumTestActionSequence extends ActionSequence {
 
         private final float distance = 24;
-        private final float speed = 0.5f;
+        private final float speed = 0.25f;
+        private final double timeout = 5;
 
         public EncoderMecanumTestActionSequence() {
-            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.FORWARD, distance, speed));
-            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.LEFT, distance, speed));
-            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.BACKWARD_RIGHT, distance, speed));
-            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.RIGHT, distance, speed));
-            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.BACKWARD_LEFT, distance, speed));
-            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.FORWARD_LEFT, distance, speed));
-            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.FORWARD_RIGHT, distance, speed));
-            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.BACKWARD, distance, speed));
+            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.FORWARD, distance, speed, timeout));
+            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.LEFT, distance, speed, timeout));
+            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.BACKWARD_RIGHT, distance, speed, timeout));
+            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.RIGHT, distance, speed, timeout));
+            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.BACKWARD_LEFT, distance, speed, timeout));
+            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.FORWARD_LEFT, distance, speed, timeout));
+            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.FORWARD_RIGHT, distance, speed, timeout));
+            addAction(new MecanumMoveAction(RobotHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout));
         }
     }
 

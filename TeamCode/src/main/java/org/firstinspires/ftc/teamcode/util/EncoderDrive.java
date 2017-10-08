@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.util;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Created by djfigs1 on 9/30/17. not really
@@ -20,6 +21,8 @@ public class EncoderDrive {
     private double inchesToDrive;
     private RobotHardware.RobotMoveDirection direction;
     private DcMotor.RunMode previousRunMode;
+    private double timeoutS;
+    private ElapsedTime runTime;
 
     private int FL_targetPosition;
     private int FR_targetPosition;
@@ -35,9 +38,12 @@ public class EncoderDrive {
         this.hardware = hardware;
     }
 
-    public void setInchesToDrive(RobotHardware.RobotMoveDirection direction, double distance, float power) {
+    public void setInchesToDrive(RobotHardware.RobotMoveDirection direction, double distance, float power, double timeout) {
         this.inchesToDrive = distance;
         this.isBusy = true;
+        this.timeoutS = timeout;
+        this.runTime = new ElapsedTime();
+        this.runTime.reset();
 
         this.previousRunMode = hardware.frontLeft.getMode();
 
@@ -125,11 +131,16 @@ public class EncoderDrive {
             boolean busy = hardware.frontLeft.isBusy() || hardware.frontRight.isBusy()
                     || hardware.backLeft.isBusy() || hardware.backRight.isBusy();
 
-            if (busy) {
+            if (busy && this.runTime.seconds() < this.timeoutS) {
                 hardware.frontLeft.setPower(FL_speed);
                 hardware.frontRight.setPower(FR_speed);
                 hardware.backLeft.setPower(BL_speed);
                 hardware.backRight.setPower(BR_speed);
+
+                hardware.telemetry.addData("FL", String.format("%d -> %d", hardware.frontLeft.getCurrentPosition(), hardware.frontLeft.getTargetPosition()));
+                hardware.telemetry.addData("FR", String.format("%d -> %d", hardware.frontRight.getCurrentPosition(), hardware.frontRight.getTargetPosition()));
+                hardware.telemetry.addData("BL", String.format("%d -> %d", hardware.backLeft.getCurrentPosition(), hardware.backLeft.getTargetPosition()));
+                hardware.telemetry.addData("BR", String.format("%d -> %d", hardware.backRight.getCurrentPosition(), hardware.backRight.getTargetPosition()));
             } else {
                 isBusy = false;
                 hardware.stopDrive();
