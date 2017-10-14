@@ -7,6 +7,8 @@ import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class RobotHardware extends OpMode
 {
@@ -26,6 +28,8 @@ public class RobotHardware extends OpMode
     public DcMotor backLeft;
     public DcMotor backRight;
     public BNO055IMU revIMU;
+    public ColorSensor colorSensor;
+    public Servo armServo;
 
     public enum RobotMoveDirection {
         FORWARD,
@@ -77,6 +81,18 @@ public class RobotHardware extends OpMode
 
             revIMU = hardwareMap.get(BNO055IMU.class, "imu");
             revIMU.initialize(parameters);
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
+
+        try {
+            colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
+
+        try {
+            armServo = hardwareMap.get(Servo.class, "armServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }

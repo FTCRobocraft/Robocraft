@@ -6,8 +6,6 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.util.RobotHardware;
-import com.*;
-import org.*;
 
 @Autonomous(name = "Gyro")
 public class Gyro extends RobotHardware {
@@ -38,31 +36,6 @@ public class Gyro extends RobotHardware {
         if (gyroY > threshold) {moveBackward(0.3f);}
         if (gyroZ > threshold) {moveLeft(0.3f);}
         if (-gyroZ > threshold) {moveRight(0.3f);}
-
-
-
-
-        /*
-        if (Math.abs(gyroX) > threshold) {
-            moveLeft(0.3f);
-
-        } else {
-            moveRight(0.3f);
-        }
-
-        if (Math.abs(gyroY) > threshold) {
-            moveRight(0.3f);
-        } else {
-            moveLeft(0.3f);
-        }
-
-        if (Math.abs(gyroZ) > threshold) {
-            rotateRight(0.3f);
-        } else {
-            rotateLeft(0.3f);
-        }
-        */
-
 
 
     }
