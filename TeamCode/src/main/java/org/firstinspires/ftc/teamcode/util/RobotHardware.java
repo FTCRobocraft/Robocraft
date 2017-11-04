@@ -6,6 +6,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -48,6 +49,7 @@ public class RobotHardware extends OpMode
     {
         try {
             frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
+            frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
@@ -60,6 +62,7 @@ public class RobotHardware extends OpMode
 
         try {
             backLeft = hardwareMap.get(DcMotor.class, "backLeft");
+            backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }

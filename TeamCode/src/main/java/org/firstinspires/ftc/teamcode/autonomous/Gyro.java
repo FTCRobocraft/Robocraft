@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 @Autonomous(name = "Gyro")
 public class Gyro extends RobotHardware {
 
-    final static int threshold = 1;
+    final static int threshold = 2;
 
     double gyroX;
     double gyroY;
     double gyroZ;
+    float power = 0.2f;
 
     @Override public void init() {
         super.init();
@@ -22,20 +23,18 @@ public class Gyro extends RobotHardware {
 
 
     @Override public void loop() {
-
-
-        gyroX = (int) Math.floor(revIMU.getAngularOrientation().firstAngle);
         gyroY = (int) Math.floor(revIMU.getAngularOrientation().secondAngle);
         gyroZ = (int) Math.floor(revIMU.getAngularOrientation().thirdAngle);
 
-        telemetry.addData("X", "Gyro: " + gyroX);
         telemetry.addData("Y", "Gyro: " + gyroY);
         telemetry.addData("Z", "Gyro: " + gyroZ);
 
-        if (-gyroY > threshold) {moveForward(0.3f);}
-        if (gyroY > threshold) {moveBackward(0.3f);}
-        if (gyroZ > threshold) {moveLeft(0.3f);}
-        if (-gyroZ > threshold) {moveRight(0.3f);}
+        stopDrive();
+
+        if (gyroY < -threshold) {moveForward(power);}
+        if (gyroY > threshold) {moveBackward(power);}
+        if (gyroZ > threshold) {moveLeft(power);}
+        if (gyroZ < -threshold) {moveRight(power);}
 
 
     }
