@@ -40,10 +40,16 @@ public class RobotHardware extends OpMode
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+
     public BNO055IMU revIMU;
+
     public Servo lift_leftServo;
     public Servo lift_rightServo;
+
+    public Servo armServo;
+
     public CRServo lift_verticalServo;
+
     public ColorSensor jewelSensor;
 
     public enum RobotMoveDirection {
@@ -110,6 +116,12 @@ public class RobotHardware extends OpMode
 
         try {
             lift_rightServo = hardwareMap.get(Servo.class, "liftRightServo");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
+
+        try {
+            armServo = hardwareMap.get(Servo.class, "armServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
