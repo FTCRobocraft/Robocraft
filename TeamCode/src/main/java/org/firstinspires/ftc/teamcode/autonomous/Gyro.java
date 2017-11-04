@@ -6,16 +6,17 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import com.*;
+import org.*;
 
 @Autonomous(name = "Gyro")
 public class Gyro extends RobotHardware {
 
-    final static int threshold = 2;
+    final static int threshold = 1;
 
     double gyroX;
     double gyroY;
     double gyroZ;
-    float power = 0.2f;
 
     @Override public void init() {
         super.init();
@@ -23,18 +24,45 @@ public class Gyro extends RobotHardware {
 
 
     @Override public void loop() {
+
+
+        gyroX = (int) Math.floor(revIMU.getAngularOrientation().firstAngle);
         gyroY = (int) Math.floor(revIMU.getAngularOrientation().secondAngle);
         gyroZ = (int) Math.floor(revIMU.getAngularOrientation().thirdAngle);
 
+        telemetry.addData("X", "Gyro: " + gyroX);
         telemetry.addData("Y", "Gyro: " + gyroY);
         telemetry.addData("Z", "Gyro: " + gyroZ);
 
-        stopDrive();
+        if (-gyroY > threshold) {moveForward(0.3f);}
+        if (gyroY > threshold) {moveBackward(0.3f);}
+        if (gyroZ > threshold) {moveLeft(0.3f);}
+        if (-gyroZ > threshold) {moveRight(0.3f);}
 
-        if (gyroY < -threshold) {moveForward(power);}
-        if (gyroY > threshold) {moveBackward(power);}
-        if (gyroZ > threshold) {moveLeft(power);}
-        if (gyroZ < -threshold) {moveRight(power);}
+
+
+
+        /*
+        if (Math.abs(gyroX) > threshold) {
+            moveLeft(0.3f);
+
+        } else {
+            moveRight(0.3f);
+        }
+
+        if (Math.abs(gyroY) > threshold) {
+            moveRight(0.3f);
+        } else {
+            moveLeft(0.3f);
+        }
+
+        if (Math.abs(gyroZ) > threshold) {
+            rotateRight(0.3f);
+        } else {
+            rotateLeft(0.3f);
+        }
+        */
+
 
 
     }

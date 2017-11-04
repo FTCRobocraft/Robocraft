@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 public class EncoderActionExecutor extends ActionExecutor {
     class EncoderMecanumTestActionSequence extends ActionSequence {
 
-        private final float distance = 24;
+        private final float distance = 10;
         private final float speed = 0.25f;
         private final double timeout = 5;
 

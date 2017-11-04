@@ -8,13 +8,19 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.util.RobotHardware;
 
 /**
- * Created by djfigs1 on 9/23/17.
+ * Not really created by djfigs1 on 9/23/17. Created when Luke wanted his gyro code tested. lol XD
  */
 
 @TeleOp(name="RevMotorTest")
 public class MecanumDrive extends RobotHardware {
 
-    final float dpad_speed = 0.5f;
+    final float dpad_speed =  1f;
+
+    final double leftServoOpen = 0;
+    final double rightServoOpen = 0;
+    final double leftServoClosed = 0;
+    final double rightServoClosed = 0;
+
 
     @Override
     public void init() {
@@ -48,9 +54,33 @@ public class MecanumDrive extends RobotHardware {
             moveRight(dpad_speed);
         }
 
-        if (Math.abs(gamepad1.right_stick_x) > 0) {
-            rotateRight(gamepad1.right_stick_x);
+        if (gamepad2.a) {
+            lift_leftServo.setPosition(leftServoClosed);
+            lift_rightServo.setPosition(rightServoClosed);
+        } else if (gamepad2.b) {
+            lift_leftServo.setPosition(leftServoOpen);
+            lift_rightServo.setPosition(rightServoOpen);
         }
+
+        lift_verticalServo.setPower(gamepad2.left_stick_y);
+
+        if (Math.abs(gamepad1.right_stick_x) > 0) {
+            rotateRight(gamepad1.right_stick_x / 2);
+        }
+
+        /*fork_leftServo.setPower(0);
+        fork_rightServo.setPower(0);
+
+        if (gamepad2.a) {
+            fork_leftServo.setPower(1);
+            fork_rightServo.setPower(1);
+        }
+
+        if (gamepad2.x) {
+            fork_leftServo.setPower(-1);
+            fork_rightServo.setPower(-1);
+        }
+        */
 
     }
 }
