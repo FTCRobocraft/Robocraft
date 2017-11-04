@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 public class Servo extends RobotHardware {
 
     double pos1 = 0;
-    double pos2 = 0.75;
+    double pos2 = 90/190.5; //Degrees on the servo = degrees/190.5
 
     @Override
     public void init() {
