@@ -14,6 +14,14 @@ public class JewelActionSequence extends ActionSequence {
     public JewelActionSequence(RobotHardware.Team team) {
         switch (team) {
 
+            case Red:
+
+                break;
+
+            case Blue:
+
+                break;
+
         }
     }
 }
