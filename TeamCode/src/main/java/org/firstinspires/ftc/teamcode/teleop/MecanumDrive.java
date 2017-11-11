@@ -36,6 +36,13 @@ public class MecanumDrive extends RobotHardware {
     public void loop() {
         stopDrive();
 
+        //region Gamepad 1
+
+
+        /*
+        This code is responsible for D-Pad movements that move the robot in one of eight directions,
+         with the power declared by the dpad_speed variable.
+        */
         if (gamepad1.dpad_up && gamepad1.dpad_left) {
             moveForwardLeft(dpad_speed);
         } else if (gamepad1.dpad_up && gamepad1.dpad_right) {
@@ -54,6 +61,19 @@ public class MecanumDrive extends RobotHardware {
             moveRight(dpad_speed);
         }
 
+        /*
+        Rotate the robot if any input is being detected by Gamepad 1's right analog stick.
+         */
+        if (Math.abs(gamepad1.right_stick_x) > 0) {
+            rotateRight(gamepad1.right_stick_x / 2);
+        }
+        //endregion
+
+        //region Gamepad 2
+
+        /*
+        This code maps the Gamepad 2's buttons A and B to open and close the grabber.
+         */
         if (gamepad2.a) {
             lift_leftServo.setPosition(leftServoClosed);
             lift_rightServo.setPosition(rightServoClosed);
@@ -62,25 +82,12 @@ public class MecanumDrive extends RobotHardware {
             lift_rightServo.setPosition(rightServoOpen);
         }
 
-        lift_verticalServo.setPower(gamepad2.left_stick_y);
-
-        if (Math.abs(gamepad1.right_stick_x) > 0) {
-            rotateRight(gamepad1.right_stick_x / 2);
-        }
-
-        /*fork_leftServo.setPower(0);
-        fork_rightServo.setPower(0);
-
-        if (gamepad2.a) {
-            fork_leftServo.setPower(1);
-            fork_rightServo.setPower(1);
-        }
-
-        if (gamepad2.x) {
-            fork_leftServo.setPower(-1);
-            fork_rightServo.setPower(-1);
-        }
+        /*
+        Constantly set the power of the vertical continuous servo to whatever input is being detected
+        by the gamepad.
         */
 
+        lift_verticalServo.setPower(gamepad2.left_stick_y);
+        //endregion
     }
 }
