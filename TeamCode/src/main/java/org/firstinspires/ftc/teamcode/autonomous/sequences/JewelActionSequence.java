@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
 import com.qualcomm.robotcore.robot.Robot;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
 import org.firstinspires.ftc.teamcode.action.ServoAction;
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 /**
  * Created by djfigs1 on 10/21/17.
  */
-
+@Autonomous(name="JewelActionSequence")
 public class JewelActionSequence extends ActionSequence {
 
     double lowPos = 0;
