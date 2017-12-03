@@ -14,11 +14,13 @@ public class ServoTest extends RobotHardware {
     @Override
     public void loop() {
         if (gamepad1.a) {
-            lift_leftServo.setPosition(0);
+            armServo.setPosition(armServo.getPosition() + .0005);
         }
 
-        if (gamepad2.b) {
-            lift_leftServo.setPosition(100);
+        if (gamepad1.b) {
+            armServo.setPosition(armServo.getPosition() - .0005);
         }
+
+        telemetry.addData("arm", armServo.getPosition());
     }
 }
