@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by djfigs1 on 11/18/16.
  */
-public class ActionSequence {
+public class ActionSequence extends RobotHardware {
 
     private List<Action> actions = new ArrayList<Action>();
     private int currentPosition = 0;

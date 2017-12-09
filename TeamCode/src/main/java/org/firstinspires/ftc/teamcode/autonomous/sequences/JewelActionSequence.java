@@ -1,19 +1,93 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
 import com.qualcomm.robotcore.robot.Robot;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.action.Action;
+import org.firstinspires.ftc.teamcode.action.ColorDetectionAction;
+import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
+import org.firstinspires.ftc.teamcode.action.MecanumRotationAction;
+import org.firstinspires.ftc.teamcode.action.ServoAction;
+import org.firstinspires.ftc.teamcode.action.WaitAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
+import org.firstinspires.ftc.teamcode.util.EncoderDrive;
 import org.firstinspires.ftc.teamcode.util.RobotHardware;
 
 /**
  * Created by djfigs1 on 10/21/17.
  */
-
 public class JewelActionSequence extends ActionSequence {
 
-    public JewelActionSequence(RobotHardware.Team team) {
-        switch (team) {
+    double lowPos = 0;
+    double hiPos = 0.7; //0.??
+    int colorSensitivity = 3;
 
+    double downPosition = 0.347;
+    double upPosition = 0;
+    public JewelActionSequence(RobotHardware.Team team) {
+        ColorDetectionAction color;
+
+        switch (team) {
+            case Red:
+                addAction(new ServoAction(ServoAction.Servos.ARM, downPosition));
+                addAction(new WaitAction(1000));
+                color = new ColorDetectionAction();
+                addAction(new WaitAction(250));
+                addAction(color);
+                addAction(new JewelAction(color, Team.Red));
+                break;
+
+            case Blue:
+                addAction(new ServoAction(ServoAction.Servos.ARM, downPosition));
+                addAction(new WaitAction(1000));
+                color = new ColorDetectionAction();
+                addAction(new WaitAction(250));
+                addAction(color);
+                addAction(new JewelAction(color, Team.Blue));
+                break;
+
+        }
+    }
+
+    public class JewelAction implements Action {
+
+        ColorDetectionAction color;
+        Team team;
+        boolean init = true;
+
+        final double distance = 3;
+        final float speed = 0.45f;
+        final double timeout = 2;
+
+
+        public JewelAction(ColorDetectionAction colorAction, Team team) {
+            this.color = colorAction;
+            this.team = team;
+        }
+
+        public boolean doAction(RobotHardware hardware) {
+            EncoderDrive drive = new EncoderDrive(hardware);
+            if (init) {
+                init = false;
+                switch (team) {
+                    case Red:
+                        if (this.color.r > this.color.b) {
+                            drive.setInchesToDrive(RobotMoveDirection.BACKWARD, distance, speed, timeout);
+                        } else {
+                            drive.setInchesToDrive(RobotMoveDirection.FORWARD, distance, speed, timeout);
+                        }
+                        break;
+                    case Blue:
+                        if (this.color.b > this.color.r) {
+                            drive.setInchesToDrive(RobotMoveDirection.BACKWARD, distance, speed, timeout);
+                        } else {
+                            drive.setInchesToDrive(RobotMoveDirection.FORWARD, distance, speed, timeout);
+                        }
+                        break;
+                }
+            }
+            drive.run();
+            return drive.isBusy;
         }
     }
 }

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 public class WaitAction implements Action {
     double time;
     double endTime;
-    boolean init;
+    boolean init = true;
 
     public WaitAction(double time){
         this.time = time;

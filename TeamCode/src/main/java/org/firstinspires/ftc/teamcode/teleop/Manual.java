@@ -86,4 +86,5 @@ public class Manual extends RobotHardware {
         telemetry.addData("VS", lift_verticalServo.getPower());
         //endregion
     }
+
 }
