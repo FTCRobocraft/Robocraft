@@ -16,7 +16,9 @@ public class ServoAction implements Action {
     public enum Servos {
         ARM,
         GRIP_LEFT,
-        GRIP_RIGHT
+        GRIP_RIGHT,
+        CLAW_ELBOW,
+        CLAW
     }
 
     public ServoAction(Servos servo, double servoPosition) {
@@ -35,6 +37,12 @@ public class ServoAction implements Action {
                 break;
             case GRIP_RIGHT:
                 hardware.lift_rightServo.setPosition(servoPosition);
+                break;
+            case CLAW_ELBOW:
+                hardware.clawElbowServo.setPosition(servoPosition);
+                break;
+            case CLAW:
+                hardware.clawServo.setPosition(servoPosition);
                 break;
         }
         return true;

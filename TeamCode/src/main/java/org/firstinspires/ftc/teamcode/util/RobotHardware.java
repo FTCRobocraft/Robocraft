@@ -48,6 +48,9 @@ public class RobotHardware extends OpMode
 
     public Servo armServo;
 
+    public Servo clawElbowServo;
+    public Servo clawServo;
+
     public CRServo lift_verticalServo;
 
     public ColorSensor jewelSensor;
@@ -134,6 +137,18 @@ public class RobotHardware extends OpMode
 
         try {
             jewelSensor = hardwareMap.get(ColorSensor.class, "jewelSensor");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
+
+        try {
+            clawElbowServo = hardwareMap.get(Servo.class, "clawElbow");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
+
+        try {
+            clawServo = hardwareMap.get(Servo.class, "clawServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
