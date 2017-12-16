@@ -82,8 +82,9 @@ public class Manual extends RobotHardware {
         Constantly set the power of the vertical continuous servo to whatever input is being detected
         by the gamepad.
         */
-        lift_verticalServo.setPower(gamepad2.left_stick_y);
-        telemetry.addData("VS", lift_verticalServo.getPower());
+        //lift_verticalServo.setPower(gamepad2.left_stick_y);
+
+        clawServo.setPosition(clawServo.getPosition() + gamepad2.left_stick_y / 10);
         //endregion
     }
 
