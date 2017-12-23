@@ -19,9 +19,9 @@ public class WaitAction implements Action {
         boolean finished = false;
         if (init){
             endTime = System.currentTimeMillis() + time;
-            init = false;
-        }
-        if (System.currentTimeMillis() >= endTime){
+                init = false;
+            }
+            if (System.currentTimeMillis() >= endTime){
             finished = true;
         }
         return finished;
