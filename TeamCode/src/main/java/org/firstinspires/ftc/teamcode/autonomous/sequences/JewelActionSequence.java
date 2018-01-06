@@ -19,7 +19,7 @@ public class JewelActionSequence extends ActionSequence {
     double downPosition = 0.347;
     double upPosition = 0;
     public JewelActionSequence(RobotHardware.Team team) {
-        ColorDetectionAction color;
+       a ColorDetectionAction color;
 
         switch (team) {
             case Red:
