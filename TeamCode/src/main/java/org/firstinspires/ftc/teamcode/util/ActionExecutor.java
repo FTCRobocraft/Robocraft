@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.action.Action;
 public class ActionExecutor extends RobotHardware {
 
     public ActionSequence actionSequence;
-    public boolean initVulforia = true;
+    public boolean initVulforia = false;
     private Action action = null;
 
     @Override

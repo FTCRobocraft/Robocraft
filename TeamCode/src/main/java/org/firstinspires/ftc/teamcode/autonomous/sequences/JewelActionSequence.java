@@ -22,10 +22,11 @@ public class JewelActionSequence extends ActionSequence {
     double hiPos = 0.7; //0.??
     int colorSensitivity = 3;
 
-    double downPosition = 0.347;
-    double upPosition = 0;
+    double downPosition = 0.15;
+    double upPosition = 1;
     public JewelActionSequence(RobotHardware.Team team) {
         ColorDetectionAction color;
+
 
         switch (team) {
             case Red:
@@ -55,8 +56,8 @@ public class JewelActionSequence extends ActionSequence {
         Team team;
         boolean init = true;
 
-        final double distance = 3;
-        final float speed = 0.45f;
+        final double distance = 2;
+        final float speed = 0.3f;
         final double timeout = 2;
 
 
@@ -72,16 +73,16 @@ public class JewelActionSequence extends ActionSequence {
                 switch (team) {
                     case Red:
                         if (this.color.r > this.color.b) {
-                            drive.setInchesToDrive(RobotMoveDirection.BACKWARD, distance, speed, timeout);
-                        } else {
                             drive.setInchesToDrive(RobotMoveDirection.FORWARD, distance, speed, timeout);
+                        } else {
+                            drive.setInchesToDrive(RobotMoveDirection.BACKWARD, distance, speed, timeout);
                         }
                         break;
                     case Blue:
                         if (this.color.b > this.color.r) {
-                            drive.setInchesToDrive(RobotMoveDirection.BACKWARD, distance, speed, timeout);
-                        } else {
                             drive.setInchesToDrive(RobotMoveDirection.FORWARD, distance, speed, timeout);
+                        } else {
+                            drive.setInchesToDrive(RobotMoveDirection.BACKWARD, distance, speed, timeout);
                         }
                         break;
                 }

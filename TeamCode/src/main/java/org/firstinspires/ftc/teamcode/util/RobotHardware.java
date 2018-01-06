@@ -43,15 +43,12 @@ public class RobotHardware extends OpMode
 
     public BNO055IMU revIMU;
 
+    public CRServo lift_verticalServo;
     public Servo lift_leftServo;
     public Servo lift_rightServo;
-
     public Servo armServo;
-
     public Servo clawElbowServo;
     public Servo clawServo;
-
-    public CRServo lift_verticalServo;
 
     public ColorSensor jewelSensor;
 
