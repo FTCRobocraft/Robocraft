@@ -10,10 +10,67 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 @TeleOp(name="TeleOp")
 public class Teleop extends RobotHardware {
 
+    float dpadPower = 1f;
+    float bumperPower = 1f;
+
+    float dpadGripperPower = 1f;
+
+    double clawOpen = 0;
+    double clawClosed = 1;
+
     @Override
     public void loop() {
+        //region gamepad1
 
-        if (gamepad1.)
+        if (gamepad1.dpad_up) {
+            moveForward(dpadPower);
+        }
+        else if (gamepad1.dpad_down) {
+            moveBackward(dpadPower);
+        }
+        else if (gamepad1.dpad_left) {
+            moveLeft(dpadPower);
+        }
+        else if (gamepad1.dpad_right) {
+            moveRight(dpadPower);
+        }
+
+        if (gamepad1.right_trigger > 0) {
+            rotateRight(gamepad1.right_trigger);
+        }
+        else if (gamepad1.left_trigger > 0) {
+            rotateLeft(gamepad1.left_trigger);
+        }
+
+        if (gamepad1.right_bumper) {
+            rotateRight(bumperPower);
+        }
+        else if (gamepad1.left_bumper) {
+            rotateLeft(bumperPower);
+        }
+        //endregion
+
+        //region gamepad2
+        if (gamepad2.dpad_up) {
+            lift_verticalServo.setPower(dpadGripperPower);
+        } else if (gamepad2.dpad_down) {
+            lift_verticalServo.setPower(-dpadGripperPower);
+        } else {
+            lift_verticalServo.setPower(0);
+
+        }
+
+        if (gamepad2.left_trigger > 0) {
+
+        }
+
+        if (gamepad2.right_trigger > 0) {
+            clawElbowServo.setPosition(clawClosed);
+        } else {
+            clawElbowServo.setPosition(clawOpen);
+        }
+
+        //endregion
 
     }
 
