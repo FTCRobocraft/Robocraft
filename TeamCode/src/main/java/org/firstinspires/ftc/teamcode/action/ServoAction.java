@@ -32,12 +32,6 @@ public class ServoAction implements Action {
             case ARM:
                 hardware.armServo.setPosition(servoPosition);
                 break;
-            case GRIP_LEFT:
-                hardware.lift_leftServo.setPosition(servoPosition);
-                break;
-            case GRIP_RIGHT:
-                hardware.lift_rightServo.setPosition(servoPosition);
-                break;
             case CLAW_ELBOW:
                 hardware.clawElbowServo.setPosition(servoPosition);
                 break;

@@ -13,6 +13,3 @@ apply from: '../build.common.gradle'
 android {
     buildToolsVersion '25.0.0'
 }
-dependencies {
-    compile files('/Users/djfigs1/Programs/Projects/FTC Robot/Robocraft/libs/craftar-on-device-image-recognition-sdk-android.jar')
-}

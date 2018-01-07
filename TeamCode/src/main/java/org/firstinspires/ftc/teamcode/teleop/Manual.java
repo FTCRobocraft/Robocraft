@@ -5,7 +5,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
  * Not really created by djfigs1 on 9/23/17. Created when Luke wanted his gyro code tested. lol XD
  */
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="RevMotorTest")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Manual")
 public class Manual extends RobotHardware {
 
     final float dpad_speed =  1f;
@@ -37,13 +37,6 @@ public class Manual extends RobotHardware {
         /*
         This code maps the Gamepad 2's buttons A and B to open and close the grabber.
          */
-        if (gamepad2.a) {
-            lift_leftServo.setPosition(leftServoClosed);
-            lift_rightServo.setPosition(rightServoClosed);
-        } else if (gamepad2.b) {
-            lift_leftServo.setPosition(leftServoOpen);
-            lift_rightServo.setPosition(rightServoOpen);
-        }
 
         /*
         Constantly set the power of the vertical continuous servo to whatever input is being detected

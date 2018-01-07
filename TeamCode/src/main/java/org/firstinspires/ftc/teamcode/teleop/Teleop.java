@@ -57,7 +57,6 @@ public class Teleop extends RobotHardware {
             lift_verticalServo.setPower(-dpadGripperPower);
         } else {
             lift_verticalServo.setPower(0);
-
         }
 
         if (gamepad2.left_trigger > 0) {
@@ -69,6 +68,8 @@ public class Teleop extends RobotHardware {
         } else {
             clawElbowServo.setPosition(clawOpen);
         }
+
+        clawArmServo.setPower(gamepad2.left_stick_y / 2.0);
 
         //endregion
 
