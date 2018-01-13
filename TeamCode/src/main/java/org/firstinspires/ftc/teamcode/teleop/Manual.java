@@ -1,51 +1,107 @@
 package org.firstinspires.ftc.teamcode.teleop;
+
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+
 import org.firstinspires.ftc.teamcode.util.RobotHardware;
 
 /**
- * Not really created by djfigs1 on 9/23/17. Created when Luke wanted his gyro code tested. lol XD
+ * Created by lvern on 1/6/2018.
  */
-
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="Manual")
+@TeleOp(name="Manual")
 public class Manual extends RobotHardware {
 
-    final float dpad_speed =  1f;
+    float dpadPower = 1f;
+    float bumperPower = 1f;
+    float dpadGripperPower = 1f;
+    double clawOpen = 0;
+    double clawClosed = 1;
 
-    final double leftServoOpen = 0;
-    final double rightServoOpen = 0;
-    final double leftServoClosed = 0;
-    final double rightServoClosed = 0;
-
-
-    @Override
-    public void init() {
-        super.init();
-    }
-
-    @Override
-    public void start() {
-        super.init();
-    }
+    double clawElbowUp = 0;
+    double clawElbowDown = 1;
+    boolean clawUp = false;
+    boolean leftStickPressed = false;
 
     @Override
     public void loop() {
-        stopDrive();
+        //region gamepad1
 
-        //region Gamepad 1
+        if (gamepad1.dpad_up) {
+            moveForward(dpadPower);
+        }
+        else if (gamepad1.dpad_down) {
+            moveBackward(dpadPower);
+        }
+        else if (gamepad1.dpad_left) {
+            moveLeft(dpadPower);
+        }
+        else if (gamepad1.dpad_right) {
+            moveRight(dpadPower);
+        }
+
+        if (gamepad1.right_stick_x > 0 && gamepad1.right_stick_y > 0) { // Forward Right
+            moveForwardRight((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / 2.0));
+        } else if (gamepad1.right_stick_x > 0 && gamepad1.right_stick_y < 0) { // Backward Right
+            moveBackwardRight((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / 2.0));
+        } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y > 0) { // Forward Left
+            moveForwardLeft((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / 2.0));
+        } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y < 0) { // Backward Left
+            moveBackwardLeft((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / 2.0));
+        }
 
 
-        //region Gamepad 2
-        /*
-        This code maps the Gamepad 2's buttons A and B to open and close the grabber.
-         */
+        if (gamepad1.right_trigger > 0) {
+            rotateRight(gamepad1.right_trigger);
+        }
+        else if (gamepad1.left_trigger > 0) {
+            rotateLeft(gamepad1.left_trigger);
+        }
 
-        /*
-        Constantly set the power of the vertical continuous servo to whatever input is being detected
-        by the gamepad.
-        */
-        //lift_verticalServo.setPower(gamepad2.left_stick_y);
-
-        clawServo.setPosition(clawServo.getPosition() + gamepad2.left_stick_y / 10);
+        if (gamepad1.right_bumper) {
+            rotateRight(bumperPower);
+        }
+        else if (gamepad1.left_bumper) {
+            rotateLeft(bumperPower);
+        }
         //endregion
+
+        //region gamepad2
+        if (gamepad2.dpad_up) {
+            lift_verticalServo.setPower(dpadGripperPower);
+        } else if (gamepad2.dpad_down) {
+            lift_verticalServo.setPower(-dpadGripperPower);
+        } else {
+            lift_verticalServo.setPower(0);
+        }
+
+        if (gamepad2.left_stick_button) {
+            if (!leftStickPressed) {
+                if (clawUp) {
+                    clawUp = false;
+                    clawElbowServo.setPosition(clawElbowDown);
+                } else {
+                    clawUp = true;
+                    clawElbowServo.setPosition(clawElbowUp);
+                }
+                leftStickPressed = true;
+            }
+        } else {
+            leftStickPressed = false;
+        }
+
+        if (gamepad2.left_trigger > 0) {
+
+        }
+
+        if (gamepad2.right_trigger > 0) {
+            clawElbowServo.setPosition(clawClosed);
+        } else {
+            clawElbowServo.setPosition(clawOpen);
+        }
+
+        clawArmServo.setPower(gamepad2.left_stick_y / 2.0);
+
+        //endregion
+
     }
 
 }
