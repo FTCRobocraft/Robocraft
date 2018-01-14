@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -14,21 +15,21 @@ import java.util.List;
  */
 
 
-@TeleOp(name = "Servo Tuner")
-public class ServoTuner extends RobotHardware {
+@TeleOp(name = "CR Servo Tuner")
+public class CRServoTuner extends RobotHardware {
 
-    List<Servo> servos;
+    List<CRServo> servos;
     int currentIndex = 0;
 
-    Servo activeServo;
+    CRServo activeServo;
     boolean dpadLeftPressed = false;
     boolean dpadRightPressed = false;
 
     @Override
     public void init() {
-        servos = new ArrayList<Servo>();
-        for (HardwareDevice device : hardwareMap.getAll(Servo.class)) {
-            Servo servo = (Servo) device;
+        servos = new ArrayList<CRServo>();
+        for (HardwareDevice device : hardwareMap.getAll(CRServo.class)) {
+            CRServo servo = (CRServo) device;
             servos.add(servo);
         }
 
@@ -67,13 +68,10 @@ public class ServoTuner extends RobotHardware {
         }
 
         if (activeServo != null) {
-            activeServo.setPosition(activeServo.getPosition() + gamepad1.right_stick_y / 100);
-        }
-
-        if (activeServo != null) {
+            activeServo.setPower(gamepad1.right_stick_y);
             telemetry.addData("Servo", activeServo.getDeviceName());
             telemetry.addData("Port", activeServo.getPortNumber());
-            telemetry.addData("Position", activeServo.getPosition());
+            telemetry.addData("Power", activeServo.getPower());
         }
     }
 }

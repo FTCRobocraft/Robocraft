@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.teamcode.autonomous.sequences.CryptoboxSequence;
 import org.firstinspires.ftc.teamcode.util.ActionExecutor;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
 
@@ -12,15 +13,10 @@ import org.firstinspires.ftc.teamcode.util.ActionSequence;
 @Autonomous(name="Cryptobox")
 public class Cryptobox extends ActionExecutor {
 
-    class CryptoboxSequence extends ActionSequence {
-        public CryptoboxSequence() {
-
-        }
-    }
-
     @Override
     public void init() {
         super.init();
+        this.actionSequence = new CryptoboxSequence(Team.Red, CryptoboxSequence.StartingPosition.TOP);
         this.initVulforia = true;
     }
 

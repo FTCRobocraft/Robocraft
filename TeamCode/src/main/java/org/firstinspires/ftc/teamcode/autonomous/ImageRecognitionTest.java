@@ -19,13 +19,8 @@ public class ImageRecognitionTest extends RobotHardware {
     VuforiaTrackables relicTrackables;
     VuforiaTrackable relicTemplate;
 
-
     @Override
     public void init() {
-        super.init();
-
-        // Lol I don't have to work it's already provided for us.
-        // Initialize Vulforia
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
         parameters.vuforiaLicenseKey = RobotHardware.vulforiaKey;

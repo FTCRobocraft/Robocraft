@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
+import org.firstinspires.ftc.teamcode.action.Action;
+import org.firstinspires.ftc.teamcode.action.CustomCodeExecution;
 import org.firstinspires.ftc.teamcode.action.ImageDetectionAction;
 import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
+import org.firstinspires.ftc.teamcode.util.RobotHardware;
 
 /**
  * Created by djfigs1 on 12/23/17.
@@ -10,7 +13,7 @@ import org.firstinspires.ftc.teamcode.util.ActionSequence;
 
 public class CryptoboxSequence extends ActionSequence {
 
-    enum StartingPosition {
+    public enum StartingPosition {
         TOP,
         BOTTOM
     }
@@ -23,8 +26,12 @@ public class CryptoboxSequence extends ActionSequence {
         this.team = team;
         this.startingPosition = startingPosition;
 
+        imageAction = new ImageDetectionAction(2000);
+        addAction(imageAction);
+
+        addAction(new ImageAction(imageAction));
         switch (team) {
-            case Red:
+            /*case Red:
                 switch (startingPosition) {
                     case TOP:
                         addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, 10, 0.75f, 36));
@@ -54,6 +61,33 @@ public class CryptoboxSequence extends ActionSequence {
                 }
 
                 break;
+
+              */
+        }
+    }
+
+    class ImageAction implements Action {
+
+        ImageDetectionAction detectionAction;
+
+        public ImageAction(ImageDetectionAction imageDetectionAction) {
+            detectionAction = imageDetectionAction;
+        }
+
+        @Override
+        public boolean doAction(RobotHardware hardware) {
+            switch (imageAction.vuMark) {
+                case LEFT:
+                    addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, 10, 10f,  5));
+                    break;
+                case CENTER:
+                    addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, 20, 10f,  5));
+                    break;
+                case RIGHT:
+                    addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, 30, 10f,  5));
+                    break;
+            }
+            return true;
         }
     }
 }
