@@ -31,7 +31,6 @@ public class ServoTuner extends RobotHardware {
             Servo servo = (Servo) device;
             servos.add(servo);
         }
-
         if (servos.size() > 0) {
             activeServo = servos.get(currentIndex);
         }
