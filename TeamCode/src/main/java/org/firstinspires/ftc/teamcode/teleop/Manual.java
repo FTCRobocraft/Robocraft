@@ -13,8 +13,12 @@ public class Manual extends RobotHardware {
     float dpadPower = 1f;
     float bumperPower = 1f;
     float dpadGripperPower = 1f;
-    double clawOpen = 0;
-    double clawClosed = 1;
+
+    double liftClawOpen = 0.55;
+    double liftClawClosed = 0.15;
+
+    double clawOpen = 0.55;
+    double clawClosed = 0.15;
 
     double clawElbowUp = 0;
     double clawElbowDown = 1;
@@ -66,9 +70,9 @@ public class Manual extends RobotHardware {
 
         //region gamepad2
         if (gamepad2.dpad_up) {
-            lift_verticalServo.setPower(dpadGripperPower);
-        } else if (gamepad2.dpad_down) {
             lift_verticalServo.setPower(-dpadGripperPower);
+        } else if (gamepad2.dpad_down) {
+            lift_verticalServo.setPower(dpadGripperPower);
         } else {
             lift_verticalServo.setPower(0);
         }
@@ -89,7 +93,9 @@ public class Manual extends RobotHardware {
         }
 
         if (gamepad2.left_trigger > 0) {
-
+            lift_gripServo.setPosition(liftClawOpen + (liftClawClosed - liftClawOpen) * gamepad2.left_trigger);
+        } else {
+            lift_gripServo.setPosition(liftClawOpen);
         }
 
         if (gamepad2.right_trigger > 0) {

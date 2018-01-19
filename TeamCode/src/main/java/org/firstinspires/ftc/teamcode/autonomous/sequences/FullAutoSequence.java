@@ -8,6 +8,18 @@ import org.firstinspires.ftc.teamcode.util.ActionSequence;
 
 public class FullAutoSequence extends ActionSequence {
 
-    public FullAutoSequence()
+    public enum Team {
+        Red,
+        Blue
+    }
+
+    public enum Position {
+        Top,
+        Bottom
+    }
+
+    public FullAutoSequence(Team team, Position position) {
+
+    }
 
 }
