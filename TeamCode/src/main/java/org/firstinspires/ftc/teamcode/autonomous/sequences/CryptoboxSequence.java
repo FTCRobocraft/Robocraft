@@ -30,6 +30,7 @@ public class CryptoboxSequence extends ActionSequence {
         addAction(imageAction);
 
         addAction(new ImageAction(imageAction));
+        //region stuff
         switch (team) {
             /*case Red:
                 switch (startingPosition) {
@@ -64,6 +65,7 @@ public class CryptoboxSequence extends ActionSequence {
 
               */
         }
+        //endregion
     }
 
     class ImageAction implements Action {
