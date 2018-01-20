@@ -16,7 +16,7 @@ public class JewelsBlue extends ActionExecutor {
     public void init() {
         super.init();
         this.actionSequence = new JewelActionSequence(Team.Blue);
-        this.initVulforia = false;
+        this.initVuforia = false;
         armServo.setPosition(1);
     }
 }

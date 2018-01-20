@@ -48,6 +48,9 @@ public class RobotHardware extends OpMode
 
     public ColorSensor jewelSensor;
 
+    public final double m_liftGripOpen = 0.35;
+    public final double m_liftGripClosed = 1;
+
     public enum RobotMoveDirection {
         FORWARD,
         LEFT,
@@ -69,7 +72,6 @@ public class RobotHardware extends OpMode
         Bottom
     }
 
-    public GyroSensor gyroSensor;
 
     @Override public void init ()
     {

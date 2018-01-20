@@ -14,16 +14,12 @@ public class Manual extends RobotHardware {
     float bumperPower = 1f;
     float dpadGripperPower = 1f;
 
-    double liftClawOpen = 0.15;
-    double liftClawClosed = 0.55;
-
-    double clawOpen = 0.15;
-    double clawClosed = 0.55;
-
     double clawElbowUp = 0;
     double clawElbowDown = 1;
     boolean clawUp = false;
     boolean leftStickPressed = false;
+    boolean leftTriggerPressed = false;
+    boolean liftClawState = false;
 
     @Override
     public void loop() {
@@ -87,7 +83,7 @@ public class Manual extends RobotHardware {
                 } else {
                     clawUp = true;
                     clawElbowServo.setPosition(clawElbowUp);
-                }
+            }
                 leftStickPressed = true;
             }
         } else {
@@ -95,15 +91,25 @@ public class Manual extends RobotHardware {
         }
 
         if (gamepad2.left_trigger > 0) {
-            lift_gripServo.setPosition(liftClawOpen + (Math.abs(liftClawOpen - liftClawClosed) * gamepad2.left_trigger));
+            if (!leftTriggerPressed) {
+                if (liftClawState) {
+                    liftClawState = false;
+                    lift_gripServo.setPosition(m_liftGripClosed);
+                } else {
+                    liftClawState = true;
+                    clawElbowServo.setPosition(m_liftGripOpen);
+                }
+                leftTriggerPressed = true;
+            }
         } else {
-            lift_gripServo.setPosition(liftClawOpen);
+            leftTriggerPressed = false;
         }
 
+
         if (gamepad2.right_trigger > 0) {
-            clawElbowServo.setPosition(clawClosed);
+            //clawElbowServo.setPosition(clawClosed);
         } else {
-            clawElbowServo.setPosition(clawOpen);
+            //clawElbowServo.setPosition(clawOpen);
         }
 
         clawArmServo.setPower(gamepad2.left_stick_y / 2.0);

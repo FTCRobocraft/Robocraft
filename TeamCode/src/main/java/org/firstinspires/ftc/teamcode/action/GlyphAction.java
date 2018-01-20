@@ -15,7 +15,9 @@ public class GlyphAction implements Action {
     float s_forward = 0.25f;
     double t_align = 1000;
     double t_forward = 1500;
-    double t_open = 
+    double t_open = 2000;
+
+    double endTime;
 
     public enum GlyphPosition {
         LEFT,
@@ -27,16 +29,18 @@ public class GlyphAction implements Action {
         ALIGN,
         FORWARD,
         PLACE,
-        BACKWARD
+        BACKWARD,
+        END
     }
 
     GlyphPosition position;
     GlyphPlaceStages currentStage = GlyphPlaceStages.ALIGN;
     EncoderDrive encoderDrive;
+    ImageDetectionAction imageDetectionAction;
     boolean init = true;
 
-    public GlyphAction(GlyphPosition position) {
-        this.position = position;
+    public GlyphAction(ImageDetectionAction imageDetectionAction) {
+        this.imageDetectionAction = imageDetectionAction;
     }
 
     @Override
@@ -45,6 +49,18 @@ public class GlyphAction implements Action {
             case ALIGN:
                 //region Align Init
                 if (init) {
+                    switch (imageDetectionAction.vuMark) {
+                        case LEFT:
+                            this.position = GlyphPosition.LEFT;
+                            break;
+                        case CENTER:
+                            this.position = GlyphPosition.CENTER;
+                            break;
+                        case RIGHT:
+                            this.position = GlyphPosition.RIGHT;
+                            break;
+                    }
+
                     encoderDrive = new EncoderDrive(hardware);
                     switch (position) {
                         case LEFT:
@@ -86,8 +102,33 @@ public class GlyphAction implements Action {
                 break;
 
             case PLACE:
+                if (init) {
+                    endTime = System.currentTimeMillis() + t_open;
+                    init = false;
+                }
 
+                hardware.lift_gripServo.setPosition(hardware.m_liftGripClosed);
+                if (System.currentTimeMillis() >= endTime) {
+                    currentStage = GlyphPlaceStages.BACKWARD;
+                    init = true;
+                }
                 break;
+
+            case BACKWARD:
+                if (init) {
+                    encoderDrive = new EncoderDrive(hardware);
+                    encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, m_forward, s_forward, t_forward);
+                }
+
+                encoderDrive.run();
+                if (!encoderDrive.isBusy) {
+                    currentStage = GlyphPlaceStages.END;
+                    init = true;
+                }
+                break;
+
+            case END:
+                return true;
         }
 
 

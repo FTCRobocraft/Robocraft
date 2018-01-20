@@ -6,6 +6,10 @@ import org.firstinspires.ftc.teamcode.action.ImageDetectionAction;
 import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
 import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RobotHardware.RobotMoveDirection;
+import org.firstinspires.ftc.teamcode.util.RobotHardware.Team;
+import org.firstinspires.ftc.teamcode.util.RobotHardware.Position;
+
 
 /**
  * Created by djfigs1 on 12/23/17.
@@ -26,8 +30,8 @@ public class CryptoboxSequence extends ActionSequence {
         this.team = team;
         this.startingPosition = startingPosition;
 
-        imageAction = new ImageDetectionAction(2000);
-        addAction(imageAction);
+        //imageAction = new ImageDetectionAction(2000);
+        //addAction(imageAction);
 
         addAction(new ImageAction(imageAction));
         //region stuff

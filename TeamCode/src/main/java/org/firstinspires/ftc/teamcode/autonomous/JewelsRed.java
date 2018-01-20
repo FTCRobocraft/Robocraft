@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.autonomous.sequences.JewelActionSequence;
 import org.firstinspires.ftc.teamcode.util.ActionExecutor;
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
 
 /**
  * Created by lvern on 12/2/2017.
@@ -17,7 +16,7 @@ public class JewelsRed extends ActionExecutor {
     public void init() {
         super.init();
         this.actionSequence = new JewelActionSequence(Team.Red);
-        this.initVulforia = false;
+        this.initVuforia = false;
         armServo.setPosition(1);
     }
 }

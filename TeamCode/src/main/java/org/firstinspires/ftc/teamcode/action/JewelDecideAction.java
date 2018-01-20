@@ -14,11 +14,11 @@ public class JewelDecideAction implements Action {
     boolean init = true;
 
     final double distance = 2;
-    final float speed = 0.3f;
+    final float speed = 0.15f;
     final double timeout = 2;
 
 
-    public JewelDecideAction(ColorDetectionAction colorAction, RobotHardware.Team team) {
+    public  JewelDecideAction(ColorDetectionAction colorAction, RobotHardware.Team team) {
         this.color = colorAction;
         this.team = team;
     }
@@ -30,21 +30,22 @@ public class JewelDecideAction implements Action {
             switch (team) {
                 case Red:
                     if (this.color.r > this.color.b) {
-                        drive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
-                    } else {
                         drive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
+                    } else {
+                        drive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
                     }
                     break;
                 case Blue:
                     if (this.color.b > this.color.r) {
-                        drive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
-                    } else {
                         drive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
+                    } else {
+                        drive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
                     }
                     break;
             }
         }
+
         drive.run();
-        return drive.isBusy;
+        return !drive.isBusy;
     }
 }

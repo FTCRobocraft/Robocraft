@@ -7,6 +7,10 @@ import org.firstinspires.ftc.teamcode.action.WaitAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
 import org.firstinspires.ftc.teamcode.util.EncoderDrive;
 import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RobotHardware.RobotMoveDirection;
+import org.firstinspires.ftc.teamcode.util.RobotHardware.Team;
+import org.firstinspires.ftc.teamcode.util.RobotHardware.Position;
+
 
 /**
  * Created by djfigs1 on 10/21/17.
@@ -19,8 +23,8 @@ public class JewelActionSequence extends ActionSequence {
     double downPosition = 0.15;
     double upPosition = 1;
     public JewelActionSequence(RobotHardware.Team team) {
-       ColorDetectionAction color;
 
+       ColorDetectionAction color;
         switch (team) {
             case Red:
                 addAction(new ServoAction(ServoAction.Servos.ARM, downPosition));
@@ -66,9 +70,9 @@ public class JewelActionSequence extends ActionSequence {
                 switch (team) {
                     case Red:
                         if (this.color.r > this.color.b) {
-                            drive.setInchesToDrive(RobotMoveDirection.FORWARD, distance, speed, timeout);
-                        } else {
                             drive.setInchesToDrive(RobotMoveDirection.BACKWARD, distance, speed, timeout);
+                        } else {
+                            drive.setInchesToDrive(RobotMoveDirection.FORWARD, distance, speed, timeout);
                         }
                         break;
                     case Blue:
