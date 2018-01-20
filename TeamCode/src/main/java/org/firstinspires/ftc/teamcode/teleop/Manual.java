@@ -24,6 +24,10 @@ public class Manual extends RobotHardware {
     double clawElbowDown = 1;
     boolean clawUp = false;
     boolean leftStickPressed = false;
+    boolean leftTriggerPressed = false;
+    boolean liftClawState = false;
+
+    boolean toggleOn = false;
 
     @Override
     public void loop() {
@@ -87,18 +91,36 @@ public class Manual extends RobotHardware {
                 } else {
                     clawUp = true;
                     clawElbowServo.setPosition(clawElbowUp);
-                }
+            }
                 leftStickPressed = true;
             }
         } else {
             leftStickPressed = false;
         }
+        ///////////////////////////////////////
+        if (gamepad2.left_trigger > 0) {
+            if (!leftTriggerPressed) {
+                if (liftClawState) {
+                    liftClawState = false;
+                    lift_gripServo.setPosition(liftClawClosed);
+                } else {
+                    liftClawState = true;
+                    clawElbowServo.setPosition(liftClawOpen);
+                }
+                leftTriggerPressed = true;
+            }
+        } else {
+            leftTriggerPressed = false;
+        }
+        ///////////////////////////////////////
 
         if (gamepad2.left_trigger > 0) {
             lift_gripServo.setPosition(liftClawOpen + (Math.abs(liftClawOpen - liftClawClosed) * gamepad2.left_trigger));
         } else {
             lift_gripServo.setPosition(liftClawOpen);
         }
+
+
 
         if (gamepad2.right_trigger > 0) {
             clawElbowServo.setPosition(clawClosed);

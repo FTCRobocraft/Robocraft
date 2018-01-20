@@ -35,7 +35,7 @@ public class FullAutoSequence extends ActionSequence {
         addAction(new WaitAction(250));
         addAction(color);
         addAction(new JewelDecideAction(color, team));
-        addAction(new ServoAction(ServoAction.Servos.ARM, colorArmDownPosition));
+        addAction(new ServoAction(ServoAction.Servos.ARM, colorArmUpPosition)); //why not up position?
         //endregion
 
         ImageDetectionAction imageDetectionAction = new ImageDetectionAction(
