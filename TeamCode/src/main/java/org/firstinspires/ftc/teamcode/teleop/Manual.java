@@ -27,8 +27,6 @@ public class Manual extends RobotHardware {
     boolean leftTriggerPressed = false;
     boolean liftClawState = false;
 
-    boolean toggleOn = false;
-
     @Override
     public void loop() {
         //region gamepad1
