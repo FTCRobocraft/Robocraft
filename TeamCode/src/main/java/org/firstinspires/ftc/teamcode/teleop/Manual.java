@@ -97,7 +97,7 @@ public class Manual extends RobotHardware {
         } else {
             leftStickPressed = false;
         }
-        ///////////////////////////////////////
+
         if (gamepad2.left_trigger > 0) {
             if (!leftTriggerPressed) {
                 if (liftClawState) {
@@ -112,14 +112,6 @@ public class Manual extends RobotHardware {
         } else {
             leftTriggerPressed = false;
         }
-        ///////////////////////////////////////
-
-        if (gamepad2.left_trigger > 0) {
-            lift_gripServo.setPosition(liftClawOpen + (Math.abs(liftClawOpen - liftClawClosed) * gamepad2.left_trigger));
-        } else {
-            lift_gripServo.setPosition(liftClawOpen);
-        }
-
 
 
         if (gamepad2.right_trigger > 0) {
