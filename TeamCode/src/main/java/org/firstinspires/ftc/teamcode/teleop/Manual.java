@@ -14,11 +14,11 @@ public class Manual extends RobotHardware {
     float bumperPower = 1f;
     float dpadGripperPower = 1f;
 
-    double liftClawOpen = 0.55;
-    double liftClawClosed = 0.15;
+    double liftClawOpen = 0.15;
+    double liftClawClosed = 0.55;
 
-    double clawOpen = 0.55;
-    double clawClosed = 0.15;
+    double clawOpen = 0.15;
+    double clawClosed = 0.55;
 
     double clawElbowUp = 0;
     double clawElbowDown = 1;
@@ -28,6 +28,8 @@ public class Manual extends RobotHardware {
     @Override
     public void loop() {
         //region gamepad1
+
+        stopDrive();
 
         if (gamepad1.dpad_up) {
             moveForward(dpadPower);
@@ -93,7 +95,7 @@ public class Manual extends RobotHardware {
         }
 
         if (gamepad2.left_trigger > 0) {
-            lift_gripServo.setPosition(liftClawOpen + (liftClawClosed - liftClawOpen) * gamepad2.left_trigger);
+            lift_gripServo.setPosition(liftClawOpen + (Math.abs(liftClawOpen - liftClawClosed) * gamepad2.left_trigger));
         } else {
             lift_gripServo.setPosition(liftClawOpen);
         }

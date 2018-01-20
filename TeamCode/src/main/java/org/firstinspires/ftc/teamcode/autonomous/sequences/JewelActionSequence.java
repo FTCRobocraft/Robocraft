@@ -21,7 +21,6 @@ public class JewelActionSequence extends ActionSequence {
     public JewelActionSequence(RobotHardware.Team team) {
        ColorDetectionAction color;
 
-
         switch (team) {
             case Red:
                 addAction(new ServoAction(ServoAction.Servos.ARM, downPosition));

@@ -18,10 +18,6 @@ public class RobotHardware extends OpMode
 {
 
     public static final String vulforiaKey = "ATYXw6b/////AAAAGbsBoJKrv00tn+OIBZOySi93f157TAsX4H3f444TrvUXKWFiNjsiBUjhwGrShLYay8wFSrlf+nRtoS+xnZJ3IApbJe2W0NSLKz21/B3/IpstUZGH29ZD/ogg3ZixfNyUGyb+F5gy5LzvGTdRhGLwy0d4z2i6QauSDPYHU4bBnhmehHBFMPkA6aP94fqOfa4qJGKBCCrn1EcH+c5TXD2EP21vciteCYktsfBedAnveiDGR7yLbTPr5kdfLvem0iyH8ESxhOsr90wGnIGWOQJa83eilaVbmLHtWkQx/hT/CnNTglJXb6TGRuDEwv/Zs+zdswp9dvCHZL5Qq1pT4y+LNUZZfhtmLlYXNifiEn7HnM5f";
-    public enum Team {
-        Red,
-        Blue
-    }
 
     // Encoder Setup
     static final double     COUNTS_PER_MOTOR_REV    = 28 ;    // eg: TETRIX Motor Encoder
@@ -61,6 +57,16 @@ public class RobotHardware extends OpMode
         FORWARD_RIGHT,
         BACKWARD_LEFT,
         BACKWARD_RIGHT
+    }
+
+    public enum Team {
+        Red,
+        Blue
+    }
+
+    public enum Position {
+        Top,
+        Bottom
     }
 
     public GyroSensor gyroSensor;
@@ -165,6 +171,33 @@ public class RobotHardware extends OpMode
         backRight.setPower(0);
     }
 
+    public void moveInDirection(RobotMoveDirection direction, float power) {
+        switch (direction) {
+            case FORWARD:
+                moveForward(power);
+                break;
+            case FORWARD_LEFT:
+                moveForwardLeft(power);
+                break;
+            case FORWARD_RIGHT:
+                moveForwardRight(power);
+                break;
+            case LEFT:
+                moveLeft(power);
+                break;
+            case RIGHT:
+                moveRight(power);
+                break;
+            case BACKWARD_LEFT:
+                moveBackwardLeft(power);
+                break;
+            case BACKWARD_RIGHT:
+                break;
+            case BACKWARD:
+                break;
+        }
+    }
+
     public void moveForward(float power) {
         frontLeft.setPower(power);
         frontRight.setPower(power);
@@ -234,4 +267,12 @@ public class RobotHardware extends OpMode
         backLeft.setPower(-power);
         backRight.setPower(0);
     }
+
+    public void circleMove(float x, float y) {
+        frontLeft.setPower(x);
+        backRight.setPower(x);
+        backLeft.setPower(y);
+        frontRight.setPower(y);
+    }
+
 }

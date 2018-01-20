@@ -12,20 +12,17 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 public class ImageDetectionAction implements Action {
 
     public RelicRecoveryVuMark vuMark;
-    public double timeout;
-
-    public boolean init = true;
+    public RobotHardware.RobotMoveDirection direction;
     public double endTime;
+    public float power;
 
-    public ImageDetectionAction(double timeout) {
-        this.timeout = timeout;
+    public ImageDetectionAction(RobotHardware.RobotMoveDirection direction, float power) {
+        this.direction = direction;
+        this.power = power;
     }
 
     public boolean doAction(RobotHardware hardware) {
-        if (init) {
-            endTime = System.currentTimeMillis() + timeout;
-            init = false;
-        }
+        hardware.moveInDirection(this.direction, this.power);
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(hardware.relicTemplate);
         if (System.currentTimeMillis() > endTime) {

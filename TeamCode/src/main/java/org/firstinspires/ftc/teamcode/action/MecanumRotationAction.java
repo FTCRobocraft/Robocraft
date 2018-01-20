@@ -9,9 +9,11 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 public class MecanumRotationAction implements Action {
 
     private int degrees;
+    private float speed;
 
-    public MecanumRotationAction(int degrees) {
+    public MecanumRotationAction(int degrees, float speed) {
         this.degrees = degrees;
+        this.speed = speed;
     }
 
     public boolean doAction(RobotHardware hardware) {
