@@ -24,14 +24,14 @@ public class FullAutoSequence extends ActionSequence {
     double colorArmUpPosition = 1;
 
     float s_detectImage = 0.25f;
-    float s_rotation = 0.5f;
-    float s_imageDetect = 0.15f;
+    float s_rotation = 0.2f;
+    float s_imageDetect = 0.1f;
     float s_moveToCryptobox = 0.25f;
 
-    double m_topToCryptobox = 40;
-    double m_bottomToCryptobox_1 = 20;
-    double m_bottomToCryptobox_2 = 20;
-    double m_imageDetect = 5;
+    double m_topToCryptobox = 36;
+    double m_bottomToCryptobox_1 = 24;
+    double m_bottomToCryptobox_2 = 12;
+    double m_imageDetect = 10;
 
     double t_imageDetect = 2;
     double t_cryptobox = 5;
@@ -54,31 +54,31 @@ public class FullAutoSequence extends ActionSequence {
 
         if (team == Team.Red) {
             if (position == Position.Top) {
-                addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_moveToCryptobox, t_imageDetect));
+                addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_imageDetect, t_imageDetect));
                 addAction(imageDetectionAction);
                 addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_topToCryptobox - m_imageDetect, s_moveToCryptobox, t_cryptobox));
                 addAction(new MecanumRotationAction(90, s_rotation));
                 addAction(new GlyphAction(imageDetectionAction));
             } else {
-                addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_moveToCryptobox, t_imageDetect));
+                addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_imageDetect, t_imageDetect));
                 addAction(imageDetectionAction);
                 addAction(new MecanumMoveAction(RobotMoveDirection.BACKWARD, m_bottomToCryptobox_1 - m_imageDetect, s_moveToCryptobox, t_cryptobox));
-                addAction(new MecanumMoveAction(RobotMoveDirection.LEFT, m_bottomToCryptobox_2, s_moveToCryptobox, t_cryptobox));
+                addAction(new MecanumMoveAction(RobotMoveDirection.RIGHT, m_bottomToCryptobox_2, s_moveToCryptobox, t_cryptobox));
                 addAction(new GlyphAction(imageDetectionAction));
             }
         } else {
             if (position == Position.Top) {
-                addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_moveToCryptobox, t_imageDetect));
+                addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_imageDetect, t_imageDetect));
                 addAction(imageDetectionAction);
-                addAction(new MecanumMoveAction(RobotMoveDirection.BACKWARD, m_topToCryptobox, s_moveToCryptobox, t_cryptobox));
+                addAction(new MecanumMoveAction(RobotMoveDirection.BACKWARD, m_topToCryptobox + m_imageDetect, s_moveToCryptobox, t_cryptobox));
                 addAction(new MecanumRotationAction(90, s_rotation));
                 addAction(new GlyphAction(imageDetectionAction));
             } else {
-                addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_moveToCryptobox, t_imageDetect));
+                addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_imageDetect, t_imageDetect));
                 addAction(imageDetectionAction);
-                addAction(new MecanumMoveAction(RobotMoveDirection.BACKWARD, m_bottomToCryptobox_1, s_moveToCryptobox, t_cryptobox));
+                addAction(new MecanumMoveAction(RobotMoveDirection.BACKWARD, m_bottomToCryptobox_1 + m_imageDetect, s_moveToCryptobox, t_cryptobox));
                 addAction(new MecanumRotationAction(180, s_rotation));
-                addAction(new MecanumMoveAction(RobotMoveDirection.RIGHT, m_bottomToCryptobox_2, s_moveToCryptobox, t_cryptobox));
+                addAction(new MecanumMoveAction(RobotMoveDirection.LEFT, m_bottomToCryptobox_2, s_moveToCryptobox, t_cryptobox));
                 addAction(new GlyphAction(imageDetectionAction));
             }
         }
@@ -93,6 +93,8 @@ public class FullAutoSequence extends ActionSequence {
     public void initLoop(RobotHardware hardware) {
         if (System.currentTimeMillis() < endInitTime) {
             hardware.lift_verticalServo.setPower(-1);
+        } else {
+            hardware.lift_verticalServo.setPower(0);
         }
     }
 

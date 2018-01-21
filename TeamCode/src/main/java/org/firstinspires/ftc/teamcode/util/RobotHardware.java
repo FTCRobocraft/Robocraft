@@ -59,7 +59,9 @@ public class RobotHardware extends OpMode
         FORWARD_LEFT,
         FORWARD_RIGHT,
         BACKWARD_LEFT,
-        BACKWARD_RIGHT
+        BACKWARD_RIGHT,
+        ROTATE_LEFT,
+        ROTATE_RIGHT
     }
 
     public enum Team {

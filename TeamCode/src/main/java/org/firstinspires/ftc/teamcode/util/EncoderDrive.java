@@ -9,9 +9,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class EncoderDrive {
 
-    static final double     COUNTS_PER_MOTOR_REV    = 28 ;    // eg: TETRIX Motor Encoder
-    static final double     DRIVE_GEAR_REDUCTION    = 72.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     COUNTS_PER_MOTOR_REV    = 28;    // eg: TETRIX Motor Encoder
+    static final double     DRIVE_GEAR_REDUCTION    = 40;     // This is < 1.0 if geared UP
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
@@ -103,6 +103,21 @@ public class EncoderDrive {
                 BL_speed = 0;
                 BR_speed = -power;
                 break;
+
+            case ROTATE_LEFT:
+                FL_speed = -power;
+                FR_speed = power;
+                BL_speed = -power;
+                BR_speed = power;
+                break;
+
+            case ROTATE_RIGHT:
+                FL_speed = power;
+                FR_speed = -power;
+                BL_speed = power;
+                BR_speed = -power;
+                break;
+
         }
 
         int FL_direction = (FL_speed > 0) ? 1 : (FL_speed < 0) ? -1 : 0;

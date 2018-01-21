@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 
 public class GlyphAction implements Action {
 
-    double m_align = 19;
+    double m_align = 7.5;
     double m_forward = 50;
     float s_align = 0.25f;
     float s_forward = 0.25f;
@@ -107,7 +107,7 @@ public class GlyphAction implements Action {
                     init = false;
                 }
 
-                hardware.lift_gripServo.setPosition(hardware.m_liftGripClosed);
+                hardware.lift_gripServo.setPosition(hardware.m_liftGripOpen);
                 if (System.currentTimeMillis() >= endTime) {
                     currentStage = GlyphPlaceStages.BACKWARD;
                     init = true;
