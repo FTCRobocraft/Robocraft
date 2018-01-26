@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 public class GlyphAction implements Action {
 
     double m_align = 7.5;
-    double m_forward = 50;
+    double m_forward = 8;
     float s_align = 0.25f;
     float s_forward = 0.25f;
     double t_align = 1000;
@@ -91,6 +91,7 @@ public class GlyphAction implements Action {
                     encoderDrive = new EncoderDrive(hardware);
                     encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD,
                             m_forward, s_forward, t_forward);
+                    init = false;
                 }
                 //endregion
 
@@ -118,6 +119,7 @@ public class GlyphAction implements Action {
                 if (init) {
                     encoderDrive = new EncoderDrive(hardware);
                     encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, m_forward, s_forward, t_forward);
+                    init = false;
                 }
 
                 encoderDrive.run();

@@ -24,7 +24,7 @@ public class JewelDecideAction implements Action {
         END
     }
 
-    JewelStages currentStage;
+    JewelStages currentStage = JewelStages.PUSH;
 
 
     public  JewelDecideAction(ColorDetectionAction colorAction, RobotHardware.Team team) {

@@ -14,7 +14,7 @@ public class MecanumRotationAction implements Action {
     boolean init = true;
     EncoderDrive encoderDrive;
 
-    public final double INCHES_PER_DEGREE = 74.6128/360;
+    public final double INCHES_PER_DEGREE = 66.53495/360;
 
 
     public MecanumRotationAction(int degrees, float speed) {
@@ -25,6 +25,7 @@ public class MecanumRotationAction implements Action {
     public boolean doAction(RobotHardware hardware) {
         if (init) {
             double distance = INCHES_PER_DEGREE * degrees;
+            encoderDrive = new EncoderDrive(hardware);
             encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.ROTATE_RIGHT, distance, speed, 1000);
             init = false;
         }

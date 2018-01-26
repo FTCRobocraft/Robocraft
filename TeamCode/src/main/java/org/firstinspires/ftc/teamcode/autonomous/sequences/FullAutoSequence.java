@@ -31,7 +31,7 @@ public class FullAutoSequence extends ActionSequence {
     double m_topToCryptobox = 36;
     double m_bottomToCryptobox_1 = 24;
     double m_bottomToCryptobox_2 = 12;
-    double m_imageDetect = 10;
+    double m_imageDetect = 5;
 
     double t_imageDetect = 2;
     double t_cryptobox = 5;
