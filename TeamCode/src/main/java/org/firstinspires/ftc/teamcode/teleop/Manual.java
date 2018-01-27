@@ -14,18 +14,40 @@ public class Manual extends RobotHardware {
     float bumperPower = 1f;
     float dpadGripperPower = 1f;
 
+    float slowModeMove = 2f;
+    float slowModeRotate = 1f;
+
     double clawElbowUp = 0;
     double clawElbowDown = 1;
     boolean clawUp = false;
     boolean leftStickPressed = false;
     boolean leftTriggerPressed = false;
     boolean liftClawState = false;
+    boolean slowToggle = false;
+    boolean slowToggleState = false;
 
     @Override
     public void loop() {
         //region gamepad1
 
         stopDrive();
+
+        if (gamepad1.a) {
+            if (!slowToggle) {
+                if (slowToggleState) {
+                    slowToggleState = false;
+                    slowModeMove = 4f;
+                    slowModeRotate = 2f;
+                } else {
+                    slowToggleState = true;
+                    slowModeMove = 2f;
+                    slowModeRotate = 1f;
+                }
+                slowToggle = true;
+            }
+        } else {
+            slowToggle = false;
+        }
 
         if (gamepad1.dpad_up) {
             moveForward(dpadPower);
@@ -41,28 +63,28 @@ public class Manual extends RobotHardware {
         }
 
         if (gamepad1.right_stick_x > 0 && gamepad1.right_stick_y > 0) { // Forward Right
-            moveForwardRight((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / 2.0));
+            moveForwardRight((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / slowModeMove));
         } else if (gamepad1.right_stick_x > 0 && gamepad1.right_stick_y < 0) { // Backward Right
-            moveBackwardRight((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / 2.0));
+            moveBackwardRight((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / slowModeMove));
         } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y > 0) { // Forward Left
-            moveForwardLeft((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / 2.0));
+            moveForwardLeft((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / slowModeMove));
         } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y < 0) { // Backward Left
-            moveBackwardLeft((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / 2.0));
+            moveBackwardLeft((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / slowModeMove));
         }
 
 
         if (gamepad1.right_trigger > 0) {
-            rotateRight(gamepad1.right_trigger);
+            rotateRight(gamepad1.right_trigger / slowModeRotate);
         }
         else if (gamepad1.left_trigger > 0) {
-            rotateLeft(gamepad1.left_trigger);
+            rotateLeft(gamepad1.left_trigger / slowModeRotate);
         }
 
         if (gamepad1.right_bumper) {
-            rotateRight(bumperPower);
+            rotateRight(bumperPower / slowModeRotate);
         }
         else if (gamepad1.left_bumper) {
-            rotateLeft(bumperPower);
+            rotateLeft(bumperPower / slowModeRotate);
         }
         //endregion
 
