@@ -14,7 +14,7 @@ public class MecanumRotationAction implements Action {
     boolean init = true;
     EncoderDrive encoderDrive;
 
-    public final double INCHES_PER_DEGREE = 66.53495/360;
+    public final double INCHES_PER_DEGREE = 66.1/360;
 
 
     public MecanumRotationAction(int degrees, float speed) {

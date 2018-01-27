@@ -9,12 +9,12 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 
 public class GlyphAction implements Action {
 
-    double m_align = 7.5;
-    double m_forward = 8;
+    double m_align = 8.5;
+    double m_forward = 8.5;
     float s_align = 0.25f;
     float s_forward = 0.25f;
-    double t_align = 1000;
-    double t_forward = 1500;
+    double t_align = 5;
+    double t_forward = 5;
     double t_open = 2000;
 
     double endTime;
@@ -30,6 +30,8 @@ public class GlyphAction implements Action {
         FORWARD,
         PLACE,
         BACKWARD,
+        PUSH,
+        BACKWARD2,
         END
     }
 
@@ -124,10 +126,40 @@ public class GlyphAction implements Action {
 
                 encoderDrive.run();
                 if (!encoderDrive.isBusy) {
+                    currentStage = GlyphPlaceStages.PUSH;
+                    init = true;
+                }
+                break;
+
+            case PUSH:
+                if (init) {
+                    hardware.lift_gripServo.setPosition(hardware.m_liftGripClosed);
+                    encoderDrive = new EncoderDrive(hardware);
+                    encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, m_forward, s_forward, t_forward);
+                    init = false;
+                }
+
+                encoderDrive.run();
+                if (!encoderDrive.isBusy) {
+                    currentStage = GlyphPlaceStages.BACKWARD2;
+                    init = true;
+                }
+                break;
+
+            case BACKWARD2:
+                if (init) {
+                    encoderDrive = new EncoderDrive(hardware);
+                    encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, m_forward, s_forward, t_forward);
+                    init = false;
+                }
+
+                encoderDrive.run();
+                if (!encoderDrive.isBusy) {
                     currentStage = GlyphPlaceStages.END;
                     init = true;
                 }
                 break;
+
 
             case END:
                 return true;

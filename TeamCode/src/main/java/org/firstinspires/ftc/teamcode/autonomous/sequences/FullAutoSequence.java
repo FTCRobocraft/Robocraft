@@ -63,7 +63,7 @@ public class FullAutoSequence extends ActionSequence {
                 addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_imageDetect, t_imageDetect));
                 addAction(imageDetectionAction);
                 addAction(new MecanumMoveAction(RobotMoveDirection.BACKWARD, m_bottomToCryptobox_1 - m_imageDetect, s_moveToCryptobox, t_cryptobox));
-                addAction(new MecanumMoveAction(RobotMoveDirection.RIGHT, m_bottomToCryptobox_2, s_moveToCryptobox, t_cryptobox));
+                addAction(new MecanumMoveAction(RobotMoveDirection.LEFT, m_bottomToCryptobox_2, s_moveToCryptobox, t_cryptobox));
                 addAction(new GlyphAction(imageDetectionAction));
             }
         } else {
@@ -78,7 +78,7 @@ public class FullAutoSequence extends ActionSequence {
                 addAction(imageDetectionAction);
                 addAction(new MecanumMoveAction(RobotMoveDirection.BACKWARD, m_bottomToCryptobox_1 + m_imageDetect, s_moveToCryptobox, t_cryptobox));
                 addAction(new MecanumRotationAction(180, s_rotation));
-                addAction(new MecanumMoveAction(RobotMoveDirection.LEFT, m_bottomToCryptobox_2, s_moveToCryptobox, t_cryptobox));
+                addAction(new MecanumMoveAction(RobotMoveDirection.RIGHT, m_bottomToCryptobox_2, s_moveToCryptobox, t_cryptobox));
                 addAction(new GlyphAction(imageDetectionAction));
             }
         }

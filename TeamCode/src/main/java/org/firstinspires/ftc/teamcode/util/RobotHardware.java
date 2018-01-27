@@ -49,7 +49,7 @@ public class RobotHardware extends OpMode
     public ColorSensor jewelSensor;
 
     public final double m_liftGripOpen = 0.35;
-    public final double m_liftGripClosed = 1;
+    public final double m_liftGripClosed = 0.7;
 
     public enum RobotMoveDirection {
         FORWARD,

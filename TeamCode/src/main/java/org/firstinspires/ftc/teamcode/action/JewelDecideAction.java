@@ -14,9 +14,9 @@ public class JewelDecideAction implements Action {
     EncoderDrive drive;
     boolean init = true;
 
-    final double distance = 2;
+    final double distance = 3;
     final float speed = 0.15f;
-    final double timeout = 2;
+    final double timeout = 3;
 
     enum JewelStages {
         PUSH,

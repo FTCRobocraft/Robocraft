@@ -20,4 +20,13 @@ public class AutoRedTopExec extends ActionExecutor {
         this.actionSequence = sequence;
         sequence.init(this);
     }
+
+    @Override
+    public void init_loop() {
+        super.init_loop();
+        FullAutoSequence sequence = (FullAutoSequence) this.actionSequence;
+        if (sequence != null) {
+            sequence.initLoop(this);
+        }
+    }
 }
