@@ -35,7 +35,7 @@ public class Manual extends RobotHardware {
             if (!slowToggle) {
                 if (slowToggleState) {
                     slowToggleState = false;
-                    slowModeSpeed = 2f;
+                    slowModeSpeed = 3f;
                 } else {
                     slowToggleState = true;
                     slowModeSpeed = 1f;
