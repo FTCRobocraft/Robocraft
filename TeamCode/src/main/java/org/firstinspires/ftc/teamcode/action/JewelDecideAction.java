@@ -16,7 +16,7 @@ public class JewelDecideAction implements Action {
 
     final double distance = 3;
     final float speed = 0.15f;
-    final double timeout = 3;
+    final double timeout = 2;
 
     enum JewelStages {
         PUSH,

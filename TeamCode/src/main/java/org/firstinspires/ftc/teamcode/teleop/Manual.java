@@ -30,6 +30,7 @@ public class Manual extends RobotHardware {
         //region gamepad1
 
         stopDrive();
+        armServo.setPosition(1);
 
         if (gamepad1.a) {
             if (!slowToggle) {
@@ -60,13 +61,13 @@ public class Manual extends RobotHardware {
         }
 
         if (gamepad1.right_stick_x > 0 && gamepad1.right_stick_y > 0) { // Forward Right
-            moveForwardRight((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / slowModeSpeed));
+            moveForwardRight(dpadPower / slowModeSpeed);
         } else if (gamepad1.right_stick_x > 0 && gamepad1.right_stick_y < 0) { // Backward Right
-            moveBackwardRight((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / slowModeSpeed));
+            moveBackwardRight(dpadPower / slowModeSpeed);
         } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y > 0) { // Forward Left
-            moveForwardLeft((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / slowModeSpeed));
+            moveForwardLeft(dpadPower / slowModeSpeed);
         } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y < 0) { // Backward Left
-            moveBackwardLeft((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / slowModeSpeed));
+            moveBackwardLeft(dpadPower / slowModeSpeed);
         }
 
 
@@ -131,7 +132,13 @@ public class Manual extends RobotHardware {
             //clawElbowServo.setPosition(clawOpen);
         }
 
-        clawArmServo.setPower(gamepad2.left_stick_y / 2.0);
+        if (gamepad2.left_stick_y != 0) {
+            clawArmServo.setPower(gamepad2.left_stick_y / 2.0);
+        } else {
+            clawArmServo.setPower(0);
+        }
+
+
 
         //endregion
 

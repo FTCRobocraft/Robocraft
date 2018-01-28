@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.util.ActionSequence;
  * Created by djfigs1 on 12/9/17.
  */
 
-@Autonomous(name="Claw")
 public class GripperClaw extends ActionExecutor {
 
     public class GripperClawSequence extends ActionSequence {

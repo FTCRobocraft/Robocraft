@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.util.ActionExecutor;
  * Created by djfigs1 on 12/9/17.
  */
 
-@Autonomous(name="Cryptobox")
 public class Cryptobox extends ActionExecutor {
 
     @Override

@@ -11,12 +11,12 @@ public class GlyphAction implements Action {
 
     double m_align = 8.5;
     double m_forward = 8.5;
+    double m_park = 4;
     float s_align = 0.25f;
     float s_forward = 0.25f;
-    double t_align = 5;
-    double t_forward = 5;
-    double t_open = 2000;
-
+    double t_align = 2;
+    double t_forward = 1;
+    double t_open = 500;
     double endTime;
 
     public enum GlyphPosition {
@@ -149,7 +149,7 @@ public class GlyphAction implements Action {
             case BACKWARD2:
                 if (init) {
                     encoderDrive = new EncoderDrive(hardware);
-                    encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, m_forward, s_forward, t_forward);
+                    encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, m_park, s_forward, t_forward);
                     init = false;
                 }
 
