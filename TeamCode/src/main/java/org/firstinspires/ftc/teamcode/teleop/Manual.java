@@ -54,7 +54,7 @@ public class Manual extends RobotHardware {
         }
         else if (gamepad1.dpad_left) {
             moveLeft(dpadPower / slowModeSpeed);
-        }
+       }
         else if (gamepad1.dpad_right) {
             moveRight(dpadPower / slowModeSpeed);
         }
@@ -68,7 +68,6 @@ public class Manual extends RobotHardware {
         } else if (gamepad1.right_stick_x < 0 && gamepad1.right_stick_y < 0) { // Backward Left
             moveBackwardLeft((float) ((gamepad1.right_stick_x + gamepad1.right_stick_y) / slowModeSpeed));
         }
-
 
         if (gamepad1.right_trigger > 0) {
             rotateRight(gamepad1.right_trigger / slowModeSpeed);
