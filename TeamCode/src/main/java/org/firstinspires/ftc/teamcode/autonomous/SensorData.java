@@ -8,7 +8,6 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
  * Created by djfigs1 on 10/21/17.
  */
 
-@Autonomous(name="Sensor Data")
 public class SensorData extends RobotHardware {
 
     @Override

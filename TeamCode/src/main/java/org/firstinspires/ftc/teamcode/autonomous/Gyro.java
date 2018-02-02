@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 import com.*;
 import org.*;
 
-@Autonomous(name = "Gyro")
 public class Gyro extends RobotHardware {
 
     final static int threshold = 1;

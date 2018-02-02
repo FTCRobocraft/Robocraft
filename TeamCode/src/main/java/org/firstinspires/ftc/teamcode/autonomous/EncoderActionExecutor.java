@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
  * Created by djfigs1 on 10/1/17.
  */
 
-@Autonomous(name = "Encoder Auto Test")
 public class EncoderActionExecutor extends ActionExecutor {
     class EncoderMecanumTestActionSequence extends ActionSequence {
 

@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
+import com.qualcomm.robotcore.hardware.ServoController;
+
 import org.firstinspires.ftc.teamcode.action.ColorDetectionAction;
 import org.firstinspires.ftc.teamcode.action.GlyphAction;
 import org.firstinspires.ftc.teamcode.action.ImageDetectionAction;
 import org.firstinspires.ftc.teamcode.action.JewelDecideAction;
+import org.firstinspires.ftc.teamcode.action.LiftBlockAction;
 import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
 import org.firstinspires.ftc.teamcode.action.MecanumRotationAction;
 import org.firstinspires.ftc.teamcode.action.ServoAction;
@@ -30,7 +33,7 @@ public class FullAutoSequence extends ActionSequence {
 
     double m_topToCryptobox = 36;
     double m_bottomToCryptobox_1 = 24;
-    double m_bottomToCryptobox_2 = 12;
+    double m_bottomToCryptobox_2 = 15;
     double m_imageDetect = 5;
 
     double t_imageDetect = 2;
@@ -40,9 +43,12 @@ public class FullAutoSequence extends ActionSequence {
     double endInitTime;
 
     public FullAutoSequence(Team team, Position position) {
+
+        addAction(new LiftBlockAction());
+
         //region Jewels
         addAction(new ServoAction(ServoAction.Servos.ARM, colorArmDownPosition));
-        addAction(new WaitAction(1000));
+        addAction(new WaitAction(500));
         ColorDetectionAction color = new ColorDetectionAction();
         addAction(new WaitAction(250));
         addAction(color);
@@ -62,7 +68,7 @@ public class FullAutoSequence extends ActionSequence {
             } else {
                 addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_imageDetect, s_imageDetect, t_imageDetect));
                 addAction(imageDetectionAction);
-                addAction(new MecanumMoveAction(RobotMoveDirection.BACKWARD, m_bottomToCryptobox_1 - m_imageDetect, s_moveToCryptobox, t_cryptobox));
+                addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, m_bottomToCryptobox_1 - m_imageDetect, s_moveToCryptobox, t_cryptobox));
                 addAction(new MecanumMoveAction(RobotMoveDirection.LEFT, m_bottomToCryptobox_2, s_moveToCryptobox, t_cryptobox));
                 addAction(new GlyphAction(imageDetectionAction));
             }
@@ -88,14 +94,6 @@ public class FullAutoSequence extends ActionSequence {
         hardware.armServo.setPosition(1);
         hardware.lift_gripServo.setPosition(hardware.m_liftGripClosed);
         endInitTime = System.currentTimeMillis() + t_liftTime;
-    }
-
-    public void initLoop(RobotHardware hardware) {
-        if (System.currentTimeMillis() < endInitTime) {
-            hardware.lift_verticalServo.setPower(-1);
-        } else {
-            hardware.lift_verticalServo.setPower(0);
-        }
     }
 
 }

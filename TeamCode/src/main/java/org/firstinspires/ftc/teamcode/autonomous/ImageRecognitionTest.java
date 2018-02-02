@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
  * Created by djfigs1 on 9/17/17.
  */
 
-@Autonomous(name = "IRT")
 public class ImageRecognitionTest extends RobotHardware {
 
     VuforiaLocalizer vuforia;

@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.util.ActionExecutor;
  * Created by lvern on 12/2/2017.
  */
 
-@Autonomous(name = "Jewels - Blue")
 public class JewelsBlue extends ActionExecutor {
 
     @Override
