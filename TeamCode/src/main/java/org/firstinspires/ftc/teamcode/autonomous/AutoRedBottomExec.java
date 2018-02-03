@@ -20,4 +20,12 @@ public class AutoRedBottomExec extends ActionExecutor {
         this.actionSequence = sequence;
         sequence.init(this);
     }
+
+    @Override
+    public void stop() {
+        FullAutoSequence sequence = (FullAutoSequence) this.actionSequence;
+        if (sequence != null) {
+            sequence.stop(this);
+        }
+    }
 }

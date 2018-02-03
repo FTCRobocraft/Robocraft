@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
 import com.qualcomm.robotcore.hardware.ServoController;
+import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.teamcode.action.ColorDetectionAction;
 import org.firstinspires.ftc.teamcode.action.GlyphAction;
@@ -33,7 +34,7 @@ public class FullAutoSequence extends ActionSequence {
 
     double m_topToCryptobox = 36;
     double m_bottomToCryptobox_1 = 24;
-    double m_bottomToCryptobox_2 = 15;
+    double m_bottomToCryptobox_2 = 14;
     double m_imageDetect = 5;
 
     double t_imageDetect = 2;
@@ -94,6 +95,10 @@ public class FullAutoSequence extends ActionSequence {
         hardware.armServo.setPosition(1);
         hardware.lift_gripServo.setPosition(hardware.m_liftGripClosed);
         endInitTime = System.currentTimeMillis() + t_liftTime;
+    }
+
+    public void stop(RobotHardware hardware) {
+        CameraDevice.getInstance().setFlashTorchMode(false);
     }
 
 }
