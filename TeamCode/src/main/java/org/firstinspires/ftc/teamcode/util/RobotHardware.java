@@ -22,7 +22,7 @@ public class RobotHardware extends OpMode
     // Encoder Setup
     static final double     COUNTS_PER_MOTOR_REV    = 28 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 72.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuri7ng circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
@@ -42,14 +42,21 @@ public class RobotHardware extends OpMode
     public CRServo lift_verticalServo;
     public Servo lift_gripServo;
     public Servo armServo;
-    public CRServo clawArmServo;
-    public Servo clawElbowServo;
-    public Servo clawServo;
+    public Servo relicArmServo;
+    public Servo relicClawServo;
+    public Servo relicShoulderServo;
 
     public ColorSensor jewelSensor;
 
     public final double m_liftGripOpen = 0.35;
     public final double m_liftGripClosed = 0.7;
+    public final double m_relicShoulderRetracted = 0;
+    public final double m_relicShoulderUp = 0.5;
+    public final double m_relicShoulderDown = 1;
+    public final double m_relicArmUp = 0;
+    public final double m_relicArmDown = 1;
+    public final double m_relicClawOpen = 0;
+    public final double m_relicClawClosed = 1;
 
     public enum RobotMoveDirection {
         FORWARD,
@@ -144,19 +151,19 @@ public class RobotHardware extends OpMode
         }
 
         try {
-            clawElbowServo = hardwareMap.get(Servo.class, "clawElbow");
+            relicArmServo = hardwareMap.get(Servo.class, "relicArmServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
 
         try {
-            clawServo = hardwareMap.get(Servo.class, "clawServo");
+            relicClawServo = hardwareMap.get(Servo.class, "relicClawServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
 
         try {
-            clawArmServo = hardwareMap.get(CRServo.class, "clawArmServo");
+            relicShoulderServo = hardwareMap.get(Servo.class, "relicShoulderServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
