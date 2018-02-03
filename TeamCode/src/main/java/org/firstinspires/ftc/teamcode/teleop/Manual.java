@@ -94,19 +94,30 @@ public class Manual extends RobotHardware {
             lift_verticalServo.setPower(0);
         }
 
-        if (gamepad2.left_stick_button) {
-            if (!leftStickPressed) {
-                if (clawUp) {
-                    clawUp = false;
-                    clawElbowServo.setPosition(clawElbowDown);
-                } else {
-                    clawUp = true;
-                    clawElbowServo.setPosition(clawElbowUp);
-            }
-                leftStickPressed = true;
-            }
-        } else {
-            leftStickPressed = false;
+        if (gamepad2.a) { // Rest Position
+            relicShoulderServo.setPosition(m_relicShoulderDown);
+            relicArmServo.setPosition(m_relicArmDown);
+            relicClawServo.setPosition(m_relicClawOpen);
+        }
+
+        if (gamepad2.x) { //  Position
+            relicClawServo.setPosition(m_relicClawClosed);
+        }
+
+        if (gamepad2.y) { //
+             relicShoulderServo.setPosition(m_relicShoulderUp);
+             relicArmServo.setPosition(m_relicArmUp);
+        }
+
+        if (gamepad2.b) { //
+            relicShoulderServo.setPosition(m_relicShoulderDown);
+            relicArmServo.setPosition(m_relicArmDown);
+        }
+
+        if (gamepad1.start) {
+            relicShoulderServo.setPosition(m_relicShoulderRetracted);
+            relicArmServo.setPosition(m_relicArmUp);
+            relicClawServo.setPosition(m_relicClawClosed);
         }
 
         if (gamepad2.left_trigger > 0) {
@@ -130,14 +141,6 @@ public class Manual extends RobotHardware {
         } else {
             //clawElbowServo.setPosition(clawOpen);
         }
-
-        if (gamepad2.left_stick_y != 0) {
-            clawArmServo.setPower(gamepad2.left_stick_y / 2.0);
-        } else {
-            clawArmServo.setPower(0);
-        }
-
-
 
         //endregion
 
