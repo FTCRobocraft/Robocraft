@@ -50,13 +50,14 @@ public class RobotHardware extends OpMode
 
     public final double m_liftGripOpen = 0.35;
     public final double m_liftGripClosed = 0.7;
-    public final double m_relicShoulderRetracted = 0;
-    public final double m_relicShoulderUp = 0.5;
-    public final double m_relicShoulderDown = 1;
-    public final double m_relicArmUp = 0;
-    public final double m_relicArmDown = 1;
-    public final double m_relicClawOpen = 0;
-    public final double m_relicClawClosed = 1;
+
+    public final double m_relicShoulderRetracted = 0.4844;
+    public final double m_relicShoulderUp = 0.3522;
+    public final double m_relicShoulderDown = 0.2072;
+    public final double m_relicArmUp = 0.5;
+    public final double m_relicArmDown = 0.3405;
+    public final double m_relicClawOpen = 1;
+    public final double m_relicClawClosed = 0.155;
 
     public enum RobotMoveDirection {
         FORWARD,

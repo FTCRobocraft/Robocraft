@@ -32,12 +32,6 @@ public class ServoAction implements Action {
             case ARM:
                 hardware.armServo.setPosition(servoPosition);
                 break;
-            case CLAW_ELBOW:
-                hardware.clawElbowServo.setPosition(servoPosition);
-                break;
-            case CLAW:
-                hardware.clawServo.setPosition(servoPosition);
-                break;
         }
         return true;
     }

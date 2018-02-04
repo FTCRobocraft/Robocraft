@@ -15,9 +15,12 @@ public class LiftBlockAction implements Action {
     public boolean doAction(RobotHardware hardware) {
         if (init) {
             endTime = System.currentTimeMillis() + 2000;
+            hardware.relicShoulderServo.setPosition(hardware.m_relicShoulderRetracted);
+            hardware.relicArmServo.setPosition(hardware.m_relicArmUp);
             init = false;
         }
-
+        
+        hardware.lift_gripServo.setPosition(hardware.m_liftGripClosed);
         if (System.currentTimeMillis() < endTime) {
             hardware.lift_verticalServo.setPower(-1);
         } else {

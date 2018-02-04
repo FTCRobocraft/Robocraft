@@ -24,6 +24,8 @@ public class Manual extends RobotHardware {
     boolean liftClawState = false;
     boolean slowToggle = false;
     boolean slowToggleState = false;
+    boolean reverseToggle = false;
+    boolean reverseToggleState = false;
 
     @Override
     public void loop() {
@@ -47,17 +49,43 @@ public class Manual extends RobotHardware {
             slowToggle = false;
         }
 
+        if (gamepad1.b) {
+            if (!reverseToggle) {
+                if (reverseToggleState) {
+                    reverseToggleState = false;
+                } else {
+                    reverseToggleState = true;
+                }
+                reverseToggle = true;
+            }
+        } else {
+            reverseToggle = false;
+        }
+
         if (gamepad1.dpad_up) {
-            moveForward(dpadPower / slowModeSpeed);
-        }
-        else if (gamepad1.dpad_down) {
-            moveBackward(dpadPower / slowModeSpeed);
-        }
-        else if (gamepad1.dpad_left) {
-            moveLeft(dpadPower / slowModeSpeed);
-       }
-        else if (gamepad1.dpad_right) {
-            moveRight(dpadPower / slowModeSpeed);
+            if (reverseToggleState) {
+                moveBackward(dpadPower / slowModeSpeed);
+            } else {
+                moveForward(dpadPower / slowModeSpeed);
+            }
+        } else if (gamepad1.dpad_down) {
+            if (reverseToggleState) {
+                moveForward(dpadPower / slowModeSpeed);
+            } else {
+                moveBackward(dpadPower / slowModeSpeed);
+            }
+        } else if (gamepad1.dpad_left) {
+            if (reverseToggleState) {
+                moveRight(dpadPower / slowModeSpeed);
+            } else {
+                moveLeft(dpadPower / slowModeSpeed);
+            }
+        } else if (gamepad1.dpad_right) {
+            if (reverseToggleState) {
+                moveLeft(dpadPower / slowModeSpeed);
+            } else {
+                moveRight(dpadPower / slowModeSpeed);
+            }
         }
 
         if (gamepad1.right_stick_x > 0 && gamepad1.right_stick_y > 0) { // Forward Right
@@ -97,7 +125,6 @@ public class Manual extends RobotHardware {
         if (gamepad2.a) { // Rest Position
             relicShoulderServo.setPosition(m_relicShoulderDown);
             relicArmServo.setPosition(m_relicArmDown);
-            relicClawServo.setPosition(m_relicClawOpen);
         }
 
         if (gamepad2.x) { //  Position
@@ -110,14 +137,12 @@ public class Manual extends RobotHardware {
         }
 
         if (gamepad2.b) { //
-            relicShoulderServo.setPosition(m_relicShoulderDown);
-            relicArmServo.setPosition(m_relicArmDown);
+            relicClawServo.setPosition(m_relicClawOpen);
         }
 
-        if (gamepad1.start) {
+        if (gamepad2.start) {
             relicShoulderServo.setPosition(m_relicShoulderRetracted);
             relicArmServo.setPosition(m_relicArmUp);
-            relicClawServo.setPosition(m_relicClawClosed);
         }
 
         if (gamepad2.left_trigger > 0) {

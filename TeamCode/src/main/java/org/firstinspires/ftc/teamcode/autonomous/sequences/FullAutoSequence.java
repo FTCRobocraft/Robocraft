@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.action.LiftBlockAction;
 import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
 import org.firstinspires.ftc.teamcode.action.MecanumRotationAction;
 import org.firstinspires.ftc.teamcode.action.ServoAction;
+import org.firstinspires.ftc.teamcode.action.ServoUpAction;
 import org.firstinspires.ftc.teamcode.action.WaitAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
 import org.firstinspires.ftc.teamcode.util.RobotHardware;
@@ -39,12 +40,13 @@ public class FullAutoSequence extends ActionSequence {
 
     double t_imageDetect = 2;
     double t_cryptobox = 5;
-    double t_liftTime = 3500;
+    double t_liftTime = 1000;
 
     double endInitTime;
 
     public FullAutoSequence(Team team, Position position) {
 
+        addAction(new ServoUpAction());
         addAction(new LiftBlockAction());
 
         //region Jewels
@@ -93,7 +95,6 @@ public class FullAutoSequence extends ActionSequence {
 
     public void init(RobotHardware hardware) {
         hardware.armServo.setPosition(1);
-        hardware.lift_gripServo.setPosition(hardware.m_liftGripClosed);
         endInitTime = System.currentTimeMillis() + t_liftTime;
     }
 
