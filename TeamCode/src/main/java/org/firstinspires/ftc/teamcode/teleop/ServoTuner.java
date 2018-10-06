@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 
-@TeleOp(name = "Servo Tuner")
+//@TeleOp(name = "Servo Tuner")
 public class ServoTuner extends RobotHardware {
 
     List<Servo> servos;
