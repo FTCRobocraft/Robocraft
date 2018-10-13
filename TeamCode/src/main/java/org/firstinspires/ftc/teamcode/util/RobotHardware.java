@@ -140,13 +140,14 @@ public class RobotHardware extends OpMode
             lift_gripServo = hardwareMap.get(Servo.class, "liftClaw");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
-        }
+        }*/
 
         try {
             lift_verticalServo = hardwareMap.get(CRServo.class, "liftVerticalServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
+        /*
 
         try {
             armServo = hardwareMap.get(Servo.class, "armServo");
