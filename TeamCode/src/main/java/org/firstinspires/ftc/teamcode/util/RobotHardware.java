@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
@@ -36,6 +37,7 @@ public class RobotHardware extends OpMode
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+    public DcMotor hex;
 
     public BNO055IMU revIMU;
 
@@ -85,6 +87,7 @@ public class RobotHardware extends OpMode
 
     @Override public void init ()
     {
+        /*
         try {
             frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
             frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -168,7 +171,15 @@ public class RobotHardware extends OpMode
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
+        */
+
+        try {
+            hex = hardwareMap.get(DcMotor.class, "hex");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
     }
+
 
     @Override public void start () {}
 

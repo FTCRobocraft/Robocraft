@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
  * Created by lvern on 1/6/2018.
  */
 
-@TeleOp(name="Manual")
+//@TeleOp(name="Manual")
 public class Manual extends RobotHardware {
 
     float dpadPower = 1f;
