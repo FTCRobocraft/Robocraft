@@ -10,13 +10,13 @@ public class TestMotor extends RobotHardware {
     @Override
     public void loop() {
         if (gamepad1.a) {
-            hex.setPower(1);
+            hex.setPower(0.5);
         } else {
             hex.setPower(0);
         }
 
         if (gamepad1.y) {
-            hex.setPower(-1);
+            hex.setPower(-0.5);
         } else {
             hex.setPower(0);
         }
