@@ -1,14 +1,13 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 /**
  * Created by lvern on 1/6/2018.
  */
 
 //@TeleOp(name="Manual")
-public class Manual extends RobotHardware {
+public class Manual extends RelicRecoveryHardware {
 
     float dpadPower = 1f;
     float bumperPower = 1f;

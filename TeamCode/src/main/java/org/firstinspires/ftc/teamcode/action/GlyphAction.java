@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.action;
 
 import org.firstinspires.ftc.teamcode.util.EncoderDrive;
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 /**
  * Created by djfigs1 on 1/19/18.
@@ -46,7 +46,7 @@ public class GlyphAction implements Action {
     }
 
     @Override
-    public boolean doAction(RobotHardware hardware) {
+    public boolean doAction(RelicRecoveryHardware hardware) {
         switch (currentStage) {
             case ALIGN:
                 //region Align Init
@@ -66,13 +66,13 @@ public class GlyphAction implements Action {
                     encoderDrive = new EncoderDrive(hardware);
                     switch (position) {
                         case LEFT:
-                            encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.LEFT,
+                            encoderDrive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.LEFT,
                                     m_align, s_align, t_align);
                             break;
                         case CENTER:
                             break;
                         case RIGHT:
-                            encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.RIGHT,
+                            encoderDrive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.RIGHT,
                                     m_align, s_align, t_align);
                             break;
                     }
@@ -91,7 +91,7 @@ public class GlyphAction implements Action {
                 //region Forward Init
                 if (init) {
                     encoderDrive = new EncoderDrive(hardware);
-                    encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD,
+                    encoderDrive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.FORWARD,
                             m_forward, s_forward, t_forward);
                     init = false;
                 }
@@ -120,7 +120,7 @@ public class GlyphAction implements Action {
             case BACKWARD:
                 if (init) {
                     encoderDrive = new EncoderDrive(hardware);
-                    encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, m_forward, s_forward, t_forward);
+                    encoderDrive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.BACKWARD, m_forward, s_forward, t_forward);
                     init = false;
                 }
 
@@ -135,7 +135,7 @@ public class GlyphAction implements Action {
                 if (init) {
                     hardware.lift_gripServo.setPosition(hardware.m_liftGripClosed);
                     encoderDrive = new EncoderDrive(hardware);
-                    encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, m_forward, s_forward, t_forward);
+                    encoderDrive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.FORWARD, m_forward, s_forward, t_forward);
                     init = false;
                 }
 
@@ -149,7 +149,7 @@ public class GlyphAction implements Action {
             case BACKWARD2:
                 if (init) {
                     encoderDrive = new EncoderDrive(hardware);
-                    encoderDrive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, m_park, s_forward, t_forward);
+                    encoderDrive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.BACKWARD, m_park, s_forward, t_forward);
                     init = false;
                 }
 

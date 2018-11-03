@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 /**
  * Created by djfigs1 on 10/21/17.
  */
 
-public class SensorData extends RobotHardware {
+public class SensorData extends RelicRecoveryHardware {
 
     @Override
     public void loop() {

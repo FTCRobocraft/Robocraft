@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.action;
 
-import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 /**
  * Created by lvern on 11/11/2017.
@@ -27,7 +25,7 @@ public class ServoAction implements Action {
     }
 
     @Override
-    public boolean doAction(RobotHardware hardware) {
+    public boolean doAction(RelicRecoveryHardware hardware) {
         switch (this.servo) {
             case ARM:
                 hardware.armServo.setPosition(servoPosition);

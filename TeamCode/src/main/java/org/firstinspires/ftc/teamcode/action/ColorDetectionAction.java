@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.action;
 
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 /**
  * Created by lvern on 12/2/2017.
@@ -12,7 +12,7 @@ public class ColorDetectionAction implements Action {
     public int g;
     public int b;
 
-    public boolean doAction(RobotHardware hardware) {
+    public boolean doAction(RelicRecoveryHardware hardware) {
         this.r = hardware.jewelSensor.red();
         this.g = hardware.jewelSensor.green();
         this.b = hardware.jewelSensor.blue();

@@ -6,7 +6,7 @@ import android.view.SurfaceView;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
@@ -19,7 +19,7 @@ import org.opencv.imgproc.Imgproc;
 
 
 @Autonomous(name="OpenCV Demo")
-public class OpenCVDemo extends RobotHardware implements CameraBridgeViewBase.CvCameraViewListener2 {
+public class OpenCVDemo extends RelicRecoveryHardware implements CameraBridgeViewBase.CvCameraViewListener2 {
 
     enum CVDetectedObject {
         CUBE,

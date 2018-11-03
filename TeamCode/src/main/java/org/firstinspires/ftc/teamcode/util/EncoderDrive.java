@@ -15,11 +15,11 @@ public class EncoderDrive {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    private RobotHardware hardware;
+    private RelicRecoveryHardware hardware;
     public boolean isBusy = false;
 
     private double inchesToDrive;
-    private RobotHardware.RobotMoveDirection direction;
+    private RelicRecoveryHardware.RobotMoveDirection direction;
     private DcMotor.RunMode previousRunMode;
     private double timeoutS;
     private ElapsedTime runTime;
@@ -34,11 +34,11 @@ public class EncoderDrive {
     private float BL_speed;
     private float BR_speed;
 
-    public EncoderDrive(RobotHardware hardware) {
+    public EncoderDrive(RelicRecoveryHardware hardware) {
         this.hardware = hardware;
     }
 
-    public void setInchesToDrive(RobotHardware.RobotMoveDirection direction, double distance, float power, double timeout) {
+    public void setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection direction, double distance, float power, double timeout) {
         this.inchesToDrive = distance;
         this.isBusy = true;
         this.timeoutS = timeout;

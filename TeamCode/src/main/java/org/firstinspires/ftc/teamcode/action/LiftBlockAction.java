@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.action;
 
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 /**
  * Created by djfigs1 on 1/27/18.
@@ -12,7 +12,7 @@ public class LiftBlockAction implements Action {
     double endTime;
 
     @Override
-    public boolean doAction(RobotHardware hardware) {
+    public boolean doAction(RelicRecoveryHardware hardware) {
         if (init) {
             endTime = System.currentTimeMillis() + 2000;
             hardware.relicShoulderServo.setPosition(hardware.m_relicShoulderRetracted);

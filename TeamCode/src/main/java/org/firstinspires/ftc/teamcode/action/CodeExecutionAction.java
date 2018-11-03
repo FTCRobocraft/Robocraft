@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.action;
 
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 import java.util.concurrent.Callable;
 
@@ -10,14 +10,14 @@ import java.util.concurrent.Callable;
 
 public class CodeExecutionAction implements Action {
 
-    Callable<RobotHardware> method;
+    Callable<RelicRecoveryHardware> method;
 
-    public CodeExecutionAction(Callable<RobotHardware> method) {
+    public CodeExecutionAction(Callable<RelicRecoveryHardware> method) {
         this.method = method;
     }
 
     @Override
-    public boolean doAction(RobotHardware hardware) {
+    public boolean doAction(RelicRecoveryHardware hardware) {
         return false;
     }
 }

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
-import com.qualcomm.robotcore.hardware.ServoController;
 import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.teamcode.action.ColorDetectionAction;
@@ -14,10 +13,10 @@ import org.firstinspires.ftc.teamcode.action.ServoAction;
 import org.firstinspires.ftc.teamcode.action.ServoUpAction;
 import org.firstinspires.ftc.teamcode.action.WaitAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
-import org.firstinspires.ftc.teamcode.util.RobotHardware.RobotMoveDirection;
-import org.firstinspires.ftc.teamcode.util.RobotHardware.Team;
-import org.firstinspires.ftc.teamcode.util.RobotHardware.Position;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware.RobotMoveDirection;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware.Team;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware.Position;
 
 /**
  * Created by djfigs1 on 1/19/18.
@@ -93,12 +92,12 @@ public class FullAutoSequence extends ActionSequence {
         }
     }
 
-    public void init(RobotHardware hardware) {
+    public void init(RelicRecoveryHardware hardware) {
         hardware.armServo.setPosition(1);
         endInitTime = System.currentTimeMillis() + t_liftTime;
     }
 
-    public void stop(RobotHardware hardware) {
+    public void stop(RelicRecoveryHardware hardware) {
         CameraDevice.getInstance().setFlashTorchMode(false);
     }
 

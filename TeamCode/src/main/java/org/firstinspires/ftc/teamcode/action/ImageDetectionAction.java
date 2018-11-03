@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.action;
 
-import android.media.Image;
-
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 /**
  * Created by lvern on 12/2/2017.
@@ -18,7 +16,7 @@ public class ImageDetectionAction implements Action {
 
     public ImageDetectionAction() {}
 
-    public boolean doAction(RobotHardware hardware) {
+    public boolean doAction(RelicRecoveryHardware hardware) {
         if (init) {
             endTime = System.currentTimeMillis() + imageTime;
             init = false;

@@ -6,10 +6,9 @@ import org.firstinspires.ftc.teamcode.action.ServoAction;
 import org.firstinspires.ftc.teamcode.action.WaitAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
 import org.firstinspires.ftc.teamcode.util.EncoderDrive;
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
-import org.firstinspires.ftc.teamcode.util.RobotHardware.RobotMoveDirection;
-import org.firstinspires.ftc.teamcode.util.RobotHardware.Team;
-import org.firstinspires.ftc.teamcode.util.RobotHardware.Position;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware.RobotMoveDirection;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware.Team;
 
 
 /**
@@ -22,7 +21,7 @@ public class JewelActionSequence extends ActionSequence {
 
     double downPosition = 0.15;
     double upPosition = 1;
-    public JewelActionSequence(RobotHardware.Team team) {
+    public JewelActionSequence(RelicRecoveryHardware.Team team) {
 
        ColorDetectionAction color;
         switch (team) {
@@ -63,7 +62,7 @@ public class JewelActionSequence extends ActionSequence {
             this.team = team;
         }
 
-        public boolean doAction(RobotHardware hardware) {
+        public boolean doAction(RelicRecoveryHardware hardware) {
             EncoderDrive drive = new EncoderDrive(hardware);
             if (init) {
                 init = false;

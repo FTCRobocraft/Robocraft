@@ -1,5 +1,4 @@
 package org.firstinspires.ftc.teamcode.util;
-import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -9,7 +8,7 @@ import org.firstinspires.ftc.teamcode.action.Action;
  * Created by djfigs1 on 11/18/16.
  */
 
-public class ActionExecutor extends RobotHardware {
+public class ActionExecutor extends RelicRecoveryHardware {
 
     public ActionSequence actionSequence;
     public boolean initVuforia = false;

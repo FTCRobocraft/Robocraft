@@ -1,10 +1,9 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +14,7 @@ import java.util.List;
 
 
 //@TeleOp(name = "Servo Tuner")
-public class ServoTuner extends RobotHardware {
+public class ServoTuner extends RelicRecoveryHardware {
 
     List<Servo> servos;
     int currentIndex = 0;

@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.action;
 
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 /**
  * Created by djfigs1 on 2/4/18.
@@ -13,7 +13,7 @@ public class ServoUpAction implements Action {
     double endTime;
 
     @Override
-    public boolean doAction(RobotHardware hardware) {
+    public boolean doAction(RelicRecoveryHardware hardware) {
         if (init) {
             endTime = System.currentTimeMillis() + servoUpTime;
             init = false;

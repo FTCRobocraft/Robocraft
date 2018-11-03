@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.action;
 
 import org.firstinspires.ftc.teamcode.util.EncoderDrive;
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
 /**
  * Created by djfigs1 on 1/19/18.
@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.util.RobotHardware;
 public class JewelDecideAction implements Action {
 
     ColorDetectionAction color;
-    RobotHardware.Team team;
+    RelicRecoveryHardware.Team team;
     EncoderDrive drive;
     boolean init = true;
 
@@ -27,12 +27,12 @@ public class JewelDecideAction implements Action {
     JewelStages currentStage = JewelStages.PUSH;
 
 
-    public  JewelDecideAction(ColorDetectionAction colorAction, RobotHardware.Team team) {
+    public  JewelDecideAction(ColorDetectionAction colorAction, RelicRecoveryHardware.Team team) {
         this.color = colorAction;
         this.team = team;
     }
 
-    public boolean doAction(RobotHardware hardware) {
+    public boolean doAction(RelicRecoveryHardware hardware) {
         switch (currentStage) {
             case PUSH:
                 if (init) {
@@ -41,16 +41,16 @@ public class JewelDecideAction implements Action {
                     switch (team) {
                         case Red:
                             if (this.color.r > this.color.b) {
-                                drive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
+                                drive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
                             } else {
-                                drive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
+                                drive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
                             }
                             break;
                         case Blue:
                             if (this.color.b > this.color.r) {
-                                drive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
+                                drive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
                             } else {
-                                drive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
+                                drive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
                             }
                             break;
                     }
@@ -70,16 +70,16 @@ public class JewelDecideAction implements Action {
                     switch (team) {
                         case Red:
                             if (this.color.r > this.color.b) {
-                                drive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
+                                drive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
                             } else {
-                                drive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
+                                drive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
                             }
                             break;
                         case Blue:
                             if (this.color.b > this.color.r) {
-                                drive.setInchesToDrive(RobotHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
+                                drive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.FORWARD, distance, speed, timeout);
                             } else {
-                                drive.setInchesToDrive(RobotHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
+                                drive.setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection.BACKWARD, distance, speed, timeout);
                             }
                             break;
                     }

@@ -4,12 +4,9 @@ package org.firstinspires.ftc.teamcode.autonomous;
  * Created by lvern on 9/17/2017.
  */
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
-import com.*;
-import org.*;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
 
-public class Gyro extends RobotHardware {
+public class Gyro extends RelicRecoveryHardware {
 
     final static int threshold = 1;
 

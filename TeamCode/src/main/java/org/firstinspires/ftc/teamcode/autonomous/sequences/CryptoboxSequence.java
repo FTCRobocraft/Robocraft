@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
 import org.firstinspires.ftc.teamcode.action.Action;
-import org.firstinspires.ftc.teamcode.action.CustomCodeExecution;
 import org.firstinspires.ftc.teamcode.action.ImageDetectionAction;
 import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
-import org.firstinspires.ftc.teamcode.util.RobotHardware;
-import org.firstinspires.ftc.teamcode.util.RobotHardware.RobotMoveDirection;
-import org.firstinspires.ftc.teamcode.util.RobotHardware.Team;
-import org.firstinspires.ftc.teamcode.util.RobotHardware.Position;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware.RobotMoveDirection;
+import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware.Team;
 
 
 /**
@@ -81,7 +79,7 @@ public class CryptoboxSequence extends ActionSequence {
         }
 
         @Override
-        public boolean doAction(RobotHardware hardware) {
+        public boolean doAction(RelicRecoveryHardware hardware) {
             switch (imageAction.vuMark) {
                 case LEFT:
                     addAction(new MecanumMoveAction(RobotMoveDirection.FORWARD, 10, 10f,  5));
