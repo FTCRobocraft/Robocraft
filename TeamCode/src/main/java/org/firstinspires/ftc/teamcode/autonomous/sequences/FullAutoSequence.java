@@ -2,15 +2,8 @@ package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
 import com.vuforia.CameraDevice;
 
-import org.firstinspires.ftc.teamcode.action.ColorDetectionAction;
-import org.firstinspires.ftc.teamcode.action.GlyphAction;
-import org.firstinspires.ftc.teamcode.action.ImageDetectionAction;
-import org.firstinspires.ftc.teamcode.action.JewelDecideAction;
-import org.firstinspires.ftc.teamcode.action.LiftBlockAction;
 import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
 import org.firstinspires.ftc.teamcode.action.MecanumRotationAction;
-import org.firstinspires.ftc.teamcode.action.ServoAction;
-import org.firstinspires.ftc.teamcode.action.ServoUpAction;
 import org.firstinspires.ftc.teamcode.action.WaitAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
 import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;

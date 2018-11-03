@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
 import org.firstinspires.ftc.teamcode.action.Action;
-import org.firstinspires.ftc.teamcode.action.ColorDetectionAction;
-import org.firstinspires.ftc.teamcode.action.ServoAction;
 import org.firstinspires.ftc.teamcode.action.WaitAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
 import org.firstinspires.ftc.teamcode.util.EncoderDrive;

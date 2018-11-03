@@ -15,7 +15,7 @@ public class EncoderDrive {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    private RelicRecoveryHardware hardware;
+    private RoverRuckusHardware hardware;
     public boolean isBusy = false;
 
     private double inchesToDrive;
@@ -34,7 +34,7 @@ public class EncoderDrive {
     private float BL_speed;
     private float BR_speed;
 
-    public EncoderDrive(RelicRecoveryHardware hardware) {
+    public EncoderDrive(RoverRuckusHardware hardware) {
         this.hardware = hardware;
     }
 
@@ -158,7 +158,7 @@ public class EncoderDrive {
                 hardware.telemetry.addData("BR", String.format("%d -> %d", hardware.backRight.getCurrentPosition(), hardware.backRight.getTargetPosition()));
             } else {
                 isBusy = false;
-                hardware.stopDrive();
+                hardware.omniDrive.stopDrive();
 
                 hardware.frontLeft.setMode(previousRunMode);
                 hardware.frontRight.setMode(previousRunMode);

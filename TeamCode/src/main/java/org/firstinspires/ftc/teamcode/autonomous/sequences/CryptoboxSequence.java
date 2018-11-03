@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
 import org.firstinspires.ftc.teamcode.action.Action;
-import org.firstinspires.ftc.teamcode.action.ImageDetectionAction;
 import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
 import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;

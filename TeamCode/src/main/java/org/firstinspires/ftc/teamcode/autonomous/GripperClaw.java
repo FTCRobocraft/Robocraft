@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-
-import org.firstinspires.ftc.teamcode.action.ServoAction;
 import org.firstinspires.ftc.teamcode.action.WaitAction;
 import org.firstinspires.ftc.teamcode.util.ActionExecutor;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;

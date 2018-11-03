@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.action;
 
 import org.firstinspires.ftc.teamcode.util.EncoderDrive;
 import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.util.RoverRuckusHardware;
 
 /**
  * Created by djfigs1 on 9/30/17.
@@ -23,7 +24,7 @@ public class MecanumMoveAction implements Action {
         this.timeout = timeout;
     }
 
-    public boolean doAction(RelicRecoveryHardware hardware) {
+    public boolean doAction(RoverRuckusHardware hardware) {
         if (driver == null) {
             driver = new EncoderDrive(hardware);
             driver.setInchesToDrive(direction, distance, speed, timeout);
