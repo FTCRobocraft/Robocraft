@@ -5,9 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
-import org.opencv.core.Mat;
 
 public class BaseHardware extends OpMode {
 
@@ -18,10 +15,6 @@ public class BaseHardware extends OpMode {
     public VuforiaTrackables relicTrackables;
     public VuforiaTrackable relicTemplate;
     //endregion
-
-    public Mat imageMat;
-    public BaseLoaderCallback mLoaderCallback;
-    public CameraBridgeViewBase mOpenCvCameraView;
 
     // Encoder Setup
     static final double     COUNTS_PER_MOTOR_REV    = 28 ;    // eg: TETRIX Motor Encoder
