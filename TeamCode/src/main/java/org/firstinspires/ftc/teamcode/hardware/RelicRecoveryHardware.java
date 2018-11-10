@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@Deprecated
 public class RelicRecoveryHardware extends BaseHardware
 {
 
@@ -14,7 +15,7 @@ public class RelicRecoveryHardware extends BaseHardware
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
-    public DcMotor hex;
+
 
     public BNO055IMU revIMU;
 
@@ -120,7 +121,7 @@ public class RelicRecoveryHardware extends BaseHardware
         }
 
         try {
-            lift_verticalServo = hardwareMap.get(CRServo.class, "liftVerticalServo");
+            lift_verticalServo = hardwareMap.get(CRServoTest.class, "liftVerticalServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
@@ -150,11 +151,7 @@ public class RelicRecoveryHardware extends BaseHardware
         }
         */
 
-        try {
-            hex = hardwareMap.get(DcMotor.class, "hex");
-        } catch (Exception e) {
-            telemetry.addData("Not Found:", e.getMessage());
-        }
+
     }
 
 
