@@ -1,8 +1,8 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
 import org.firstinspires.ftc.teamcode.util.OmniDrive;
 
 public class RoverRuckusHardware extends BaseHardware {
@@ -11,6 +11,7 @@ public class RoverRuckusHardware extends BaseHardware {
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
+
     public OmniDrive omniDrive;
 
     public enum GOLD_MINERAL_POSITION {
@@ -51,6 +52,8 @@ public class RoverRuckusHardware extends BaseHardware {
         }
 
         omniDrive = new OmniDrive(frontLeft, frontRight, backLeft, backRight);
+
+
     }
 
 }

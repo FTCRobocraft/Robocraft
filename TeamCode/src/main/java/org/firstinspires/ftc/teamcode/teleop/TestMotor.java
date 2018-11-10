@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.hardware.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.hardware.TestHardware;
 
 @TeleOp(name="TestMotor")
-public class TestMotor extends RelicRecoveryHardware {
+public class TestMotor extends TestHardware {
 
     @Override
     public void loop() {
