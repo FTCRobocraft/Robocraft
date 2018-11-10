@@ -11,7 +11,7 @@ public class TestHardware extends BaseHardware {
     public void init() {
 
         try {
-            CRServoTest = hardwareMap.get(CRServo.class, "liftVerticalServo");
+            CRServoTest = hardwareMap.get(CRServo.class, "CRServoTest");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
