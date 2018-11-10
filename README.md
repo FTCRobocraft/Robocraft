@@ -45,6 +45,57 @@ For technical questions regarding the SDK, please visit the FTC Technology forum
 # Release Information
 **************************************************************************************
 
+<<<<<<< HEAD
+=======
+Version 4.3 (built on 18.10.31)
+ * Includes missing TensorFlow-related libraries and files.
+
+**************************************************************************************
+# Release Information
+**************************************************************************************
+
+Version 4.2 (built on 18.10.30)
+ * Includes fix to avoid deadlock situation with WatchdogMonitor which could result in USB communication errors.
+     - Comm error appeared to require that user disconnect USB cable and restart the Robot Controller app to recover.
+     - robotControllerLog.txt would have error messages that included the words "E RobotCore: lynx xmit lock: #### abandoning lock:"
+ * Includes fix to correctly list the parent module address for a REV Robotics Expansion Hub in a configuration (.xml) file.
+     - Bug in versions 4.0 and 4.1 would incorrect list the address module for a parent REV Robotics device as "1".
+     - If the parent module had a higher address value than the daisy-chained module, then this bug would prevent the Robot Controller from communicating with the downstream Expansion Hub.
+ * Added requirement for ACCESS_COARSE_LOCATION to allow a Driver Station running Android Oreo to scan for Wi-Fi Direct devices.
+ * Added google() repo to build.gradle because aapt2 must be downloaded from the google() repository beginning with version 3.2 of the Android Gradle Plugin.
+     - Important Note: Android Studio users will need to be connected to the Internet the first time build the ftc_app project.
+     - Internet connectivity is required for the first build so the appropriate files can be downloaded from the Google repository.
+     - Users should not need to be connected to the Internet for subsequent builds.
+     - This should also fix buid issue where Android Studio would complain that it "Could not find com.android.tools.lint:lint-gradle:26.1.4" (or similar).
+ * Added support for REV Spark Mini motor controller as part of the configuration menu for a servo/PWM port on the REV Expansion Hub.
+ * Provide examples for playing audio files in an Op Mode.
+ * Block Development Tool Changes
+     - Includes a fix for a problem with the Velocity blocks that were reported in the FTC Technology forum (Blocks Programming subforum).
+     - Change the "Save completed successfully." message to a white color so it will contrast with a green background.
+     - Fixed the "Download image" feature so it will work if there are text blocks in the op mode.    
+ * Introduce support for Google's TensorFlow Lite technology for object detetion for 2018-2019 game.
+     - TensorFlow lite can recognize Gold Mineral and Silver Mineral from 2018-2019 game.
+     - Example Java and Block op modes are included to show how to determine the relative position of the gold block (left, center, right).
+
+**************************************************************************************
+# Release Information
+**************************************************************************************
+
+Version 4.1 (released on 18.09.24)
+
+Changes include:
+ * Fix to prevent crash when deprecated configuration annotations are used.
+ * Change to allow FTC Robot Controller APK to be auto-updated using FIRST Global Control Hub update scripts.
+ * Removed samples for non supported / non legal hardware.
+ * Improvements to Telemetry.addData block with "text" socket.
+ * Updated Blocks sample op mode list to include Rover Ruckus Vuforia example.
+ * Update SDK library version number.
+     
+**************************************************************************************
+# Release Information
+**************************************************************************************
+
+>>>>>>> upstream/master
 Version 4.0 (released on 18.09.12)
 
 Changes include:
@@ -148,7 +199,44 @@ Known issues:
  * Miscellaneous
     - The blink indication feature that shows which Expansion Hub is currently being configured does not work for a newly created configuration file.
         + User has to first save a newly created configuration file and then close and re-edit the file in order for blink indicator to work.
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
+
+**************************************************************************************
+# Release Information
+**************************************************************************************
+
+Version 3.6 (built on 17.12.18)
+
+Changes include:
+ * Blocks Changes
+     - Uses updated Google Blockly software to allow users to edit their op modes on Apple iOS devices (including iPad and iPhone).
+     - Improvement in Blocks tool to handle corrupt op mode files.
+     - Autonomous op modes should no longer get switched back to tele-op after re-opening them to be edited.
+     - The system can now detect type mismatches during runtime and alert the user with a message on the Driver Station.
+ * Updated javadoc documentation for setPower() method to reflect correct range of values (-1 to +1).
+ * Modified VuforiaLocalizerImpl to allow for user rendering of frames
+     - Added a user-overrideable onRenderFrame() method which gets called by the class's renderFrame() method.
+
+**************************************************************************************
+# Release Information
+**************************************************************************************
+
+Version 3.5 (built on 17.10.30)
+
+Changes with version 3.5 include:
+ * Introduced a fix to prevent random op mode stops, which can occur after the Robot Controller app has been paused and then resumed (for example, when a user temporarily turns off the display of the Robot Controller phone, and then turns the screen back on).
+ * Introduced a fix to prevent random op mode stops, which were previously caused by random peer disconnect events on the Driver Station.
+ * Fixes issue where log files would be closed on pause of the RC or DS, but not re-opened upon resume.
+ * Fixes issue with battery handler (voltage) start/stop race.
+ * Fixes issue where Android Studio generated op modes would disappear from available list in certain situations.
+ * Fixes problem where OnBot Java would not build on REV Robotics Control Hub.
+ * Fixes problem where OnBot Java would not build if the date and time on the Robot Controller device was "rewound" (set to an earlier date/time).
+ * Improved error message on OnBot Java that occurs when renaming a file fails.
+ * Removed unneeded resources from android.jar binaries used by OnBot Java to reduce final size of Robot Controller app.
+ * Added MR_ANALOG_TOUCH_SENSOR block to Blocks Programming Tool.
 
 **************************************************************************************
 # Release Information

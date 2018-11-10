@@ -1,4 +1,5 @@
 dependencies {
+<<<<<<< HEAD
     api (name:'Inspection-release', ext: 'aar')
     api (name:'Blocks-release', ext: 'aar')
     api (name:'RobotCore-release', ext: 'aar')
@@ -6,4 +7,12 @@ dependencies {
     api (name:'FtcCommon-release', ext: 'aar')
     api (name:'WirelessP2p-release', ext:'aar')
     api project(":opencv")
+=======
+    implementation (name:'Inspection-release', ext: 'aar')
+    implementation (name:'Blocks-release', ext: 'aar')
+    implementation (name:'RobotCore-release', ext: 'aar')
+    implementation (name:'Hardware-release', ext: 'aar')
+    implementation (name:'FtcCommon-release', ext: 'aar')
+    implementation (name:'WirelessP2p-release', ext:'aar')
+>>>>>>> upstream/master
 }
