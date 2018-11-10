@@ -24,14 +24,18 @@ public class MecanumRotationAction implements Action {
         this.speed = speed;
     }
 
-    public boolean doAction(RoverRuckusHardware hardware) {
-        if (init) {
-            double distance = INCHES_PER_DEGREE * degrees;
-            encoderDrive = new EncoderDrive(hardware.omniDrive);
-            encoderDrive.setInchesToDrive(BaseHardware.Direction.ROTATE_RIGHT, distance, speed, 1000);
-            init = false;
+    public boolean doAction(BaseHardware hardware) {
+        if (hardware instanceof RoverRuckusHardware) {
+            if (init) {
+                double distance = INCHES_PER_DEGREE * degrees;
+                encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
+                encoderDrive.setInchesToDrive(BaseHardware.Direction.ROTATE_RIGHT, distance, speed, 1000);
+                init = false;
+            }
+            encoderDrive.run(hardware);
+            return !encoderDrive.isBusy;
+        } else {
+            return true;
         }
-        encoderDrive.run(hardware);
-        return !encoderDrive.isBusy;
     }
 }

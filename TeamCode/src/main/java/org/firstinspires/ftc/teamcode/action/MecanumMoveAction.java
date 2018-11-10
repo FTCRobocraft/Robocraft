@@ -33,12 +33,14 @@ public class MecanumMoveAction implements Action {
         this.timeout = timeout;
     }
 
-    public boolean doAction(RoverRuckusHardware hardware) {
-        if (driver == null) {
-            driver = new EncoderDrive(hardware.omniDrive);
-            driver.setInchesToDrive(direction, distance, speed, timeout);
+    public boolean doAction(BaseHardware hardware) {
+        if (hardware instanceof RoverRuckusHardware) {
+            if (driver == null) {
+                driver = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
+                driver.setInchesToDrive(direction, distance, speed, timeout);
+            }
+            driver.run(hardware);
         }
-        driver.run(hardware);
         return !driver.isBusy;
     }
 }

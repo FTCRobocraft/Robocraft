@@ -14,7 +14,7 @@ public class KnockBlockExecutor extends ActionExecutor {
 
     @Override
     public void init() {
-        this.initOpenCV = true;
+        this.initTFOD = true;
         super.init();
         KnockBlockSequence sequence = new KnockBlockSequence();
         this.actionSequence = sequence;

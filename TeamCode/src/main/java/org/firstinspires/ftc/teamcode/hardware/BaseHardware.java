@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
 public class BaseHardware extends OpMode {
 
@@ -14,6 +15,8 @@ public class BaseHardware extends OpMode {
     public VuforiaLocalizer vuforia;
     public VuforiaTrackables relicTrackables;
     public VuforiaTrackable relicTemplate;
+
+    public TFObjectDetector tfod;
     //endregion
 
     // Encoder Setup

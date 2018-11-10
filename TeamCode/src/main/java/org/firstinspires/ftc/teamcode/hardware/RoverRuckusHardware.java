@@ -13,6 +13,13 @@ public class RoverRuckusHardware extends BaseHardware {
     public DcMotor backRight;
     public OmniDrive omniDrive;
 
+    public enum GOLD_MINERAL_POSITION {
+        LEFT,
+        CENTER,
+        RIGHT,
+        UNKNOWN
+    }
+
     @Override
     public void init() {
         super.init();
