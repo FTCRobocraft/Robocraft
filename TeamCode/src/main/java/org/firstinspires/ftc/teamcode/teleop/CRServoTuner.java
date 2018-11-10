@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 
-import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.hardware.RelicRecoveryHardware;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode.action;
 
 import org.firstinspires.ftc.teamcode.util.EncoderDrive;
-import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.hardware.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.hardware.RoverRuckusHardware;
 
 /**
  * Created by djfigs1 on 10/1/17.
@@ -22,7 +23,7 @@ public class MecanumRotationAction implements Action {
         this.speed = speed;
     }
 
-    public boolean doAction(RelicRecoveryHardware hardware) {
+    public boolean doAction(RoverRuckusHardware hardware) {
         if (init) {
             double distance = INCHES_PER_DEGREE * degrees;
             encoderDrive = new EncoderDrive(hardware);

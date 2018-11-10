@@ -1,21 +1,27 @@
 package org.firstinspires.ftc.teamcode.util;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.SurfaceView;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.teamcode.action.Action;
+import org.firstinspires.ftc.teamcode.action.CVAction;
+import org.firstinspires.ftc.teamcode.hardware.RoverRuckusHardware;
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
 
 /**
  * Created by djfigs1 on 11/18/16.
  */
 
-public class ActionExecutor extends RelicRecoveryHardware {
+public class ActionExecutor extends RoverRuckusHardware implements CameraBridgeViewBase.CvCameraViewListener2 {
 
     public ActionSequence actionSequence;
     public boolean initVuforia = false;
@@ -39,7 +45,7 @@ public class ActionExecutor extends RelicRecoveryHardware {
         }
 
         if (initOpenCV) {
-            mLoaderCallback = new BaseLoaderCallback(this.hardwareMap.appContext) {
+            this.mLoaderCallback = new BaseLoaderCallback(this.hardwareMap.appContext) {
                 @Override
                 public void onManagerConnected(int status) {
                     switch (status) {
@@ -73,7 +79,20 @@ public class ActionExecutor extends RelicRecoveryHardware {
     @Override
     public void start() {
         super.start();
-        relicTrackables.activate();
+        if (initVuforia) {
+            relicTrackables.activate();
+        }
+
+        if (initOpenCV) {
+            if (!OpenCVLoader.initDebug()) {
+                Log.d("OpenCV", "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+                OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, hardwareMap.appContext, mLoaderCallback);
+            } else {
+                Log.d("OpenCV", "OpenCV library found inside package. Using it!");
+                mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+                mOpenCvCameraView.enableView();
+            }
+        }
     }
 
     int actionNumber = 1;
@@ -97,6 +116,29 @@ public class ActionExecutor extends RelicRecoveryHardware {
         }
 
 
+    }
+
+    @Override
+    public void onCameraViewStarted(int width, int height) {
+
+    }
+
+    @Override
+    public void onCameraViewStopped() {
+
+    }
+
+    @Override
+    public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+        this.imageMat = inputFrame.rgba();
+        Mat rotatedImageMat = new Mat();
+        Core.rotate(this.imageMat, rotatedImageMat, Core.ROTATE_90_CLOCKWISE);
+        Imgproc.resize(rotatedImageMat, rotatedImageMat, this.imageMat.size());
+
+        if (action instanceof CVAction) {
+            this.imageMat = ((CVAction) action).processMat(this, this.imageMat);
+        }
+        return this.imageMat;
     }
 }
 

@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode.util;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.hardware.BaseHardware;
+
 /**
  * Created by djfigs1 on 9/30/17. not really
  */
@@ -15,11 +17,11 @@ public class EncoderDrive {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
 
-    private RoverRuckusHardware hardware;
+    private OmniDrive omniDrive;
     public boolean isBusy = false;
 
     private double inchesToDrive;
-    private RelicRecoveryHardware.RobotMoveDirection direction;
+    private BaseHardware.Direction direction;
     private DcMotor.RunMode previousRunMode;
     private double timeoutS;
     private ElapsedTime runTime;
@@ -34,18 +36,18 @@ public class EncoderDrive {
     private float BL_speed;
     private float BR_speed;
 
-    public EncoderDrive(RoverRuckusHardware hardware) {
-        this.hardware = hardware;
+    public EncoderDrive(OmniDrive omniDrive) {
+        this.omniDrive = omniDrive;
     }
 
-    public void setInchesToDrive(RelicRecoveryHardware.RobotMoveDirection direction, double distance, float power, double timeout) {
+    public void setInchesToDrive(BaseHardware.Direction direction, double distance, float power, double timeout) {
         this.inchesToDrive = distance;
         this.isBusy = true;
         this.timeoutS = timeout;
         this.runTime = new ElapsedTime();
         this.runTime.reset();
 
-        this.previousRunMode = hardware.frontLeft.getMode();
+        this.previousRunMode = omniDrive.frontLeft.getMode();
 
         switch (direction) {
             case FORWARD:
@@ -125,45 +127,45 @@ public class EncoderDrive {
         int BL_direction = (BL_speed > 0) ? 1 : (BL_speed < 0) ? -1 : 0;
         int BR_direction = (BR_speed > 0) ? 1 : (BR_speed < 0) ? -1 : 0;
 
-        FL_targetPosition = hardware.frontLeft.getCurrentPosition() + FL_direction * (int)(COUNTS_PER_INCH * distance);
-        FR_targetPosition = hardware.frontRight.getCurrentPosition() + FR_direction * (int)(COUNTS_PER_INCH * distance);
-        BL_targetPosition = hardware.backLeft.getCurrentPosition() + BL_direction * (int)(COUNTS_PER_INCH * distance);
-        BR_targetPosition = hardware.backRight.getCurrentPosition() + BR_direction * (int)(COUNTS_PER_INCH * distance);
+        FL_targetPosition = omniDrive.frontLeft.getCurrentPosition() + FL_direction * (int)(COUNTS_PER_INCH * distance);
+        FR_targetPosition = omniDrive.frontRight.getCurrentPosition() + FR_direction * (int)(COUNTS_PER_INCH * distance);
+        BL_targetPosition = omniDrive.backLeft.getCurrentPosition() + BL_direction * (int)(COUNTS_PER_INCH * distance);
+        BR_targetPosition = omniDrive.backRight.getCurrentPosition() + BR_direction * (int)(COUNTS_PER_INCH * distance);
 
-        hardware.frontLeft.setTargetPosition(FL_targetPosition);
-        hardware.frontRight.setTargetPosition(FR_targetPosition);
-        hardware.backLeft.setTargetPosition(BL_targetPosition);
-        hardware.backRight.setTargetPosition(BR_targetPosition);
+        omniDrive.frontLeft.setTargetPosition(FL_targetPosition);
+        omniDrive.frontRight.setTargetPosition(FR_targetPosition);
+        omniDrive.backLeft.setTargetPosition(BL_targetPosition);
+        omniDrive.backRight.setTargetPosition(BR_targetPosition);
 
-        hardware.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        hardware.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        hardware.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        hardware.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        omniDrive.frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        omniDrive.frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        omniDrive.backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        omniDrive.backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
 
-    public void run() {
+    public void run(BaseHardware hardware) {
         if (this.isBusy) {
-            boolean busy = hardware.frontLeft.isBusy() || hardware.frontRight.isBusy()
-                    || hardware.backLeft.isBusy() || hardware.backRight.isBusy();
+            boolean busy = omniDrive.frontLeft.isBusy() || omniDrive.frontRight.isBusy()
+                    || omniDrive.backLeft.isBusy() || omniDrive.backRight.isBusy();
 
             if (busy && this.runTime.seconds() < this.timeoutS) {
-                hardware.frontLeft.setPower(FL_speed);
-                hardware.frontRight.setPower(FR_speed);
-                hardware.backLeft.setPower(BL_speed);
-                hardware.backRight.setPower(BR_speed);
+                omniDrive.frontLeft.setPower(FL_speed);
+                omniDrive.frontRight.setPower(FR_speed);
+                omniDrive.backLeft.setPower(BL_speed);
+                omniDrive.backRight.setPower(BR_speed);
 
-                hardware.telemetry.addData("FL", String.format("%d -> %d", hardware.frontLeft.getCurrentPosition(), hardware.frontLeft.getTargetPosition()));
-                hardware.telemetry.addData("FR", String.format("%d -> %d", hardware.frontRight.getCurrentPosition(), hardware.frontRight.getTargetPosition()));
-                hardware.telemetry.addData("BL", String.format("%d -> %d", hardware.backLeft.getCurrentPosition(), hardware.backLeft.getTargetPosition()));
-                hardware.telemetry.addData("BR", String.format("%d -> %d", hardware.backRight.getCurrentPosition(), hardware.backRight.getTargetPosition()));
+                hardware.telemetry.addData("FL", String.format("%d -> %d", omniDrive.frontLeft.getCurrentPosition(), omniDrive.frontLeft.getTargetPosition()));
+                hardware.telemetry.addData("FR", String.format("%d -> %d", omniDrive.frontRight.getCurrentPosition(), omniDrive.frontRight.getTargetPosition()));
+                hardware.telemetry.addData("BL", String.format("%d -> %d", omniDrive.backLeft.getCurrentPosition(), omniDrive.backLeft.getTargetPosition()));
+                hardware.telemetry.addData("BR", String.format("%d -> %d", omniDrive.backRight.getCurrentPosition(), omniDrive.backRight.getTargetPosition()));
             } else {
                 isBusy = false;
-                hardware.omniDrive.stopDrive();
+                omniDrive.stopDrive();
 
-                hardware.frontLeft.setMode(previousRunMode);
-                hardware.frontRight.setMode(previousRunMode);
-                hardware.backLeft.setMode(previousRunMode);
-                hardware.backRight.setMode(previousRunMode);
+                omniDrive.frontLeft.setMode(previousRunMode);
+                omniDrive.frontRight.setMode(previousRunMode);
+                omniDrive.backLeft.setMode(previousRunMode);
+                omniDrive.backRight.setMode(previousRunMode);
             }
 
         }

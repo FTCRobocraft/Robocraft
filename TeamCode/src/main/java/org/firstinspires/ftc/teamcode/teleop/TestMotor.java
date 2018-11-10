@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import org.firstinspires.ftc.teamcode.util.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.hardware.RelicRecoveryHardware;
 
 @TeleOp(name="TestMotor")
 public class TestMotor extends RelicRecoveryHardware {

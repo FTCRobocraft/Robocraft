@@ -1,9 +1,11 @@
-package org.firstinspires.ftc.teamcode.util;
+package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-public class PlatformHardware extends BaseHardware {
+import org.firstinspires.ftc.teamcode.util.OmniDrive;
+
+public class RoverRuckusHardware extends BaseHardware {
 
     public DcMotor frontLeft;
     public DcMotor frontRight;
@@ -43,4 +45,5 @@ public class PlatformHardware extends BaseHardware {
 
         omniDrive = new OmniDrive(frontLeft, frontRight, backLeft, backRight);
     }
+
 }

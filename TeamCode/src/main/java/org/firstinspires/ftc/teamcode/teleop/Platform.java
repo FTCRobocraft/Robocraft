@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.util.PlatformHardware;
+import org.firstinspires.ftc.teamcode.hardware.PlatformHardware;
 
 @TeleOp(name="Platform")
 public class Platform extends PlatformHardware {
