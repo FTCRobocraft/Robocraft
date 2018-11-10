@@ -14,12 +14,6 @@ import org.firstinspires.ftc.teamcode.hardware.RoverRuckusHardware;
  */
 public class KnockBlockSequence extends ActionSequence {
 
-    double lowPos = 0;
-    double hiPos = 0.7;
-
-    double downPosition = 0.15;
-    double upPosition = 1;
-
     public KnockBlockSequence() {
         CameraBlockDetectionAction block = new CameraBlockDetectionAction();
         addAction(new WaitAction(5));

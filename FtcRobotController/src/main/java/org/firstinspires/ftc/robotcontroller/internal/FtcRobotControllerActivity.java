@@ -57,10 +57,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-<<<<<<< HEAD
-=======
 import android.widget.LinearLayout.LayoutParams;
->>>>>>> upstream/master
 import android.widget.PopupMenu;
 import android.widget.TextView;
 

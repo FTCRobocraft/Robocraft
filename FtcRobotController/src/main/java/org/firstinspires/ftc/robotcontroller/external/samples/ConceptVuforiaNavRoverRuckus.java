@@ -143,11 +143,7 @@ public class ConceptVuforiaNavRoverRuckus extends LinearOpMode {
         parameters.cameraDirection   = CAMERA_CHOICE;
 
         //  Instantiate the Vuforia engine
-<<<<<<< HEAD
-        vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-=======
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
->>>>>>> upstream/master
 
         // Load the data sets that for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.

@@ -2,13 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="com.qualcomm.ftcrobotcontroller"
-<<<<<<< HEAD
-          android:versionCode="28"
-          android:versionName="4.0">
-=======
           android:versionCode="31"
           android:versionName="4.3">
->>>>>>> upstream/master
 
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 

@@ -132,7 +132,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
           android:layout_height="match_parent"
           android:orientation="vertical">
 
-<<<<<<< HEAD
           <org.opencv.android.JavaCameraView
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
@@ -140,27 +139,24 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
               android:id="@+id/OpenCvView"
               opencv:show_fps="true"
               opencv:camera_id="any" />
+
+          <LinearLayout
+              android:id="@+id/cameraMonitorViewId"
+              android:visibility="gone"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1"
+              android:orientation="vertical"
+              />
+          <FrameLayout
+              android:id="@+id/tfodMonitorViewId"
+              android:visibility="gone"
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1"
+              />
       </LinearLayout>
 
-=======
-        <LinearLayout
-            android:id="@+id/cameraMonitorViewId"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            />
-        <FrameLayout
-            android:id="@+id/tfodMonitorViewId"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-
-        </LinearLayout>
->>>>>>> upstream/master
 
       <!-- When visible, the error message will overlay and thus partially
            obscure part of the camera monitor. We make this trade off so as to

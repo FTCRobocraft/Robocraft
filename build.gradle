@@ -9,19 +9,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-<<<<<<< HEAD
         classpath 'com.android.tools.build:gradle:3.2.1'
-    }
-}
-
-allprojects {
-    repositories {
-        google() // and here
-        jcenter()
-    }
-}
-=======
-        classpath 'com.android.tools.build:gradle:3.1.3'
     }
 }
 
@@ -33,4 +21,3 @@ allprojects {
         jcenter()
     }
 }
->>>>>>> upstream/master
