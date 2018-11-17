@@ -40,6 +40,13 @@ public class EncoderDrive {
         this.omniDrive = omniDrive;
     }
 
+    /**
+     * This function prepares the EncoderDrive to run
+     * @param direction Which direction the robot will move
+     * @param distance The distance (in centimeters) the robot will move
+     * @param power How much power is applied to each motor (0 -> 1)
+     * @param timeout Timeout in case something should go wrong
+     */
     public void setInchesToDrive(BaseHardware.Direction direction, double distance, float power, double timeout) {
         this.inchesToDrive = distance;
         this.isBusy = true;

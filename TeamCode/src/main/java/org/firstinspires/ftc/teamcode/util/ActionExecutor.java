@@ -71,6 +71,7 @@ public class ActionExecutor extends RoverRuckusHardware {
             if (action.doAction(this)) {
                 actionSequence.currentActionComplete();
                 action = actionSequence.getCurrentAction();
+                action.init(this);
                 actionNumber++;
             } else {
                 telemetry.addData("Progress", "%d/%d, %d%%", actionNumber, actionSequence.numberOfActions(),

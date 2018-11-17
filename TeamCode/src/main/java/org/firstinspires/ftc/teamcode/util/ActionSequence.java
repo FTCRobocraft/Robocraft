@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.util;
 
 import org.firstinspires.ftc.teamcode.action.Action;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,22 @@ public class ActionSequence {
 
     private List<Action> actions = new ArrayList<Action>();
     private int currentPosition = 0;
+
+    public ActionSequence(Action[] actionArray) {
+        for (Action action : actionArray) {
+            addAction(action);
+        }
+    }
+
+    public ActionSequence(List<Action> actions) {
+        this.actions = actions;
+    }
+
+    public ActionSequence(Action action) {
+        addAction(action);
+    }
+
+    public ActionSequence() {}
 
     public void addAction(Action action){
         actions.add(action);

@@ -13,7 +13,6 @@ public class MecanumRotationAction implements Action {
 
     private int degrees;
     private float speed;
-    boolean init = true;
     EncoderDrive encoderDrive;
 
     public final double INCHES_PER_DEGREE = 66.1/360;
@@ -24,14 +23,14 @@ public class MecanumRotationAction implements Action {
         this.speed = speed;
     }
 
+    public void init(BaseHardware hardware) {
+        double distance = INCHES_PER_DEGREE * degrees;
+        encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
+        encoderDrive.setInchesToDrive(BaseHardware.Direction.ROTATE_RIGHT, distance, speed, 1000);
+    }
+
     public boolean doAction(BaseHardware hardware) {
         if (hardware instanceof RoverRuckusHardware) {
-            if (init) {
-                double distance = INCHES_PER_DEGREE * degrees;
-                encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
-                encoderDrive.setInchesToDrive(BaseHardware.Direction.ROTATE_RIGHT, distance, speed, 1000);
-                init = false;
-            }
             encoderDrive.run(hardware);
             return !encoderDrive.isBusy;
         } else {

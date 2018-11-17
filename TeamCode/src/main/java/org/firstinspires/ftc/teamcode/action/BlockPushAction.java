@@ -28,6 +28,10 @@ public class BlockPushAction implements Action {
         this.action = action;
     }
 
+    public void init(BaseHardware hardware) {
+
+    }
+
     @Override
     public boolean doAction(BaseHardware hardware) {
         if (hardware instanceof RoverRuckusHardware) {

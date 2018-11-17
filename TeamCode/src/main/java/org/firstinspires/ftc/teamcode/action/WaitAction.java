@@ -8,22 +8,22 @@ import org.firstinspires.ftc.teamcode.hardware.BaseHardware;
 public class WaitAction implements Action {
     double time;
     double endTime;
-    boolean init = true;
 
+    /**
+     *
+     * @param time Time in milliseconds for the action to wait.
+     */
     public WaitAction(double time){
         this.time = time;
     }
 
     @Override
+    public void init(BaseHardware hardware) {
+        endTime = System.currentTimeMillis() + time;
+    }
+
+    @Override
     public boolean doAction(BaseHardware hardware){
-        boolean finished = false;
-        if (init){
-            endTime = System.currentTimeMillis() + time;
-                init = false;
-            }
-            if (System.currentTimeMillis() >= endTime){
-            finished = true;
-        }
-        return finished;
+        return (System.currentTimeMillis() >= endTime);
     }
 }
