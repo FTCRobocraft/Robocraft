@@ -8,10 +8,8 @@ public class TestMotor extends TestHardware {
 
     @Override
     public void loop() {
-        if (gamepad1.a) {
-            hex.setPower(-1);
-        } else if (gamepad1.y) {
-            hex.setPower(1);
+        if (gamepad1.right_stick_y != 0) {
+            hex.setPower(gamepad1.right_stick_y);
         } else {hex.setPower(0);}
     }
 }
