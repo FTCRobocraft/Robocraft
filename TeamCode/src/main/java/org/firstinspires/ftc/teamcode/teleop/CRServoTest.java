@@ -11,10 +11,10 @@ public class CRServoTest extends TestHardware {
         //CRServoTest1.setPower(0);
         if (gamepad1.a) {
             CRServoTest1.setPower(-1);
-            CRServoTest2.setPower(-1);
+            CRServoTest2.setPower(1);
         } else if (gamepad1.y) {
             CRServoTest1.setPower(1);
-            CRServoTest2.setPower(1);
+            CRServoTest2.setPower(-1);
         } else {
             CRServoTest1.setPower(0);
             CRServoTest2.setPower(0);
