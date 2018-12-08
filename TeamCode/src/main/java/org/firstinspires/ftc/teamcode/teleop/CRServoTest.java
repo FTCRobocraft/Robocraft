@@ -8,11 +8,16 @@ public class CRServoTest extends TestHardware {
 
     @Override
     public void loop() {
-        //CRServoTest.setPower(0);
+        //CRServoTest1.setPower(0);
         if (gamepad1.a) {
-            CRServoTest.setPower(-1);
+            CRServoTest1.setPower(-1);
+            CRServoTest2.setPower(-1);
         } else if (gamepad1.y) {
-            CRServoTest.setPower(1);
-        } else {CRServoTest.setPower(0);}
+            CRServoTest1.setPower(1);
+            CRServoTest2.setPower(1);
+        } else {
+            CRServoTest1.setPower(0);
+            CRServoTest2.setPower(0);
+        }
     }
 }
