@@ -121,7 +121,7 @@ public class RelicRecoveryHardware extends BaseHardware
         }
 
         try {
-            lift_verticalServo = hardwareMap.get(CRServoTest.class, "liftVerticalServo");
+            lift_verticalServo = hardwareMap.get(CRServoTest1.class, "liftVerticalServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
