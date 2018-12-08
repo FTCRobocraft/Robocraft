@@ -7,12 +7,15 @@ import org.firstinspires.ftc.teamcode.util.OmniDrive;
 
 public class RoverRuckusHardware extends BaseHardware {
 
+    // Mecanum motors
     public DcMotor frontLeft;
     public DcMotor frontRight;
     public DcMotor backLeft;
     public DcMotor backRight;
-
     public OmniDrive omniDrive;
+
+    // Arm
+    public DcMotor armMotor;
 
     public enum GOLD_MINERAL_POSITION {
         LEFT,
@@ -21,10 +24,14 @@ public class RoverRuckusHardware extends BaseHardware {
         UNKNOWN
     }
 
+    public enum RoverRuckusStartingPosition {
+        TOWARDS_DEPOT,
+        TOWARDS_CRATER
+    }
+
     @Override
     public void init() {
         super.init();
-
         try {
             frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
             frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);

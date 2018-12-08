@@ -26,7 +26,12 @@ public class MecanumRotationAction implements Action {
     public void init(BaseHardware hardware) {
         double distance = INCHES_PER_DEGREE * degrees;
         encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
-        encoderDrive.setInchesToDrive(BaseHardware.Direction.ROTATE_RIGHT, distance, speed, 1000);
+        if (distance < 0) {
+            distance = -distance;
+            encoderDrive.setInchesToDrive(BaseHardware.Direction.ROTATE_LEFT, distance, speed, 1000);
+        } else {
+            encoderDrive.setInchesToDrive(BaseHardware.Direction.ROTATE_RIGHT, distance, speed, 1000);
+        }
     }
 
     public boolean doAction(BaseHardware hardware) {

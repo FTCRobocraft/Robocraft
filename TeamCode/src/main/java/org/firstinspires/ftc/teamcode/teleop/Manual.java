@@ -99,7 +99,8 @@ public class Manual extends RelicRecoveryHardware {
 
         if (gamepad1.right_trigger > 0) {
             rotateRight(gamepad1.right_trigger / slowModeSpeed);
-        }
+        }//PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+        //pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp
         else if (gamepad1.left_trigger > 0) {
             rotateLeft(gamepad1.left_trigger / slowModeSpeed);
         }

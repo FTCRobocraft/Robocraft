@@ -45,6 +45,11 @@ public class BaseHardware extends OpMode {
         RED,
         BLUE
     }
+
+    public enum StartingPosition {
+        LEFT,
+        RIGHT
+    }
     //endregion
 
 
