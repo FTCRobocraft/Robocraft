@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+@TeleOp(name="TestHarware")
 public class TestHardware extends BaseHardware {
 
     public CRServo CRServoTest1;
