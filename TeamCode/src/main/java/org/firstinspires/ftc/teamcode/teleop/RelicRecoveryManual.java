@@ -6,8 +6,8 @@ import org.firstinspires.ftc.teamcode.hardware.RelicRecoveryHardware;
  * Created by lvern on 1/6/2018.
  */
 
-//@TeleOp(name="Manual")
-public class Manual extends RelicRecoveryHardware {
+//@TeleOp(name="RelicRecoveryManual")
+public class RelicRecoveryManual extends RelicRecoveryHardware {
 
     float dpadPower = 1f;
     float bumperPower = 1f;
@@ -100,7 +100,7 @@ public class Manual extends RelicRecoveryHardware {
         if (gamepad1.right_trigger > 0) {
             rotateRight(gamepad1.right_trigger / slowModeSpeed);
         }//PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-        //pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp
+
         else if (gamepad1.left_trigger > 0) {
             rotateLeft(gamepad1.left_trigger / slowModeSpeed);
         }
