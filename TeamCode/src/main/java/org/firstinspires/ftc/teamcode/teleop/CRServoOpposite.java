@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.hardware.TestHardware;
 
 @TeleOp(name="CRServoOpposite")
@@ -19,10 +18,10 @@ public class CRServoOpposite extends TestHardware {
     public void loop() {
         if (gamepad1.a) {
             servo1.setPosition(0);
-            servo2.setPosition(1);
+            servo2.setPosition(0);
         } else if (gamepad1.y) {
             servo1.setPosition(1);
-            servo2.setPosition(0);
+            servo2.setPosition(1);
         }
     }
 }
