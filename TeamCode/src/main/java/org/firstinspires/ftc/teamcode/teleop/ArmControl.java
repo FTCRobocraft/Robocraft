@@ -12,7 +12,7 @@ public class ArmControl extends TestHardware {
     @Override
     public void init() {
         super.init();
-        //Set the directions of the servos opposite because they are facing different directions
+        //Set the directions of the basket servos opposite because they are facing different directions
         servo1.setDirection(Servo.Direction.FORWARD);
         servo2.setDirection(Servo.Direction.REVERSE);
     }
@@ -30,10 +30,10 @@ public class ArmControl extends TestHardware {
 
         //Control dumper
         if (gamepad1.x) {
-            CRServoTest1.setPower(1);
+            CRServoTest1.setPower(-1);
             CRServoTest2.setPower(1);
         } else if (gamepad1.b) {
-            CRServoTest1.setPower(-1);
+            CRServoTest1.setPower(1);
             CRServoTest2.setPower(-1);
         } else {
             CRServoTest1.setPower(0);
