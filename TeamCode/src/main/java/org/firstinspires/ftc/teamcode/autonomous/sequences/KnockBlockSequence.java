@@ -19,29 +19,6 @@ import java.util.List;
  */
 public class KnockBlockSequence extends ActionSequence {
     public KnockBlockSequence() {
-        BlockDetectionAction blockDetectionAction = new BlockDetectionAction(5);
-
-        // Detect the block
-        addAction(blockDetectionAction);
-
-        // Move left if the gold mineral is on the left
-        addAction(new IfAction((hardware) -> blockDetectionAction.position == RoverRuckusHardware.GOLD_MINERAL_POSITION.LEFT,
-                leftSequence, null));
-
-        // Move right if the gold mineral is on the right
-        addAction(new IfAction((hardware) -> blockDetectionAction.position == RoverRuckusHardware.GOLD_MINERAL_POSITION.RIGHT,
-                rightSequence, null));
-
-        // PUSH
-        addAction(new MecanumMoveAction(BaseHardware.Direction.FORWARD, 10, 0.5f, 5));
-
+        addAction(new BlockPushAction(null));
     }
-
-    private ActionSequence leftSequence = new ActionSequence(
-            new MecanumMoveAction(BaseHardware.Direction.LEFT, 39.5, 0.5f, 5)
-    );
-
-    private ActionSequence rightSequence = new ActionSequence(
-            new MecanumMoveAction(BaseHardware.Direction.RIGHT, 39.5, 0.5f, 5)
-    );
 }

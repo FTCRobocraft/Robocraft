@@ -63,6 +63,7 @@ public class RoverRuckusHardware extends BaseHardware {
             dumperVerticalHexMotor = hardwareMap.get(DcMotor.class, "dumperVerticalHexMotor");
             dumperLeftServo = hardwareMap.get(Servo.class, "dumperLeftServo");
             dumperRightServo = hardwareMap.get(Servo.class, "dumperRightServo");
+            dumperRightServo.setDirection(Servo.Direction.REVERSE);
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }

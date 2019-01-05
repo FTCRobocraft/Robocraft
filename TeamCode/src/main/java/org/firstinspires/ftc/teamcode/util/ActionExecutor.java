@@ -63,16 +63,23 @@ public class ActionExecutor extends RoverRuckusHardware {
     }
 
     int actionNumber = 1;
+    boolean didInit = false;
 
     @Override
     public void loop() {
         action = actionSequence.getCurrentAction();
+
         if (action != null) {
+            if (!didInit) {
+                action.init(this);
+                didInit = true;
+            }
+
             if (action.doAction(this)) {
                 actionSequence.currentActionComplete();
                 action = actionSequence.getCurrentAction();
-                action.init(this);
                 actionNumber++;
+                didInit = false;
             } else {
                 telemetry.addData("Progress", "%d/%d, %d%%", actionNumber, actionSequence.numberOfActions(),
                         (int) ((double) actionNumber / (double) actionSequence.numberOfActions() * 100.0));

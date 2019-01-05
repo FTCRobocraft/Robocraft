@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode.action;
 
+import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.hardware.BaseHardware;
 
 import org.firstinspires.ftc.teamcode.hardware.RoverRuckusHardware;
 import org.firstinspires.ftc.teamcode.util.EncoderDrive;
+
+import java.util.List;
+
+import static org.firstinspires.ftc.robotcore.external.tfod.TfodRoverRuckus.LABEL_GOLD_MINERAL;
 
 public class BlockPushAction implements Action {
 
@@ -21,6 +26,9 @@ public class BlockPushAction implements Action {
     final double DISTANCE_PUSH = 10;
     final float POWER = 0.5f;
     final double TIMEOUT = 5;
+    final float ALIGN_SPEED = 0.25f;
+    final int CENTER_X = 350;
+    final int CENTER_TOLERACE = 50;
 
 
 
@@ -37,35 +45,27 @@ public class BlockPushAction implements Action {
         if (hardware instanceof RoverRuckusHardware) {
             switch(currentStage) {
                 case ALIGN:
-                    if (init) {
-                        encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
+                    ((RoverRuckusHardware) hardware).omniDrive.moveLeft(ALIGN_SPEED);
 
-                        switch (action.position) {
-                            case LEFT:
-                                encoderDrive.setInchesToDrive(BaseHardware.Direction.LEFT,
-                                        DISTANCE_BETWEEN_TAPE, POWER, TIMEOUT);
-                                break;
+                    // Get all new recognitions
+                    List<Recognition> updatedRecognitions = hardware.tfod.getUpdatedRecognitions();
 
-                            case CENTER:
-                                break;
-
-                            case RIGHT:
-                                encoderDrive.setInchesToDrive(BaseHardware.Direction.LEFT,
-                                        DISTANCE_BETWEEN_TAPE, POWER, TIMEOUT);
-                                break;
-
-                            case UNKNOWN:
-                                // idk lol we're screwed if we get here so might as well die.
-                                break;
+                    if (updatedRecognitions != null) {
+                        hardware.telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        int goldMineralX = -1;
+                        for (Recognition recognition : updatedRecognitions) {
+                            if (recognition.getLabel().equals(LABEL_GOLD_MINERAL) && recognition.getConfidence() > 0.8f) {
+                                goldMineralX = (int) (recognition.getRight() - (recognition.getWidth() / 2.0f));
+                            }
                         }
-                        init = false;
-                    }
 
-                    if (!encoderDrive.isBusy) {
-                        encoderDrive.run(hardware);
-                    } else {
-                        init = true;
-                        currentStage = BLOCK_PUSH_STAGES.PUSH;
+                        if (goldMineralX > (CENTER_X - CENTER_TOLERACE)) {
+                            ((RoverRuckusHardware) hardware).omniDrive.stopDrive();
+                            currentStage = BLOCK_PUSH_STAGES.PUSH;
+                        }
+
+                        hardware.telemetry.addData("gold x", goldMineralX);
+                        hardware.telemetry.update();
                     }
                     break;
 
