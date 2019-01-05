@@ -42,5 +42,6 @@ public class ArmControl extends TestHardware {
 
         //Control lifter
         hex.setPower(gamepad1.right_stick_y);
+        transferMotor.setPower(gamepad1.left_stick_y);
     }
 }

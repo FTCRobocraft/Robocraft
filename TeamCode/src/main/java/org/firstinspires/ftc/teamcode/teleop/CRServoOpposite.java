@@ -13,7 +13,7 @@ public class CRServoOpposite extends TestHardware {
         servo1.setDirection(Servo.Direction.FORWARD);
         servo2.setDirection(Servo.Direction.REVERSE);
     }
-
+//my name is dj and i got a 2070 and a 9500k for christmas :)
     @Override
     public void loop() {
         if (gamepad1.a) {

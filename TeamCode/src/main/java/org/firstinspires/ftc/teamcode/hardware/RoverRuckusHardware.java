@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.hardware.motors.RevRoboticsCoreHexMotor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.util.OmniDrive;
 
 public class RoverRuckusHardware extends BaseHardware {
@@ -14,8 +17,14 @@ public class RoverRuckusHardware extends BaseHardware {
     public DcMotor backRight;
     public OmniDrive omniDrive;
 
-    // Arm
-    public DcMotor armMotor;
+    public CRServo scooperCRServoLeft;
+    public CRServo scooperCRServoRight;
+    public DcMotor scooperTransferMotor;
+
+    public DcMotor dumperVerticalHexMotor;
+    public Servo dumperLeftServo;
+    public Servo dumperRightServo;
+
 
     public enum GOLD_MINERAL_POSITION {
         LEFT,
@@ -32,35 +41,30 @@ public class RoverRuckusHardware extends BaseHardware {
     @Override
     public void init() {
         super.init();
+
         try {
             frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
             frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        } catch (Exception e) {
-            telemetry.addData("Not Found:", e.getMessage());
-        }
 
-        try {
             frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-        } catch (Exception e) {
-            telemetry.addData("Not Found:", e.getMessage());
-        }
 
-        try {
             backLeft = hardwareMap.get(DcMotor.class, "backLeft");
             backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        } catch (Exception e) {
-            telemetry.addData("Not Found:", e.getMessage());
-        }
 
-        try {
             backRight = hardwareMap.get(DcMotor.class, "backRight");
+
+            omniDrive = new OmniDrive(frontLeft, frontRight, backLeft, backRight);
+
+            scooperCRServoLeft = hardwareMap.get(CRServo.class, "scooperCRServoLeft");
+            scooperCRServoRight = hardwareMap.get(CRServo.class, "scooperCRServoRight");
+            scooperCRServoRight.setDirection(DcMotorSimple.Direction.REVERSE);
+            scooperTransferMotor = hardwareMap.get(DcMotor.class, "scooperTransferMotor");
+
+            dumperVerticalHexMotor = hardwareMap.get(DcMotor.class, "dumperVerticalHexMotor");
+            dumperLeftServo = hardwareMap.get(Servo.class, "dumperLeftServo");
+            dumperRightServo = hardwareMap.get(Servo.class, "dumperRightServo");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
-
-        omniDrive = new OmniDrive(frontLeft, frontRight, backLeft, backRight);
-
-
     }
-
 }

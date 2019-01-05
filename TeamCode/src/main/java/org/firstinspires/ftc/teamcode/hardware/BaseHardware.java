@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
@@ -18,7 +19,7 @@ public class BaseHardware extends OpMode {
 
     public TFObjectDetector tfod;
     //endregion
-
+//We had peruvian chicken today
     // Encoder Setup
     static final double     COUNTS_PER_MOTOR_REV    = 28 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 72.0 ;     // This is < 1.0 if geared UP
@@ -59,3 +60,4 @@ public class BaseHardware extends OpMode {
 
     @Override public void loop () {}
 }
+//1-up DJ = impossible

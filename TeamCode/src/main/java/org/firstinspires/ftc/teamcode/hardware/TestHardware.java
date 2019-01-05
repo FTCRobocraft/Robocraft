@@ -13,6 +13,7 @@ public class TestHardware extends BaseHardware {
     public Servo servo1;
     public Servo servo2;
     public DcMotor hex;
+    public DcMotor transferMotor;
 
     public void init() {
 
@@ -42,6 +43,12 @@ public class TestHardware extends BaseHardware {
 
         try {
             hex = hardwareMap.get(DcMotor.class, "hex");
+        } catch (Exception e) {
+            telemetry.addData("Not Found:", e.getMessage());
+        }
+
+        try {
+            transferMotor = hardwareMap.get(DcMotor.class, "transferMotor");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
