@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.hardware.TestHardware;
 
 
 @TeleOp(name="CRServoSame")
+@Disabled
 public class CRServoSame extends TestHardware {
 
     @Override public void loop() {

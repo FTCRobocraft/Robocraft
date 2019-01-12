@@ -1,9 +1,10 @@
 package org.firstinspires.ftc.teamcode.autonomous.sequences;
 
 import org.firstinspires.ftc.teamcode.action.Action;
-import org.firstinspires.ftc.teamcode.action.BlockDetectionAction;
+import org.firstinspires.ftc.teamcode.action.BlockPushAction;
+import org.firstinspires.ftc.teamcode.action.EncoderToPositionAction;
 import org.firstinspires.ftc.teamcode.action.IfAction;
-import org.firstinspires.ftc.teamcode.action.LandRobotAction;
+import org.firstinspires.ftc.teamcode.action.KeepScooperUnderPowerAction;
 import org.firstinspires.ftc.teamcode.action.MecanumMoveAction;
 import org.firstinspires.ftc.teamcode.action.MecanumRotationAction;
 import org.firstinspires.ftc.teamcode.action.PlaceTeamMarkerAction;
@@ -13,165 +14,105 @@ import org.firstinspires.ftc.teamcode.util.ActionSequence;
 
 public class RoverRuckusSequence extends ActionSequence {
 
-    // Speeds
-    public final float S_ROTATION = 0.5f;
-    public final float S_MOVE = 0.5f;
+    public final float MOVE_SPEED = 0.4f;
+    public final float ROTATE_SPEED = 0.5f;
+    public final float TRANSFER_SPEED = 0.35f;
 
-    // Distances
-    public final double D_LANDER_TO_MINERALS = 30;
-    public final double D_BETWEEN_MINERALS = 39.5;
-    public final double D_MINERAL_PUSH = 10;
+    public final double CRATER_TO_MINERALS = 13;
+    public final int TRANSFER_MOTOR_POSITION = 900;
 
-    public final double D_MINERAL_TO_MIDLINE = 107.8;
-    public final double D_MIDLINE_TO_DEPOT = 122.4;
-    public final double D_DEPOT_TO_PARK = 200;
+    public final double TC_TO_WALL = 58;
+    public final int TC_DEGREES_TO_DEPOT = 57;
+    public final double TC_TO_DEPOT = 18;
+    public final double TC_DEPOT_TO_CRATER = 46;
 
-    public final double D_MINERAL_TO_WALL = 107.8;
-    public final double D_WALL_TO_DEPOT = 121.9;
+    public final double TD_TO_WALL = 58;
+    public final int TD_DEGREES_TO_DEPOT = -170;
+    public final double TD_TO_DEPOT = 44;
+    public final double TD_DEPOT_TO_CRATER = 41;
 
-    // Timeouts
-    public final double T_MOVE = 5000;
-    public final double T_BLOCK_DETECT = 5000;
-
-    ActionSequence leftActionSequence = new ActionSequence(new Action[] {
-            // Move left towards the mineral
-            new MecanumMoveAction(BaseHardware.Direction.LEFT, D_BETWEEN_MINERALS, S_MOVE, T_MOVE),
-
-            // Push the mineral
-            new MecanumMoveAction(BaseHardware.Direction.FORWARD, D_MINERAL_PUSH, S_MOVE, T_MOVE),
-
-            // Backup from the mineral
-            new MecanumMoveAction(BaseHardware.Direction.BACKWARD, D_MINERAL_PUSH, S_MOVE, T_MOVE),
-
-            // Move right towards the center position
-            new MecanumMoveAction(BaseHardware.Direction.RIGHT, D_BETWEEN_MINERALS, S_MOVE, T_MOVE)
-    });
-
-    ActionSequence centerActionSequence = new ActionSequence(new Action[] {
-            // Push the mineral
-            new MecanumMoveAction(BaseHardware.Direction.FORWARD, D_MINERAL_PUSH, S_MOVE, T_MOVE),
-
-            // Backup from the mineral
-            new MecanumMoveAction(BaseHardware.Direction.BACKWARD, D_MINERAL_PUSH, S_MOVE, T_MOVE)
-    });
-
-    ActionSequence rightActionSequence = new ActionSequence(new Action[] {
-            // Move right towards the mineral
-            new MecanumMoveAction(BaseHardware.Direction.RIGHT, D_BETWEEN_MINERALS, S_MOVE, T_MOVE),
-
-            // Push the mineral
-            new MecanumMoveAction(BaseHardware.Direction.FORWARD, D_MINERAL_PUSH, S_MOVE, T_MOVE),
-
-            // Backup from the mineral
-            new MecanumMoveAction(BaseHardware.Direction.BACKWARD, D_MINERAL_PUSH, S_MOVE, T_MOVE),
-
-            // Move left towards the center position
-            new MecanumMoveAction(BaseHardware.Direction.LEFT, D_BETWEEN_MINERALS, S_MOVE, T_MOVE)
-    });
-
-    BlockDetectionAction blockDetectionAction = new BlockDetectionAction(T_BLOCK_DETECT);
+    public final float TRANSFER_TIMEOUT = 1000;
 
 
     public RoverRuckusSequence(RoverRuckusHardware.RoverRuckusStartingPosition startingPosition) {
+            addAction(new KeepScooperUnderPowerAction());
+
             switch (startingPosition) {
                 case TOWARDS_DEPOT:
-                    // TODO: Land the robot
-                    addAction(new LandRobotAction()); // does nothing as of now
+                    // Creep up towards the minerals so we can detect them better
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.BACKWARD,
+                            CRATER_TO_MINERALS, MOVE_SPEED, 1000));
 
-                    //region Minerals
+                    // Push the gold mineral
+                    addAction(new BlockPushAction(15000));
 
-                    // TODO: Move to minerals
-                    // Rotate 180 degrees to face minerals
-                    addAction(new MecanumRotationAction(180, S_ROTATION));
+                    // Move towards the wall
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.RIGHT,
+                            TD_TO_WALL, MOVE_SPEED, 4000));
 
-                    // Move towards the minerals
-                    addAction(new MecanumMoveAction(BaseHardware.Direction.FORWARD, D_LANDER_TO_MINERALS,
-                            S_MOVE, T_MOVE));
+                    // Rotate towards the depot
+                    addAction(new MecanumRotationAction(TD_DEGREES_TO_DEPOT, ROTATE_SPEED));
 
-                    //TODO: Pick correct mineral (gold)
-                    // Attempt to try to detect the minerals
-                    addAction(blockDetectionAction);
+                    // Better align to wall
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.LEFT,
+                            3, 0.4f, 1000));
 
-                    // Execute the following action sequence if the block is on the left:
-                    addAction(new IfAction((hardware) -> blockDetectionAction.position == RoverRuckusHardware.GOLD_MINERAL_POSITION.LEFT,
-                            leftActionSequence, null));
+                    // Move towards the depot
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.FORWARD,
+                            TD_TO_DEPOT, MOVE_SPEED, 1500));
 
-                    // Execute the following action sequence if the block is right in front of us:
-                    addAction(new IfAction((hardware) -> blockDetectionAction.position == RoverRuckusHardware.GOLD_MINERAL_POSITION.CENTER,
-                            centerActionSequence, null));
+                    // Place the team marker by dropping the scooper
+                    addAction(new EncoderToPositionAction("scooperTransferMotor",
+                            TRANSFER_MOTOR_POSITION, TRANSFER_SPEED, TRANSFER_TIMEOUT));
 
-                    // Execute the following action sequence if the block is on the right:
-                    addAction(new IfAction((hardware) -> blockDetectionAction.position == RoverRuckusHardware.GOLD_MINERAL_POSITION.RIGHT,
-                            rightActionSequence, null));
-                    //endregion
+                    // Retract the scooper
+                    addAction(new EncoderToPositionAction("scooperTransferMotor",
+                            -TRANSFER_MOTOR_POSITION, TRANSFER_SPEED, TRANSFER_TIMEOUT));
 
-                    //region Team Marker
-                    //TODO: Move to team marker bin
-                    addAction(new MecanumRotationAction(-90, S_ROTATION));
-                    addAction(new MecanumMoveAction(BaseHardware.Direction.LEFT, D_MINERAL_TO_MIDLINE, S_MOVE, T_MOVE));
-                    addAction(new MecanumRotationAction(315, S_ROTATION));
-                    addAction(new MecanumMoveAction(BaseHardware.Direction.FORWARD, D_MIDLINE_TO_DEPOT, S_MOVE, T_MOVE));
+                    // Make sure the scooper doesn't fall
+                    addAction(new KeepScooperUnderPowerAction());
 
-                    //TODO: Place team marker
-                    addAction(new PlaceTeamMarkerAction());
-                    //endregion
-
-                    //region Parking
-                    //TODO: Move to parking zone and park
-                    addAction(new MecanumRotationAction(180, S_ROTATION));
-                    addAction(new MecanumMoveAction(BaseHardware.Direction.FORWARD, D_DEPOT_TO_PARK, S_MOVE, T_MOVE));
-                    //endregion
-
+                    // Park in the crater
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.BACKWARD,
+                            TD_DEPOT_TO_CRATER, 0.5f, 3000));
                     break;
 
                 case TOWARDS_CRATER:
-                    // TODO: Land the robot
-                    addAction(new LandRobotAction()); // does nothing as of now
+                    // Creep up towards the minerals so we can detect them better
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.BACKWARD,
+                            CRATER_TO_MINERALS, MOVE_SPEED, 1000));
 
-                    //region Minerals
+                    // Push the gold mineral
+                    addAction(new BlockPushAction(15000));
 
-                    // TODO: Move to minerals
-                    // Rotate 180 degrees to face minerals
-                    addAction(new MecanumRotationAction(180, S_ROTATION));
+                    // Move towards the wall
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.RIGHT,
+                            TC_TO_WALL, MOVE_SPEED, 4000));
 
-                    // Move towards the minerals
-                    addAction(new MecanumMoveAction(BaseHardware.Direction.FORWARD, D_LANDER_TO_MINERALS,
-                            S_MOVE, T_MOVE));
+                    // Rotate towards the depot
+                    addAction(new MecanumRotationAction(TC_DEGREES_TO_DEPOT, ROTATE_SPEED));
 
-                    //TODO: Pick correct mineral (gold)
-                    // Attempt to try to detect the minerals
-                    addAction(blockDetectionAction);
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.RIGHT,
+                            4, 0.4f, 1000));
 
-                    // Execute the following action sequence if the block is on the left:
-                    addAction(new IfAction((hardware) -> blockDetectionAction.position == RoverRuckusHardware.GOLD_MINERAL_POSITION.LEFT,
-                            leftActionSequence, null));
+                    // Move towards the depot
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.FORWARD,
+                            TC_TO_DEPOT, MOVE_SPEED, 1500));
 
-                    // Execute the following action sequence if the block is right in front of us:
-                    addAction(new IfAction((hardware) -> blockDetectionAction.position == RoverRuckusHardware.GOLD_MINERAL_POSITION.CENTER,
-                            centerActionSequence, null));
+                    // Place the team marker by dropping the scooper
+                    addAction(new EncoderToPositionAction("scooperTransferMotor",
+                            TRANSFER_MOTOR_POSITION, TRANSFER_SPEED, TRANSFER_TIMEOUT));
 
-                    // Execute the following action sequence if the block is on the right:
-                    addAction(new IfAction((hardware) -> blockDetectionAction.position == RoverRuckusHardware.GOLD_MINERAL_POSITION.RIGHT,
-                            rightActionSequence, null));
-                    //endregion
+                    // Retract the scooper
+                    addAction(new EncoderToPositionAction("scooperTransferMotor",
+                            -TRANSFER_MOTOR_POSITION, TRANSFER_SPEED, TRANSFER_TIMEOUT));
 
-                    //region Team Marker
-                    //TODO: Move to team marker bin
-                    addAction(new MecanumRotationAction(-90, S_ROTATION));
-                    addAction(new MecanumMoveAction(BaseHardware.Direction.LEFT, D_MINERAL_TO_WALL, S_MOVE, T_MOVE));
-                    addAction(new MecanumRotationAction(-45, S_ROTATION));
-                    addAction(new MecanumMoveAction(BaseHardware.Direction.FORWARD, D_WALL_TO_DEPOT, S_MOVE, T_MOVE));
+                    // Make sure the scooper doesn't fall
+                    addAction(new KeepScooperUnderPowerAction());
 
-                    //TODO: Place team marker
-                    addAction(new PlaceTeamMarkerAction());
-                    //endregion
-
-                    //region Parking
-                    //TODO: Move to parking zone and park
-                    addAction(new MecanumRotationAction(180, S_ROTATION));
-                    addAction(new MecanumMoveAction(BaseHardware.Direction.FORWARD, D_DEPOT_TO_PARK, S_MOVE, T_MOVE));
-                    //endregion
-
+                    // Park in the crater
+                    addAction(new MecanumMoveAction(BaseHardware.Direction.BACKWARD,
+                            TC_DEPOT_TO_CRATER, 0.5f, 3000));
                     break;
             }
     }

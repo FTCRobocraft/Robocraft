@@ -14,11 +14,13 @@ public class DumpBlockSequence  extends ActionSequence  {
     final double TRANSFER_SPEED = 0.35f;
     final double VERTICAL_SPEED = 1f;
 
-    public DumpBlockSequence() {
-        addAction(new EncoderToPositionAction("scooperTransferMotor", TRANSFER_MOTOR_POSITION, TRANSFER_SPEED, TIMEOUT));
+    public DumpBlockSequence(boolean scooperUp) {
+        if (scooperUp) {
+            addAction(new EncoderToPositionAction("scooperTransferMotor", TRANSFER_MOTOR_POSITION, TRANSFER_SPEED, TIMEOUT));
+        }
         addAction(new EncoderToPositionAction("dumperVerticalHexMotor", VERTICAL_HEX_UP_POSITION, VERTICAL_SPEED, TIMEOUT));
-        addAction(new DumperServoAction(0.6, 250));
-        addAction(new WaitAction(400));
+        addAction(new DumperServoAction(0.7, 250));
+        addAction(new WaitAction(800));
         addAction(new DumperServoAction(1, 250));
         addAction(new WaitAction(250));
         addAction(new DumperServoAction(0, 250));

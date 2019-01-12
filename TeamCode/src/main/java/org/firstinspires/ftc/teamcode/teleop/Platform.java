@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.hardware.PlatformHardware;
 
 @TeleOp(name="Platform")
+@Disabled
 public class Platform extends PlatformHardware {
 
     float power = 0.5f;

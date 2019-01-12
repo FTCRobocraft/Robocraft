@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.Camera;
 import org.firstinspires.ftc.teamcode.util.OmniDrive;
 
 public class RoverRuckusHardware extends BaseHardware {
@@ -17,8 +18,7 @@ public class RoverRuckusHardware extends BaseHardware {
     public DcMotor backRight;
     public OmniDrive omniDrive;
 
-    public CRServo scooperCRServoLeft;
-    public CRServo scooperCRServoRight;
+    public DcMotor scooperHexMotor;
     public DcMotor scooperTransferMotor;
 
     public DcMotor dumperVerticalHexMotor;
@@ -55,9 +55,8 @@ public class RoverRuckusHardware extends BaseHardware {
 
             omniDrive = new OmniDrive(frontLeft, frontRight, backLeft, backRight);
 
-            scooperCRServoLeft = hardwareMap.get(CRServo.class, "scooperCRServoLeft");
-            scooperCRServoRight = hardwareMap.get(CRServo.class, "scooperCRServoRight");
-            scooperCRServoRight.setDirection(DcMotorSimple.Direction.REVERSE);
+            scooperHexMotor = hardwareMap.get(DcMotor.class, "scooperHexMotor");
+            scooperHexMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             scooperTransferMotor = hardwareMap.get(DcMotor.class, "scooperTransferMotor");
 
             dumperVerticalHexMotor = hardwareMap.get(DcMotor.class, "dumperVerticalHexMotor");

@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
-import android.media.MediaPlayer;
-import android.os.Environment;
-
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -15,14 +12,18 @@ import org.firstinspires.ftc.teamcode.util.ActionSequence;
 @TeleOp(name="Manual")
 public class RoverRuckusTeleOp extends RoverRuckusHardware {
 
-    final float SPEED = 0.5f;
+    final float SPEED = 1f;
+    final float SLOW_SPEED = 0.5f;
+
     final float TRANSFER_IDLE_SPEED = -0.05f;
     final float VERTICAL_POWER = 1f;
     final float VERTICAL_IDLE_POWER = 0.05f;
-    final double DUMPER_DEPLOYED_POSTITION = 1;
-    final double DUMPER_IDLE_POSITION = 0;
 
-    boolean aPress = false;
+
+    boolean a1Press = false;
+    boolean a2Press = false;
+
+    boolean slowMode = true;
     boolean scooperEnabled = false;
 
     Action action;
@@ -30,8 +31,7 @@ public class RoverRuckusTeleOp extends RoverRuckusHardware {
     int actionNumber = 1;
     ActionSequence actionSequence;
     boolean manualControl = true;
-
-    String filePath = "";
+    boolean scooperUp = true;
 
     @Override
     public void init() {
@@ -42,63 +42,41 @@ public class RoverRuckusTeleOp extends RoverRuckusHardware {
     public void loop() {
         if (manualControl) {
             omniDrive.stopDrive();
-            omniDrive.dpadMove(gamepad1, SPEED);
+            omniDrive.dpadMove(gamepad1, slowMode ? SLOW_SPEED : SPEED);
             scooperTransferMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             scooperTransferMotor.setPower(TRANSFER_IDLE_SPEED);
 
-            /*if (gamepad2.left_trigger > 0) {
-                scooperTransferMotor.setPower(SCOOPER_TRANSFER_SPEED);
-            } else if (gamepad2.right_trigger > 0) {
-                scooperTransferMotor.setPower(-SCOOPER_TRANSFER_SPEED);
+            if (gamepad1.a) {
+                if (!a1Press) {
+                    slowMode = !slowMode;
+                    a1Press = true;
+                }
             } else {
-                scooperTransferMotor.setPower(0);
-            }*/
-
-            if (gamepad2.left_bumper) {
-                dumperLeftServo.setPosition(DUMPER_IDLE_POSITION);
-                dumperRightServo.setPosition(DUMPER_IDLE_POSITION);
-            } else if (gamepad2.right_bumper) {
-                dumperLeftServo.setPosition(DUMPER_DEPLOYED_POSTITION);
-                dumperRightServo.setPosition(DUMPER_DEPLOYED_POSTITION);
+                a1Press = false;
             }
 
             if (gamepad2.a) {
-                if (!aPress) {
-                    aPress = true;
+                if (!a2Press) {
+                    a2Press = true;
                     if (scooperEnabled) {
-                        scooperCRServoLeft.setPower(0);
-                        scooperCRServoRight.setPower(0);
+                        scooperHexMotor.setPower(0);
                     } else {
-                        scooperCRServoLeft.setPower(1);
-                        scooperCRServoRight.setPower(1);
+                        scooperHexMotor.setPower(1);
                     }
                     scooperEnabled = !scooperEnabled;
                 }
             } else {
-                aPress = false;
-            }
-
-            if (gamepad2.dpad_up) {
-                dumperVerticalHexMotor.setPower(VERTICAL_POWER);
-            } else if (gamepad2.dpad_down) {
-                dumperVerticalHexMotor.setPower(-VERTICAL_POWER);
-            } else {
-                dumperVerticalHexMotor.setPower(VERTICAL_IDLE_POWER);
-            }
-
-            if (gamepad2.x) {
-                manualControl = false;
-                actionSequence = new CollectBlockSequence(false);
+                a2Press = false;
             }
 
             if (gamepad2.b){
-                manualControl = false;
-                actionSequence = new CollectBlockSequence(true);
+                prepareForAutoControl(new CollectBlockSequence(scooperUp));
+                scooperUp = !scooperUp;
             }
 
             if (gamepad2.y) {
-                manualControl = false;
-                actionSequence = new DumpBlockSequence();
+                prepareForAutoControl(new DumpBlockSequence(scooperUp));
+                scooperUp = true;
             }
         } else {
             action = actionSequence.getCurrentAction();
@@ -126,7 +104,10 @@ public class RoverRuckusTeleOp extends RoverRuckusHardware {
 
     }
 
-    void prepareForAutoControl() {
+    void prepareForAutoControl(ActionSequence sequence) {
+        omniDrive.stopDrive();
+        this.actionSequence = sequence;
+        manualControl = false;
         actionNumber = 1;
         didInit = false;
     }

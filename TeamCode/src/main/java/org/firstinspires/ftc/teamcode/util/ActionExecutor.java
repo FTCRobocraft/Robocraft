@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.util;
 
+import android.hardware.camera2.CameraDevice;
+
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
@@ -19,17 +21,26 @@ public class ActionExecutor extends RoverRuckusHardware {
     public ActionSequence actionSequence;
     public boolean initVuforia = false;
     public boolean initTFOD = false;
+    public boolean enableFlashlight = true;
     private Action action = null;
 
     @Override
     public void init() {
         super.init();
+
         if (initVuforia) {
-            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-            VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+            VuforiaLocalizer.Parameters parameters;
+            if (initTFOD) {
+                parameters = new VuforiaLocalizer.Parameters();
+            } else {
+                int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
+            }
+
             parameters.vuforiaLicenseKey = this.vulforiaKey;
             parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
             this.vuforia = ClassFactory.getInstance().createVuforia(parameters);
+            com.vuforia.CameraDevice.getInstance().setFlashTorchMode(enableFlashlight);
         }
 
         if (initTFOD) {
@@ -55,7 +66,7 @@ public class ActionExecutor extends RoverRuckusHardware {
     public void stop() {
 
         if (initVuforia) {
-            relicTrackables.deactivate();
+            com.vuforia.CameraDevice.getInstance().setFlashTorchMode(false);
         }
         if (initTFOD) {
             tfod.deactivate();

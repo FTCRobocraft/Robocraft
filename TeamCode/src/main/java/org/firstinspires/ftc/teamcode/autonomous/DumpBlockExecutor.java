@@ -10,14 +10,13 @@ import org.firstinspires.ftc.teamcode.util.ActionExecutor;
  * Created by djfigs1 on 1/20/18.
  */
 
-@Autonomous(name = "Dump Block")
 public class DumpBlockExecutor extends ActionExecutor {
 
     @Override
     public void init() {
         this.initTFOD = false;
         super.init();
-        DumpBlockSequence dumpBlockSequence = new DumpBlockSequence();
+        DumpBlockSequence dumpBlockSequence = new DumpBlockSequence(true);
         this.actionSequence = dumpBlockSequence;
     }
 }

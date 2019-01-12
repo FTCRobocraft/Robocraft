@@ -104,7 +104,15 @@ public class OmniDrive {
     }
 
     public void dpadMove(Gamepad gamepad, float power) {
-        if (gamepad.dpad_up) {
+        if (gamepad.dpad_up && gamepad.dpad_left) {
+            moveForwardLeft(power);
+        } else if (gamepad.dpad_up && gamepad.dpad_right) {
+            moveForwardRight(power);
+        } else if (gamepad.dpad_down && gamepad.dpad_left) {
+            moveBackwardLeft(power);
+        } else if (gamepad.dpad_down && gamepad.dpad_right) {
+            moveBackwardRight(power);
+        } else if (gamepad.dpad_up) {
             moveForward(power);
         } else if (gamepad.dpad_left) {
             moveLeft(power);

@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.hardware.BaseHardware;
+import org.firstinspires.ftc.teamcode.hardware.RoverRuckusHardware;
 
 /**
  * Created by djfigs1 on 9/30/17. not really
@@ -16,6 +17,8 @@ public class EncoderDrive {
     static final double     WHEEL_DIAMETER_INCHES   = 4.0;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
+    static final double     ROBOT_DIAGONAL_LENGTH = 19.5;
+    static final double     INCHES_PER_DEGREE = (ROBOT_DIAGONAL_LENGTH * Math.PI)/360;
 
     private OmniDrive omniDrive;
     public boolean isBusy = false;
@@ -23,7 +26,7 @@ public class EncoderDrive {
     private double inchesToDrive;
     private BaseHardware.Direction direction;
     private DcMotor.RunMode previousRunMode;
-    private double timeoutS;
+    private double timeout;
     private ElapsedTime runTime;
 
     private int FL_targetPosition;
@@ -40,6 +43,16 @@ public class EncoderDrive {
         this.omniDrive = omniDrive;
     }
 
+    public void setDegreesToDrive(int degrees, float speed, double timeout) {
+        double distance = INCHES_PER_DEGREE * degrees;
+        if (distance < 0) {
+            distance = -distance;
+            setInchesToDrive(BaseHardware.Direction.ROTATE_LEFT, distance, speed, timeout);
+        } else {
+            setInchesToDrive(BaseHardware.Direction.ROTATE_RIGHT, distance, speed, timeout);
+        }
+    }
+
     /**
      * This function prepares the EncoderDrive to run
      * @param direction Which direction the robot will move
@@ -50,7 +63,7 @@ public class EncoderDrive {
     public void setInchesToDrive(BaseHardware.Direction direction, double distance, float power, double timeout) {
         this.inchesToDrive = distance;
         this.isBusy = true;
-        this.timeoutS = timeout;
+        this.timeout = timeout;
         this.runTime = new ElapsedTime();
         this.runTime.reset();
 
@@ -155,7 +168,7 @@ public class EncoderDrive {
             boolean busy = omniDrive.frontLeft.isBusy() || omniDrive.frontRight.isBusy()
                     || omniDrive.backLeft.isBusy() || omniDrive.backRight.isBusy();
 
-            if (busy && this.runTime.seconds() < this.timeoutS) {
+            if (busy && this.runTime.milliseconds() <= this.timeout) {
                 omniDrive.frontLeft.setPower(FL_speed);
                 omniDrive.frontRight.setPower(FR_speed);
                 omniDrive.backLeft.setPower(BL_speed);

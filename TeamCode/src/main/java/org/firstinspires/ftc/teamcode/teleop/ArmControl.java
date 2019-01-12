@@ -1,12 +1,15 @@
 package org.firstinspires.ftc.teamcode.teleop;
 
 import org.firstinspires.ftc.teamcode.hardware.TestHardware;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //This class is a combination of CRServoOpposite, CRServoSame, and TestMotor
 
 @TeleOp(name="ArmControl")
+@Disabled
 public class ArmControl extends TestHardware {
 
     @Override
