@@ -8,7 +8,7 @@ public class CollectBlockSequence extends ActionSequence {
 
     final int VERTICAL_HEX_UP_POSITION = 980;
     final int TRANSFER_MOTOR_POSITION = 950;
-    final double TIMEOUT = 3000;
+    final double TIMEOUT = 1000;
     final double TRANSFER_SPEED = 0.3f;
     final double VERTICAL_SPEED = 0.8f;
 

@@ -15,7 +15,7 @@ public class Platform extends PlatformHardware {
     public void loop() {
         super.loop();
         omniDrive.stopDrive();
-        omniDrive.dpadMove(gamepad1, power);
+        omniDrive.dpadMove(gamepad1, power, false);
 
         if (gamepad1.left_trigger > 0) {
             omniDrive.rotateLeft(gamepad1.left_trigger);

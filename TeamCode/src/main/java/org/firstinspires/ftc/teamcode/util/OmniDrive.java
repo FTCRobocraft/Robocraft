@@ -103,23 +103,43 @@ public class OmniDrive {
         backRight.setPower(0);
     }
 
-    public void dpadMove(Gamepad gamepad, float power) {
-        if (gamepad.dpad_up && gamepad.dpad_left) {
-            moveForwardLeft(power);
-        } else if (gamepad.dpad_up && gamepad.dpad_right) {
-            moveForwardRight(power);
-        } else if (gamepad.dpad_down && gamepad.dpad_left) {
-            moveBackwardLeft(power);
-        } else if (gamepad.dpad_down && gamepad.dpad_right) {
-            moveBackwardRight(power);
-        } else if (gamepad.dpad_up) {
-            moveForward(power);
-        } else if (gamepad.dpad_left) {
-            moveLeft(power);
-        } else if (gamepad.dpad_right) {
-            moveRight(power);
-        } else if (gamepad.dpad_down) {
-            moveBackward(power);
+    public void dpadMove(Gamepad gamepad, float power, boolean reverse) {
+        if (reverse) {
+            if (gamepad.dpad_up && gamepad.dpad_left) {
+                moveBackwardRight(power);
+            } else if (gamepad.dpad_up && gamepad.dpad_right) {
+                moveBackwardLeft(power);
+            } else if (gamepad.dpad_down && gamepad.dpad_left) {
+                moveForwardRight(power);
+            } else if (gamepad.dpad_down && gamepad.dpad_right) {
+                moveForwardLeft(power);
+            } else if (gamepad.dpad_up) {
+                moveBackward(power);
+            } else if (gamepad.dpad_left) {
+                moveRight(power);
+            } else if (gamepad.dpad_right) {
+                moveLeft(power);
+            } else if (gamepad.dpad_down) {
+                moveForward(power);
+            }
+        } else {
+            if (gamepad.dpad_up && gamepad.dpad_left) {
+                moveForwardLeft(power);
+            } else if (gamepad.dpad_up && gamepad.dpad_right) {
+                moveForwardRight(power);
+            } else if (gamepad.dpad_down && gamepad.dpad_left) {
+                moveBackwardLeft(power);
+            } else if (gamepad.dpad_down && gamepad.dpad_right) {
+                moveBackwardRight(power);
+            } else if (gamepad.dpad_up) {
+                moveForward(power);
+            } else if (gamepad.dpad_left) {
+                moveLeft(power);
+            } else if (gamepad.dpad_right) {
+                moveRight(power);
+            } else if (gamepad.dpad_down) {
+                moveBackward(power);
+            }
         }
 
         if (gamepad.left_trigger > 0) {

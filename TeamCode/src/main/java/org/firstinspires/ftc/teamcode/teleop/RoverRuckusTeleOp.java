@@ -16,14 +16,16 @@ public class RoverRuckusTeleOp extends RoverRuckusHardware {
     final float SLOW_SPEED = 0.5f;
 
     final float TRANSFER_IDLE_SPEED = -0.05f;
-    final float VERTICAL_POWER = 1f;
-    final float VERTICAL_IDLE_POWER = 0.05f;
 
 
     boolean a1Press = false;
+    boolean x1Press = false;
+
     boolean a2Press = false;
+    boolean x2Press = false;
 
     boolean slowMode = true;
+    boolean reverseMode = false;
     boolean scooperEnabled = false;
 
     Action action;
@@ -42,9 +44,11 @@ public class RoverRuckusTeleOp extends RoverRuckusHardware {
     public void loop() {
         if (manualControl) {
             omniDrive.stopDrive();
-            omniDrive.dpadMove(gamepad1, slowMode ? SLOW_SPEED : SPEED);
             scooperTransferMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             scooperTransferMotor.setPower(TRANSFER_IDLE_SPEED);
+
+            // region Gamepad 1
+            omniDrive.dpadMove(gamepad1, slowMode ? SLOW_SPEED : SPEED, reverseMode);
 
             if (gamepad1.a) {
                 if (!a1Press) {
@@ -55,8 +59,19 @@ public class RoverRuckusTeleOp extends RoverRuckusHardware {
                 a1Press = false;
             }
 
+            if (gamepad1.x) {
+                if (!x1Press) {
+                    reverseMode = !reverseMode;
+                    x1Press = true;
+                }
+            } else {
+                x1Press = false;
+            }
+            //endregion
+
+            //region Gamepad 2
             if (gamepad2.a) {
-                if (!a2Press) {
+                if (!a2Press && !scooperUp) {
                     a2Press = true;
                     if (scooperEnabled) {
                         scooperHexMotor.setPower(0);
@@ -69,6 +84,20 @@ public class RoverRuckusTeleOp extends RoverRuckusHardware {
                 a2Press = false;
             }
 
+            if (gamepad2.x) {
+                if (!x2Press && !scooperUp) {
+                    x2Press = true;
+                    if (scooperEnabled) {
+                        scooperHexMotor.setPower(0);
+                    } else {
+                        scooperHexMotor.setPower(-1);
+                    }
+                    scooperEnabled = !scooperEnabled;
+                }
+            } else {
+                x2Press = false;
+            }
+
             if (gamepad2.b){
                 prepareForAutoControl(new CollectBlockSequence(scooperUp));
                 scooperUp = !scooperUp;
@@ -78,6 +107,7 @@ public class RoverRuckusTeleOp extends RoverRuckusHardware {
                 prepareForAutoControl(new DumpBlockSequence(scooperUp));
                 scooperUp = true;
             }
+            //endregion
         } else {
             action = actionSequence.getCurrentAction();
 
