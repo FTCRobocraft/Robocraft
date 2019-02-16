@@ -147,5 +147,11 @@ public class OmniDrive {
         } else if (gamepad.right_trigger > 0) {
             rotateRight(gamepad.right_trigger);
         }
+
+        if (gamepad.left_bumper) {
+            rotateLeft(0.25f);
+        } else if (gamepad.right_bumper) {
+            rotateRight(0.25f);
+        }
     }
 }

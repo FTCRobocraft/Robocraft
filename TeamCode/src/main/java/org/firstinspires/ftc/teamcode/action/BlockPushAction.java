@@ -23,7 +23,7 @@ public class BlockPushAction implements Action {
     private final double CONFIDENCE = 0.8;
 
     private final double MINERAL_DISTANCE = 17;
-    private final double PUSH_DISTANCE = 12;
+    private final double PUSH_DISTANCE = 14;
     private final double PUSH_TIMEOUT = 1500;
 
     enum BLOCK_DETECTION_STAGES {

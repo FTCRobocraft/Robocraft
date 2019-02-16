@@ -20,6 +20,7 @@ public class RoverRuckusHardware extends BaseHardware {
 
     public DcMotor scooperHexMotor;
     public DcMotor scooperTransferMotor;
+    public DcMotor liftHexMotor;
 
     public DcMotor dumperVerticalHexMotor;
     public Servo dumperLeftServo;
@@ -58,6 +59,9 @@ public class RoverRuckusHardware extends BaseHardware {
             scooperHexMotor = hardwareMap.get(DcMotor.class, "scooperHexMotor");
             scooperHexMotor.setDirection(DcMotorSimple.Direction.REVERSE);
             scooperTransferMotor = hardwareMap.get(DcMotor.class, "scooperTransferMotor");
+
+            liftHexMotor = hardwareMap.get(DcMotor.class, "liftHexMotor");
+            liftHexMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
             dumperVerticalHexMotor = hardwareMap.get(DcMotor.class, "dumperVerticalHexMotor");
             dumperLeftServo = hardwareMap.get(Servo.class, "dumperLeftServo");
