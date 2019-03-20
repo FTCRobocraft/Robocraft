@@ -26,7 +26,6 @@ public class RoverRuckusHardware extends BaseHardware {
     public Servo dumperLeftServo;
     public Servo dumperRightServo;
 
-
     public enum GOLD_MINERAL_POSITION {
         LEFT,
         CENTER,
@@ -61,7 +60,8 @@ public class RoverRuckusHardware extends BaseHardware {
             scooperTransferMotor = hardwareMap.get(DcMotor.class, "scooperTransferMotor");
 
             liftHexMotor = hardwareMap.get(DcMotor.class, "liftHexMotor");
-            liftHexMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
 
             dumperVerticalHexMotor = hardwareMap.get(DcMotor.class, "dumperVerticalHexMotor");
             dumperLeftServo = hardwareMap.get(Servo.class, "dumperLeftServo");

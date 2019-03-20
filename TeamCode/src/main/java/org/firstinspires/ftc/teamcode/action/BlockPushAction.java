@@ -22,17 +22,27 @@ public class BlockPushAction implements Action {
     private final double DETECTION_TIME = 1750;
     private final double CONFIDENCE = 0.8;
 
-    private final double MINERAL_DISTANCE = 17;
+    private final double MINERAL_DISTANCE = 18;
     private final double PUSH_DISTANCE = 14;
+    private final double PUSH_TO_CRATER_DISTANCE = 30;
     private final double PUSH_TIMEOUT = 1500;
+    private final double PUSH_TO_CRATER_TIMEOUT = 3000;
+    private final double STRAFE_TIMEOUT = 750;
+
+    private final float MOVE_SPEED = 0.6f;
+
+    private final double SHIFT_DISTANCE = 4;
+    private final float SHIFT_POWER = 0.5f;
+    private final double SHIFT_TIMEOUT = 500;
 
     enum BLOCK_DETECTION_STAGES {
         CHECK_CENTER,
         MOVE_LEFT,
         CHECK_LEFT,
         MOVE_RIGHT,
+        SHIFT_LEFT,
         MOVE_FORWARD,
-        MOVE_BACKWARD,
+        ROTATE,
         END
     }
     ElapsedTime timer;
@@ -41,7 +51,6 @@ public class BlockPushAction implements Action {
 
     private BLOCK_DETECTION_STAGES currentStage = BLOCK_DETECTION_STAGES.CHECK_CENTER;
     private BLOCK_DETECTION_STAGES stageAfterPush = BLOCK_DETECTION_STAGES.END;
-
 
     public BlockPushAction(double timeout) {
         this.timeout = timeout;
@@ -85,7 +94,8 @@ public class BlockPushAction implements Action {
 
                 if (goldBlockDetected((RoverRuckusHardware) hardware)) {
                     position = CENTER;
-                    changeStage(MOVE_FORWARD);
+                    stageAfterPush = MOVE_FORWARD;
+                    changeStage(SHIFT_LEFT);
                 }
 
                 if (timer.milliseconds() >= DETECTION_TIME) {
@@ -97,8 +107,9 @@ public class BlockPushAction implements Action {
             case MOVE_LEFT:
                 if (init) {
                     encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
-                    encoderDrive.setInchesToDrive(BaseHardware.Direction.RIGHT,
-                            MINERAL_DISTANCE, 0.4f, 2000);
+                    encoderDrive.setInchesToDrive(BaseHardware.Direction.LEFT,
+                            MINERAL_DISTANCE,
+                            MOVE_SPEED, STRAFE_TIMEOUT);
                     init = false;
                 }
                 if (!encoderDrive.isBusy) {
@@ -117,8 +128,8 @@ public class BlockPushAction implements Action {
 
                 if (goldBlockDetected((RoverRuckusHardware) hardware)) {
                     position = LEFT;
-                    stageAfterPush = MOVE_RIGHT;
-                    changeStage(MOVE_FORWARD);
+                    stageAfterPush = MOVE_FORWARD;
+                    changeStage(SHIFT_LEFT);
                 }
 
                 if (timer.milliseconds() >= DETECTION_TIME) {
@@ -131,8 +142,8 @@ public class BlockPushAction implements Action {
             case MOVE_RIGHT:
                 if (init) {
                     encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
-                    encoderDrive.setInchesToDrive(BaseHardware.Direction.LEFT, position == RIGHT ?
-                            MINERAL_DISTANCE * 2: MINERAL_DISTANCE, 0.4f, 2000);
+                    encoderDrive.setInchesToDrive(BaseHardware.Direction.RIGHT, position == RIGHT ?
+                            MINERAL_DISTANCE * 2 : MINERAL_DISTANCE, MOVE_SPEED, STRAFE_TIMEOUT * 2);
                     init = false;
                 }
                 if (!encoderDrive.isBusy) {
@@ -144,26 +155,12 @@ public class BlockPushAction implements Action {
 
                 break;
 
-            case MOVE_FORWARD:
+            case SHIFT_LEFT:
                 if (init) {
                     encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
-                    encoderDrive.setInchesToDrive(BaseHardware.Direction.BACKWARD,
-                            PUSH_DISTANCE, 0.4f, PUSH_TIMEOUT);
-                    init = false;
-                }
-                if (!encoderDrive.isBusy) {
-                    changeStage(MOVE_BACKWARD);
-                } else {
-                    encoderDrive.run(hardware);
-                }
+                    encoderDrive.setInchesToDrive(BaseHardware.Direction.LEFT, SHIFT_DISTANCE,
+                            SHIFT_POWER, SHIFT_TIMEOUT);
 
-                break;
-
-            case MOVE_BACKWARD:
-                if (init) {
-                    encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
-                    encoderDrive.setInchesToDrive(BaseHardware.Direction.FORWARD,
-                            PUSH_DISTANCE, 0.4f, PUSH_TIMEOUT);
                     init = false;
                 }
                 if (!encoderDrive.isBusy) {
@@ -171,7 +168,35 @@ public class BlockPushAction implements Action {
                 } else {
                     encoderDrive.run(hardware);
                 }
+                break;
 
+            case MOVE_FORWARD:
+                if (init) {
+                    encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
+                    encoderDrive.setInchesToDrive(BaseHardware.Direction.FORWARD,
+                            PUSH_TO_CRATER_DISTANCE, MOVE_SPEED, PUSH_TO_CRATER_TIMEOUT);
+
+                    init = false;
+                }
+                if (!encoderDrive.isBusy) {
+                    changeStage(ROTATE);
+                } else {
+                    encoderDrive.run(hardware);
+                }
+
+                break;
+
+            case ROTATE:
+                if (init) {
+                    encoderDrive = new EncoderDrive(((RoverRuckusHardware) hardware).omniDrive);
+                    encoderDrive.setDegreesToDrive(position == RIGHT ? -45 : position == LEFT ? 45 : 0, 0.75f, 500);
+                    init = false;
+                }
+                if (!encoderDrive.isBusy) {
+                    changeStage(END);
+                } else {
+                    encoderDrive.run(hardware);
+                }
                 break;
 
             case END:

@@ -23,7 +23,7 @@ public class DumpBlockSequence  extends ActionSequence  {
         addAction(new WaitAction(800));
         addAction(new DumperServoAction(1, 250));
         addAction(new WaitAction(250));
-        addAction(new DumperServoAction(0.25, 250));
+        addAction(new DumperServoAction(0.2, 250));
         addAction(new EncoderToPositionAction("dumperVerticalHexMotor", -VERTICAL_HEX_UP_POSITION, VERTICAL_SPEED, TIMEOUT));
         addAction(new DumperServoAction(0, 250));
         addAction(new EncoderToPositionAction("scooperTransferMotor", -TRANSFER_MOTOR_POSITION, TRANSFER_SPEED, 1500));
