@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.hardware.TestHardware;
 
-@Disabled
 @TeleOp(name="TestMotor")
 public class TestMotor extends TestHardware {
 
