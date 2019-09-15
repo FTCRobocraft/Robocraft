@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.autonomous.sequences.DumpBlockSequence;
 import org.firstinspires.ftc.teamcode.hardware.RoverRuckusHardware;
 import org.firstinspires.ftc.teamcode.util.ActionSequence;
 
+@Disabled
 @TeleOp(name="Manual")
 public class RoverRuckusTeleOp extends RoverRuckusHardware {
 
