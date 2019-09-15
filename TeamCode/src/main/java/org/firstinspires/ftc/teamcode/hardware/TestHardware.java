@@ -16,6 +16,9 @@ public class TestHardware extends BaseHardware {
     public Servo servo2;
     public DcMotor hex;
     public DcMotor transferMotor;
+    public DcMotor shoulder1;
+    public DcMotor shoulder2;
+    public DcMotor elbow;
 
     public void init() {
 
