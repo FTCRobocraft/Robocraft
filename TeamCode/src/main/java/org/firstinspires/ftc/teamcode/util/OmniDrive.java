@@ -19,81 +19,124 @@ public class OmniDrive {
 
     }
 
-    public void moveForward(float power) {
+    public void moveForward(double power) {
         frontLeft.setPower(power);
         frontRight.setPower(power);
         backLeft.setPower(power);
         backRight.setPower(power);
     }
 
-    public void moveBackward(float power) {
+    public void moveBackward(double power) {
         frontLeft.setPower(-power);
         frontRight.setPower(-power);
         backLeft.setPower(-power);
         backRight.setPower(-power);
     }
 
-    public void moveLeft(float power) {
+    public void moveLeft(double power) {
         frontLeft.setPower(-power);
         frontRight.setPower(power);
         backLeft.setPower(power);
         backRight.setPower(-power);
     }
 
-    public void moveRight(float power) {
+    public void moveRight(double power) {
         frontLeft.setPower(power);
         frontRight.setPower(-power);
         backLeft.setPower(-power);
         backRight.setPower(power);
     }
 
-    public void rotateRight(float power) {
+    public void rotateRight(double power) {
         frontLeft.setPower(power);
         frontRight.setPower(-power);
         backLeft.setPower(power);
         backRight.setPower(-power);
     }
 
-    public void rotateLeft(float power) {
+    public void rotateLeft(double power) {
             frontLeft.setPower(-power);
             frontRight.setPower(power);
             backLeft.setPower(-power);
             backRight.setPower(power);
     }
 
-    public void moveForwardLeft(float power) {
+    public void moveForwardLeft(double power) {
         frontLeft.setPower(0);
         frontRight.setPower(power);
         backLeft.setPower(power);
         backRight.setPower(0);
     }
 
-    public void moveForwardRight(float power) {
+    public void moveForwardRight(double power) {
         frontLeft.setPower(power);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(power);
     }
 
-    public void moveBackwardLeft(float power) {
+    public void moveBackwardLeft(double power) {
         frontLeft.setPower(-power);
         frontRight.setPower(0);
         backLeft.setPower(0);
         backRight.setPower(-power);
     }
 
-    public void moveBackwardRight(float power) {
+    public void moveBackwardRight(double power) {
         frontLeft.setPower(0);
         frontRight.setPower(-power);
         backLeft.setPower(-power);
         backRight.setPower(0);
     }
 
-    public void circleMove(float x, float y) {
-        frontLeft.setPower(x);
-        backRight.setPower(x);
-        backLeft.setPower(y);
-        frontRight.setPower(y);
+    public void circleMove(double x, double y) {
+        double power = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        double deadzone = 0;
+
+        if (power == 0) {
+            stopDrive();
+        } else {
+            if (x == 0) {
+                moveForward(y);
+            } else if (y == 0) {
+                if (x > 0) {
+                    moveRight(x);
+                } else {
+                    moveLeft(x);
+                }
+            } else {
+                double degrees = Math.toDegrees(Math.atan(Math.abs(y)/Math.abs(x)));
+                double directionPower = (degrees - 45) / 45;
+
+                if (x > 0 && y > 0) {
+                    // QUAD I
+                    frontLeft.setPower(power);
+                    frontRight.setPower(directionPower);
+                    backLeft.setPower(directionPower);
+                    backRight.setPower(power);
+                } else if (x < 0 && y > 0) {
+                    // QUAD 2
+                    frontLeft.setPower(directionPower);
+                    frontRight.setPower(-power);
+                    backLeft.setPower(-power);
+                    backRight.setPower(directionPower);
+                } else if (x < 0 && y < 0) {
+                    // QUAD 3
+                    frontLeft.setPower(-power);
+                    frontRight.setPower(directionPower);
+                    backLeft.setPower(directionPower);
+                    backRight.setPower(-power);
+
+                } else {
+                    // QUAD 4
+                    frontLeft.setPower(directionPower);
+                    frontRight.setPower(power);
+                    backLeft.setPower(power);
+                    backRight.setPower(directionPower);
+                }
+
+            }
+        }
     }
 
     public void stopDrive() {
