@@ -91,7 +91,9 @@ public class OmniDrive {
 
     public void circleMove(double x, double y) {
         double power = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-        double deadzone = 0;
+        double degrees = Math.toDegrees(Math.atan(Math.abs(y)/Math.abs(x)));
+        double directionPower = (degrees - 45) / 45;
+        //double deadzone = 0;
 
         if (power == 0) {
             stopDrive();
@@ -105,9 +107,6 @@ public class OmniDrive {
                     moveLeft(x);
                 }
             } else {
-                double degrees = Math.toDegrees(Math.atan(Math.abs(y)/Math.abs(x)));
-                double directionPower = (degrees - 45) / 45;
-
                 if (x > 0 && y > 0) {
                     // QUAD I
                     frontLeft.setPower(power);

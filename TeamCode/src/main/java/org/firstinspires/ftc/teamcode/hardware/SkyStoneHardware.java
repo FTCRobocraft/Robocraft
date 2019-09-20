@@ -19,16 +19,15 @@ public class SkyStoneHardware extends BaseHardware {
 
         try {
             frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
-            frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
             frontRight = hardwareMap.get(DcMotor.class, "frontRight");
 
             backLeft = hardwareMap.get(DcMotor.class, "backLeft");
-            backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
             backRight = hardwareMap.get(DcMotor.class, "backRight");
 
             omniDrive = new OmniDrive(frontLeft, frontRight, backLeft, backRight);
+
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
