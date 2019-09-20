@@ -23,37 +23,19 @@ public class TestHardware extends BaseHardware {
     public void init() {
 
         try {
-            CRServoTest1 = hardwareMap.get(CRServo.class, "CRServoTest1");
+            shoulder1= hardwareMap.get(DcMotor.class, "shoulder1");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
 
         try {
-            CRServoTest2 = hardwareMap.get(CRServo.class, "CRServoTest2");
+            shoulder2= hardwareMap.get(DcMotor.class, "shoulder2");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
 
         try {
-            servo1 = hardwareMap.get(Servo.class, "servo1");
-        } catch (Exception e) {
-            telemetry.addData("Not Found:", e.getMessage());
-        }
-
-        try {
-            servo2 = hardwareMap.get(Servo.class, "servo2");
-        } catch (Exception e) {
-            telemetry.addData("Not Found:", e.getMessage());
-        }
-
-        try {
-            hex = hardwareMap.get(DcMotor.class, "hex");
-        } catch (Exception e) {
-            telemetry.addData("Not Found:", e.getMessage());
-        }
-
-        try {
-            transferMotor = hardwareMap.get(DcMotor.class, "transferMotor");
+            elbow= hardwareMap.get(DcMotor.class, "elbow");
         } catch (Exception e) {
             telemetry.addData("Not Found:", e.getMessage());
         }
